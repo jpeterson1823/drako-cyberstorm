@@ -16,6 +16,8 @@ add_executable(basilisk
     src/main.c
 
     src/basilisk/hardware/sn74hc595n.c
+    src/basilisk/hardware/at28c64b.c
+    src/basilisk/hardware/at28c64b_hidden.c
     src/basilisk/display.c
 )
 
@@ -34,6 +36,8 @@ target_include_directories(basilisk PRIVATE
 
 target_link_libraries(basilisk 
     pico_stdlib
+    pico_rand
+    hardware_gpio
 )
 
 # Add compile options

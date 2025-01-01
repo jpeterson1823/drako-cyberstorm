@@ -19,12 +19,9 @@ void shiftreg_init(shiftreg* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uin
     gpio_set_dir(ser,   GPIO_OUT);
     gpio_set_dir(rclk,  GPIO_OUT);
     gpio_set_dir(srclk, GPIO_OUT);
-    gpio_set_dir(oe, GPIO_OUT);
+    gpio_set_dir(oe,    GPIO_OUT);
 
-    // set pull-downs on active-high pins
-    gpio_pull_down(ser);
-    gpio_pull_down(rclk);
-    gpio_pull_down(srclk);
+    // pull down active low
     gpio_pull_down(oe);
 
     // set default pin states
@@ -32,6 +29,20 @@ void shiftreg_init(shiftreg* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uin
     gpio_put(rclk,  0);
     gpio_put(srclk, 0);
     gpio_put(oe, 1);
+}
+
+// Takes GPIO control for current shift register
+void shiftreg_select(shiftreg* sreg) {
+    // reset pin dirs
+    gpio_set_dir(sreg->ser,   GPIO_OUT);
+    gpio_set_dir(sreg->rclk,  GPIO_OUT);
+    gpio_set_dir(sreg->srclk, GPIO_OUT);
+    gpio_set_dir(sreg->oe,    GPIO_OUT);
+    // set default pin states
+    gpio_put(sreg->ser,   0);
+    gpio_put(sreg->rclk,  0);
+    gpio_put(sreg->srclk, 0);
+    gpio_put(sreg->oe, 1);
 }
 
 // Pulses clock by SR_DELAY_US microseconds

@@ -9,17 +9,16 @@
 #define SR_DELAY_US 10
 
 
-typedef struct __sn74hc595n_struct {
+typedef struct sn74hc595n {
     uint8_t ser;
     uint8_t rclk;
     uint8_t srclk;
     uint8_t oe;
-} sn74hc595n;
-
-typedef sn74hc595n shiftreg;
+} shiftreg;
 
 
 void shiftreg_init(shiftreg* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uint8_t oe);
+void shiftreg_select(shiftreg* sreg);
 void shiftreg_pulse_clock(shiftreg* sreg);
 void shiftreg_latch(shiftreg* sreg);
 

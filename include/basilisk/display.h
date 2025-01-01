@@ -1,6 +1,7 @@
 #ifndef __basilisk_display
 #define __basilisk_display
 
+#include <stdbool.h>
 #include "basilisk/hardware/sn74hc595n.h"
 
 // Least-Significant Digit
@@ -44,12 +45,24 @@
 typedef struct __display_struct {
     shiftreg sreg;
     uint16_t data;
+    bool show_state;
 } display;
+
 
 void display_init(display* disp);
 void display_show(display* disp);
 void display_hide(display* disp);
 void display_clear(display* disp);
 void display_write(display* disp, uint16_t data);
+void display_hex(display* disp, uint8_t byte);
+uint16_t byte2disp(uint8_t data);
+
+static inline void display_select(display* disp) {
+    shiftreg_select(&disp->sreg);
+    if (disp->show_state)
+        display_show(disp);
+    else
+        display_hide(disp);
+}
 
 #endif
