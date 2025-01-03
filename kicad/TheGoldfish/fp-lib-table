@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "LDD-C514RI")(type "KiCad")(uri "${KIPRJMOD}/LDD-C514RI.pretty")(options "")(descr ""))
+)
