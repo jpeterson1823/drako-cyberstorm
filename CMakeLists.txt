@@ -5,9 +5,10 @@ cmake_minimum_required(VERSION 3.13)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(PICOTOOL_FORCE_FETCH_FROM_GIT 1)
 set(PICO_BOARD pico2)
 
-include(pico_sdk_import.cmake)
+include(pico-sdk/pico_sdk_init.cmake)
 project(basilisk C CXX ASM)
 
 pico_sdk_init()
@@ -19,6 +20,7 @@ add_executable(basilisk
     src/basilisk/hardware/at28c64b.c
     src/basilisk/hardware/at28c64b_hidden.c
     src/basilisk/display.c
+    src/basilisk/terminal.c
 )
 
 pico_set_program_name(basilisk "basilisk")
