@@ -1,5 +1,5 @@
-#ifndef __basilisk_sn74hc595n
-#define __basilisk_sn74hc595n
+#ifndef __drako_sn74hc595n
+#define __drako_sn74hc595n
 
 
 #include <stdint.h>

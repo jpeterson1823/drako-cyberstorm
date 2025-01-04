@@ -1,5 +1,5 @@
-#ifndef __basilisk_at28c64b
-#define __basilisk_at28c64b
+#ifndef __drako_at28c64b
+#define __drako_at28c64b
 
 #include <hardware/gpio.h>
 #include <pico/stdlib.h>

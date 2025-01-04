@@ -1,4 +1,4 @@
-#include "basilisk/hardware/sn74hc595n.h"
+#include "drako/hardware/sn74hc595n.h"
 #include <pico/stdlib.h>
 
 void shiftreg_init(shiftreg* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uint8_t oe)
