@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(PICO_BOARD pico2)
 
-include(pico_sdk_import.cmake)
+include(pico-sdk/pico_sdk_init.cmake)
 project(basilisk C CXX ASM)
 
 pico_sdk_init()
