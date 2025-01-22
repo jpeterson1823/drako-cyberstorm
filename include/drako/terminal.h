@@ -1,14 +1,49 @@
 #ifndef __drako_terminal
 #define __drako_terminal
 
-
 #include <stdio.h>
 #include <stdbool.h>
 
 #include <pico/stdlib.h>
 #include <tusb.h>
 
+
+
+
+#define DRKO_TERM_BUFSIZE 256
 #define DRKO_TERM "[-BASILISK-]"
+
+
+
+
+typedef struct terminal_command_struct {
+    char** argv;
+    size_t argc;
+} terminal_command;
+
+
+
+
+void _terminal_clean_string(char* str, char* buf, size_t nbuf);
+
+void terminal_get_line(char* buf, size_t n);
+void terminal_get_command(terminal_command* tcmd);
+void terminal_command_free(terminal_command* tcmd);
+
+
+
+
+/**
+ * @brief Determines if char is considered valid (not white space, etc)
+ * @param c Character to verify
+ * @return true if valid char, false otherwise.
+ */
+static inline bool _terminal_is_valid_char(char c) {
+    return (c == ' ' || c == '\n' || c == '\t');
+}
+
+
+
 
 /**
  * @brief Displays greeting.
@@ -35,6 +70,9 @@ static inline void _terminal_greet() {
     printf("%s Type 'commands' to view list of valid commands.", DRKO_TERM);
 }
 
+
+
+
 /**
  * @brief Open a terminal connection via STDIN (Serial). Operation is blocking.
  */
@@ -54,6 +92,9 @@ static inline void terminal_open_connection() {
     printf("%s >$", DRKO_TERM);
 }
 
+
+
+
 /**
  * @brief Checks terminal connection.
  * @return true if connection is currently established. false otherwise.
@@ -62,22 +103,7 @@ static inline bool terminal_is_connected() {
     return tud_cdc_connected();
 }
 
-/**
- * @brief Reads in a line from terminal connection. Does not include return character.
- * @param buf String buffer to store read data in.
- * @param n   Length of provided buffer.
- */
-static inline void terminal_get_line(char* buf, size_t n) {
-    // get the first char of line
-    char c = getc(stdin);
 
-    // read char into buf until newline is read or end of buffer is reached
-    char* ptr = buf;
-    while (c != '\n' || buf + n - 1 == ptr)
-        *ptr++ = getc(stdin);
 
-    // append null char to end of read-in string
-    *ptr = 0;
-}
 
 #endif

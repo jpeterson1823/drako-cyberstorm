@@ -1,0 +1,106 @@
+\doxysection{src/drako/hardware/sn74hc595n.c File Reference}
+\hypertarget{sn74hc595n_8c}{}\label{sn74hc595n_8c}\index{src/drako/hardware/sn74hc595n.c@{src/drako/hardware/sn74hc595n.c}}
+{\ttfamily \#include "{}drako/hardware/sn74hc595n.\+h"{}}\newline
+{\ttfamily \#include $<$pico/stdlib.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_aab02bf9d474b5b569d2499d4d6198c69}{shiftreg\+\_\+init}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg, uint8\+\_\+t ser, uint8\+\_\+t rclk, uint8\+\_\+t srclk, uint8\+\_\+t oe)
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_a9eada68ebf28cc497ba20cd73bc2faf4}{shiftreg\+\_\+select}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg)
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_a63e5b2edeecca2c5883702649175a02f}{shiftreg\+\_\+pulse\+\_\+clock}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg)
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_a37918aee70c5c90565cedf128a2378ec}{shiftreg\+\_\+latch}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg)
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_a8bb0a13addde98a9b15dc2f3e43c1561}{shiftreg\+\_\+oe\+\_\+hi}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg)
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_af278af03f01b2454782f791741531805}{shiftreg\+\_\+oe\+\_\+lo}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg)
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_aa2d69b7a17e44b7542e83e5f29357218}{shiftreg\+\_\+shift1}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg, bool bit)
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_a871167dbe3ef1523bb1c76d6f44f6fbd}{shiftreg\+\_\+shift8}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg, uint8\+\_\+t byte)
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_a56af0beac3048804ae101cadd8ee8a00}{shiftreg\+\_\+shift16}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg, uint16\+\_\+t data)
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_a8d9849f6d8a4fad9f8a00f06a7b7255f}{shiftreg\+\_\+put1}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg, bool bit)
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_a99da6bc9b1fba6f1e8984dcd2c91095f}{shiftreg\+\_\+put8}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg, uint8\+\_\+t byte)
+\item 
+void \mbox{\hyperlink{sn74hc595n_8c_a40ab42131b7ae84bf58abf30cea74178}{shiftreg\+\_\+put16}} (\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}sreg, uint16\+\_\+t data)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{sn74hc595n_8c_aab02bf9d474b5b569d2499d4d6198c69}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_init@{shiftreg\_init}}
+\index{shiftreg\_init@{shiftreg\_init}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_init()}{shiftreg\_init()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_aab02bf9d474b5b569d2499d4d6198c69} 
+void shiftreg\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{, }\item[{uint8\+\_\+t}]{ser}{, }\item[{uint8\+\_\+t}]{rclk}{, }\item[{uint8\+\_\+t}]{srclk}{, }\item[{uint8\+\_\+t}]{oe}{}\end{DoxyParamCaption})}
+
+\Hypertarget{sn74hc595n_8c_a37918aee70c5c90565cedf128a2378ec}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_latch@{shiftreg\_latch}}
+\index{shiftreg\_latch@{shiftreg\_latch}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_latch()}{shiftreg\_latch()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_a37918aee70c5c90565cedf128a2378ec} 
+void shiftreg\+\_\+latch (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{}\end{DoxyParamCaption})}
+
+\Hypertarget{sn74hc595n_8c_a8bb0a13addde98a9b15dc2f3e43c1561}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_oe\_hi@{shiftreg\_oe\_hi}}
+\index{shiftreg\_oe\_hi@{shiftreg\_oe\_hi}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_oe\_hi()}{shiftreg\_oe\_hi()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_a8bb0a13addde98a9b15dc2f3e43c1561} 
+void shiftreg\+\_\+oe\+\_\+hi (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{}\end{DoxyParamCaption})}
+
+\Hypertarget{sn74hc595n_8c_af278af03f01b2454782f791741531805}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_oe\_lo@{shiftreg\_oe\_lo}}
+\index{shiftreg\_oe\_lo@{shiftreg\_oe\_lo}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_oe\_lo()}{shiftreg\_oe\_lo()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_af278af03f01b2454782f791741531805} 
+void shiftreg\+\_\+oe\+\_\+lo (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{}\end{DoxyParamCaption})}
+
+\Hypertarget{sn74hc595n_8c_a63e5b2edeecca2c5883702649175a02f}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_pulse\_clock@{shiftreg\_pulse\_clock}}
+\index{shiftreg\_pulse\_clock@{shiftreg\_pulse\_clock}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_pulse\_clock()}{shiftreg\_pulse\_clock()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_a63e5b2edeecca2c5883702649175a02f} 
+void shiftreg\+\_\+pulse\+\_\+clock (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{}\end{DoxyParamCaption})}
+
+\Hypertarget{sn74hc595n_8c_a8d9849f6d8a4fad9f8a00f06a7b7255f}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_put1@{shiftreg\_put1}}
+\index{shiftreg\_put1@{shiftreg\_put1}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_put1()}{shiftreg\_put1()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_a8d9849f6d8a4fad9f8a00f06a7b7255f} 
+void shiftreg\+\_\+put1 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{, }\item[{bool}]{bit}{}\end{DoxyParamCaption})}
+
+\Hypertarget{sn74hc595n_8c_a40ab42131b7ae84bf58abf30cea74178}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_put16@{shiftreg\_put16}}
+\index{shiftreg\_put16@{shiftreg\_put16}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_put16()}{shiftreg\_put16()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_a40ab42131b7ae84bf58abf30cea74178} 
+void shiftreg\+\_\+put16 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{, }\item[{uint16\+\_\+t}]{data}{}\end{DoxyParamCaption})}
+
+\Hypertarget{sn74hc595n_8c_a99da6bc9b1fba6f1e8984dcd2c91095f}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_put8@{shiftreg\_put8}}
+\index{shiftreg\_put8@{shiftreg\_put8}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_put8()}{shiftreg\_put8()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_a99da6bc9b1fba6f1e8984dcd2c91095f} 
+void shiftreg\+\_\+put8 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{, }\item[{uint8\+\_\+t}]{byte}{}\end{DoxyParamCaption})}
+
+\Hypertarget{sn74hc595n_8c_a9eada68ebf28cc497ba20cd73bc2faf4}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_select@{shiftreg\_select}}
+\index{shiftreg\_select@{shiftreg\_select}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_select()}{shiftreg\_select()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_a9eada68ebf28cc497ba20cd73bc2faf4} 
+void shiftreg\+\_\+select (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{}\end{DoxyParamCaption})}
+
+\Hypertarget{sn74hc595n_8c_aa2d69b7a17e44b7542e83e5f29357218}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_shift1@{shiftreg\_shift1}}
+\index{shiftreg\_shift1@{shiftreg\_shift1}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_shift1()}{shiftreg\_shift1()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_aa2d69b7a17e44b7542e83e5f29357218} 
+void shiftreg\+\_\+shift1 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{, }\item[{bool}]{bit}{}\end{DoxyParamCaption})}
+
+\Hypertarget{sn74hc595n_8c_a56af0beac3048804ae101cadd8ee8a00}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_shift16@{shiftreg\_shift16}}
+\index{shiftreg\_shift16@{shiftreg\_shift16}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_shift16()}{shiftreg\_shift16()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_a56af0beac3048804ae101cadd8ee8a00} 
+void shiftreg\+\_\+shift16 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{, }\item[{uint16\+\_\+t}]{data}{}\end{DoxyParamCaption})}
+
+\Hypertarget{sn74hc595n_8c_a871167dbe3ef1523bb1c76d6f44f6fbd}\index{sn74hc595n.c@{sn74hc595n.c}!shiftreg\_shift8@{shiftreg\_shift8}}
+\index{shiftreg\_shift8@{shiftreg\_shift8}!sn74hc595n.c@{sn74hc595n.c}}
+\doxysubsubsection{\texorpdfstring{shiftreg\_shift8()}{shiftreg\_shift8()}}
+{\footnotesize\ttfamily \label{sn74hc595n_8c_a871167dbe3ef1523bb1c76d6f44f6fbd} 
+void shiftreg\+\_\+shift8 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}} \texorpdfstring{$\ast$}{*}}]{sreg}{, }\item[{uint8\+\_\+t}]{byte}{}\end{DoxyParamCaption})}
+

@@ -1,0 +1,38 @@
+\doxysection{at28c64b.\+h}
+\hypertarget{at28c64b_8h_source}{}\label{at28c64b_8h_source}\index{include/drako/hardware/at28c64b.h@{include/drako/hardware/at28c64b.h}}
+\mbox{\hyperlink{at28c64b_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ \_\_drako\_at28c64b}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ \_\_drako\_at28c64b}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <hardware/gpio.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <pico/stdlib.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ EEPROM\_OP\_DELAY\ 1000}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structat28c64b}{at28c64b}}\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structat28c64b_a4ec22adcf79a2efbbbbe0dfc711ead73}{data\_bus}};}
+\DoxyCodeLine{00013\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structat28c64b_aad42fe754d0229ae75213d769490766d}{addr\_bus}};}
+\DoxyCodeLine{00014\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structat28c64b_a56514de343c614b8c6b15f99e698a7b7}{we}},\ \mbox{\hyperlink{structat28c64b_a3d55f2c6bb7ed1c12ec7181d3382b3d2}{oe}},\ \mbox{\hyperlink{structat28c64b_a8da76b45b61f1de1015f396e85ee4d87}{ce}};}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structat28c64b_a546956b3138d8aac12875f00a5571978}{data\_dir}};}
+\DoxyCodeLine{00016\ \}\ \mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{at28c64b_8h_a3aee3ed8d42dd908de99317fd675c279}{\_eeprom\_gpio\_init}}(\mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}}*\ prom);}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{at28c64b_8h_ae0e452274ad31577af9275eee2a349dc}{\_eeprom\_data\_in}}(\mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}}*\ prom);}
+\DoxyCodeLine{00020\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{at28c64b_8h_acc5bfddb79998ee229ecad01e1b7c649}{\_eeprom\_data\_out}}(\mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}}*\ prom);}
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{at28c64b_8h_a603833bc0a4bf5e6b7c61912b5c74c03}{\_eeprom\_set\_idle\_condition}}(\mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}}*\ prom);}
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{at28c64b_8h_a5d57132d3b56962f4c6e62d2068e2dc6}{\_eeprom\_set\_read\_condition}}(\mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}}*\ prom);}
+\DoxyCodeLine{00023\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{at28c64b_8h_ab842f8b2feb8ee0b3c598cf90d4aee44}{\_eeprom\_set\_write\_condition}}(\mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}}*\ prom);}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{at28c64b_8h_aa4b0f03482b3ca8933d7b004eb586cc4}{\_eeprom\_execute\_write}}(\mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}}*\ prom);}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{at28c64b_8h_a2551100cc312cf619d427a5ca406dede}{eeprom\_init}}(\mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}}*\ prom,\ uint32\_t\ data\_bus,\ uint32\_t\ addr\_bus,\ uint8\_t\ we,\ uint8\_t\ oe,\ uint8\_t\ ce);}
+\DoxyCodeLine{00027\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{at28c64b_8h_a4c7541f7c8dc1e6bb798653f323e5a88}{eeprom\_select}}(\mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}}*\ prom);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{at28c64b_8h_a5f945cb88c0620b1ccef92cb4c25d1e8}{eeprom\_read8}}(\mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}}*\ prom,\ uint32\_t\ addr,\ uint8\_t*\ buff);}
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{at28c64b_8h_afb9d8a4a55858cd3c1840fabb5299d50}{eeprom\_write8}}(\mbox{\hyperlink{at28c64b_8h_ad6cc756fb2b931715d976cbb20eb2c06}{eeprom}}*\ prom,\ uint32\_t\ addr,\ uint8\_t\ data);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

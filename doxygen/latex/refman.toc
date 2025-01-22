@@ -1,0 +1,177 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Class Index}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Class List}{1}{section.1.1}%
+\contentsline {chapter}{\numberline {2}File Index}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}File List}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Class Documentation}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}display\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}struct Struct Reference}{5}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Member Data Documentation}{5}{subsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.1.1}data}{5}{subsubsection.3.1.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.1.2}show\_state}{5}{subsubsection.3.1.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.1.3}sreg}{5}{subsubsection.3.1.1.3}%
+\contentsline {section}{\numberline {3.2}at28c64b Struct Reference}{6}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Member Data Documentation}{6}{subsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.1.1}addr\_bus}{6}{subsubsection.3.2.1.1}%
+\contentsline {subsubsection}{\numberline {3.2.1.2}ce}{6}{subsubsection.3.2.1.2}%
+\contentsline {subsubsection}{\numberline {3.2.1.3}data\_bus}{6}{subsubsection.3.2.1.3}%
+\contentsline {subsubsection}{\numberline {3.2.1.4}data\_dir}{6}{subsubsection.3.2.1.4}%
+\contentsline {subsubsection}{\numberline {3.2.1.5}oe}{6}{subsubsection.3.2.1.5}%
+\contentsline {subsubsection}{\numberline {3.2.1.6}we}{6}{subsubsection.3.2.1.6}%
+\contentsline {section}{\numberline {3.3}sn74hc595n Struct Reference}{7}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Member Data Documentation}{7}{subsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.1.1}oe}{7}{subsubsection.3.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.3.1.2}rclk}{7}{subsubsection.3.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.3.1.3}ser}{7}{subsubsection.3.3.1.3}%
+\contentsline {subsubsection}{\numberline {3.3.1.4}srclk}{7}{subsubsection.3.3.1.4}%
+\contentsline {section}{\numberline {3.4}terminal\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}command\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}struct Struct Reference}{7}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Member Data Documentation}{7}{subsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.1.1}argc}{7}{subsubsection.3.4.1.1}%
+\contentsline {subsubsection}{\numberline {3.4.1.2}argv}{7}{subsubsection.3.4.1.2}%
+\contentsline {chapter}{\numberline {4}File Documentation}{9}{chapter.4}%
+\contentsline {section}{\numberline {4.1}include/drako/display.h File Reference}{9}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Macro Definition Documentation}{10}{subsection.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.1.1}DRKO\_DISPL\_0}{10}{subsubsection.4.1.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.1.2}DRKO\_DISPL\_1}{10}{subsubsection.4.1.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.1.3}DRKO\_DISPL\_2}{10}{subsubsection.4.1.1.3}%
+\contentsline {subsubsection}{\numberline {4.1.1.4}DRKO\_DISPL\_3}{10}{subsubsection.4.1.1.4}%
+\contentsline {subsubsection}{\numberline {4.1.1.5}DRKO\_DISPL\_4}{11}{subsubsection.4.1.1.5}%
+\contentsline {subsubsection}{\numberline {4.1.1.6}DRKO\_DISPL\_5}{11}{subsubsection.4.1.1.6}%
+\contentsline {subsubsection}{\numberline {4.1.1.7}DRKO\_DISPL\_6}{11}{subsubsection.4.1.1.7}%
+\contentsline {subsubsection}{\numberline {4.1.1.8}DRKO\_DISPL\_7}{11}{subsubsection.4.1.1.8}%
+\contentsline {subsubsection}{\numberline {4.1.1.9}DRKO\_DISPL\_8}{11}{subsubsection.4.1.1.9}%
+\contentsline {subsubsection}{\numberline {4.1.1.10}DRKO\_DISPL\_9}{11}{subsubsection.4.1.1.10}%
+\contentsline {subsubsection}{\numberline {4.1.1.11}DRKO\_DISPL\_A}{11}{subsubsection.4.1.1.11}%
+\contentsline {subsubsection}{\numberline {4.1.1.12}DRKO\_DISPL\_B}{11}{subsubsection.4.1.1.12}%
+\contentsline {subsubsection}{\numberline {4.1.1.13}DRKO\_DISPL\_C}{11}{subsubsection.4.1.1.13}%
+\contentsline {subsubsection}{\numberline {4.1.1.14}DRKO\_DISPL\_D}{11}{subsubsection.4.1.1.14}%
+\contentsline {subsubsection}{\numberline {4.1.1.15}DRKO\_DISPL\_E}{12}{subsubsection.4.1.1.15}%
+\contentsline {subsubsection}{\numberline {4.1.1.16}DRKO\_DISPL\_F}{12}{subsubsection.4.1.1.16}%
+\contentsline {subsubsection}{\numberline {4.1.1.17}DRKO\_DISPL\_P}{12}{subsubsection.4.1.1.17}%
+\contentsline {subsubsection}{\numberline {4.1.1.18}DRKO\_DISPM\_0}{12}{subsubsection.4.1.1.18}%
+\contentsline {subsubsection}{\numberline {4.1.1.19}DRKO\_DISPM\_1}{12}{subsubsection.4.1.1.19}%
+\contentsline {subsubsection}{\numberline {4.1.1.20}DRKO\_DISPM\_2}{12}{subsubsection.4.1.1.20}%
+\contentsline {subsubsection}{\numberline {4.1.1.21}DRKO\_DISPM\_3}{12}{subsubsection.4.1.1.21}%
+\contentsline {subsubsection}{\numberline {4.1.1.22}DRKO\_DISPM\_4}{12}{subsubsection.4.1.1.22}%
+\contentsline {subsubsection}{\numberline {4.1.1.23}DRKO\_DISPM\_5}{12}{subsubsection.4.1.1.23}%
+\contentsline {subsubsection}{\numberline {4.1.1.24}DRKO\_DISPM\_6}{12}{subsubsection.4.1.1.24}%
+\contentsline {subsubsection}{\numberline {4.1.1.25}DRKO\_DISPM\_7}{13}{subsubsection.4.1.1.25}%
+\contentsline {subsubsection}{\numberline {4.1.1.26}DRKO\_DISPM\_8}{13}{subsubsection.4.1.1.26}%
+\contentsline {subsubsection}{\numberline {4.1.1.27}DRKO\_DISPM\_9}{13}{subsubsection.4.1.1.27}%
+\contentsline {subsubsection}{\numberline {4.1.1.28}DRKO\_DISPM\_A}{13}{subsubsection.4.1.1.28}%
+\contentsline {subsubsection}{\numberline {4.1.1.29}DRKO\_DISPM\_B}{13}{subsubsection.4.1.1.29}%
+\contentsline {subsubsection}{\numberline {4.1.1.30}DRKO\_DISPM\_C}{13}{subsubsection.4.1.1.30}%
+\contentsline {subsubsection}{\numberline {4.1.1.31}DRKO\_DISPM\_D}{13}{subsubsection.4.1.1.31}%
+\contentsline {subsubsection}{\numberline {4.1.1.32}DRKO\_DISPM\_E}{13}{subsubsection.4.1.1.32}%
+\contentsline {subsubsection}{\numberline {4.1.1.33}DRKO\_DISPM\_F}{13}{subsubsection.4.1.1.33}%
+\contentsline {subsubsection}{\numberline {4.1.1.34}DRKO\_DISPM\_P}{13}{subsubsection.4.1.1.34}%
+\contentsline {subsection}{\numberline {4.1.2}Typedef Documentation}{14}{subsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.2.1}display}{14}{subsubsection.4.1.2.1}%
+\contentsline {subsection}{\numberline {4.1.3}Function Documentation}{14}{subsection.4.1.3}%
+\contentsline {subsubsection}{\numberline {4.1.3.1}byte2disp()}{14}{subsubsection.4.1.3.1}%
+\contentsline {subsubsection}{\numberline {4.1.3.2}display\_clear()}{14}{subsubsection.4.1.3.2}%
+\contentsline {subsubsection}{\numberline {4.1.3.3}display\_hex()}{14}{subsubsection.4.1.3.3}%
+\contentsline {subsubsection}{\numberline {4.1.3.4}display\_hide()}{14}{subsubsection.4.1.3.4}%
+\contentsline {subsubsection}{\numberline {4.1.3.5}display\_init()}{14}{subsubsection.4.1.3.5}%
+\contentsline {subsubsection}{\numberline {4.1.3.6}display\_show()}{14}{subsubsection.4.1.3.6}%
+\contentsline {subsubsection}{\numberline {4.1.3.7}display\_write()}{14}{subsubsection.4.1.3.7}%
+\contentsline {section}{\numberline {4.2}display.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{15}{section.4.2}%
+\contentsline {section}{\numberline {4.3}include/drako/hardware/at28c64b.h File Reference}{15}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Macro Definition Documentation}{16}{subsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.1.1}EEPROM\_OP\_DELAY}{16}{subsubsection.4.3.1.1}%
+\contentsline {subsection}{\numberline {4.3.2}Typedef Documentation}{16}{subsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.2.1}eeprom}{16}{subsubsection.4.3.2.1}%
+\contentsline {subsection}{\numberline {4.3.3}Function Documentation}{17}{subsection.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.3.1}\_eeprom\_data\_in()}{17}{subsubsection.4.3.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.3.2}\_eeprom\_data\_out()}{17}{subsubsection.4.3.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3.3}\_eeprom\_execute\_write()}{17}{subsubsection.4.3.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.3.4}\_eeprom\_gpio\_init()}{17}{subsubsection.4.3.3.4}%
+\contentsline {subsubsection}{\numberline {4.3.3.5}\_eeprom\_set\_idle\_condition()}{17}{subsubsection.4.3.3.5}%
+\contentsline {subsubsection}{\numberline {4.3.3.6}\_eeprom\_set\_read\_condition()}{18}{subsubsection.4.3.3.6}%
+\contentsline {subsubsection}{\numberline {4.3.3.7}\_eeprom\_set\_write\_condition()}{18}{subsubsection.4.3.3.7}%
+\contentsline {subsubsection}{\numberline {4.3.3.8}eeprom\_init()}{18}{subsubsection.4.3.3.8}%
+\contentsline {subsubsection}{\numberline {4.3.3.9}eeprom\_read8()}{19}{subsubsection.4.3.3.9}%
+\contentsline {subsubsection}{\numberline {4.3.3.10}eeprom\_select()}{20}{subsubsection.4.3.3.10}%
+\contentsline {subsubsection}{\numberline {4.3.3.11}eeprom\_write8()}{20}{subsubsection.4.3.3.11}%
+\contentsline {section}{\numberline {4.4}at28c64b.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{20}{section.4.4}%
+\contentsline {section}{\numberline {4.5}include/drako/hardware/sn74hc595n.h File Reference}{21}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Macro Definition Documentation}{21}{subsection.4.5.1}%
+\contentsline {subsubsection}{\numberline {4.5.1.1}SR\_DELAY\_US}{21}{subsubsection.4.5.1.1}%
+\contentsline {subsection}{\numberline {4.5.2}Typedef Documentation}{22}{subsection.4.5.2}%
+\contentsline {subsubsection}{\numberline {4.5.2.1}shiftreg}{22}{subsubsection.4.5.2.1}%
+\contentsline {subsection}{\numberline {4.5.3}Function Documentation}{22}{subsection.4.5.3}%
+\contentsline {subsubsection}{\numberline {4.5.3.1}shiftreg\_init()}{22}{subsubsection.4.5.3.1}%
+\contentsline {subsubsection}{\numberline {4.5.3.2}shiftreg\_latch()}{22}{subsubsection.4.5.3.2}%
+\contentsline {subsubsection}{\numberline {4.5.3.3}shiftreg\_oe\_hi()}{22}{subsubsection.4.5.3.3}%
+\contentsline {subsubsection}{\numberline {4.5.3.4}shiftreg\_oe\_lo()}{22}{subsubsection.4.5.3.4}%
+\contentsline {subsubsection}{\numberline {4.5.3.5}shiftreg\_pulse\_clock()}{22}{subsubsection.4.5.3.5}%
+\contentsline {subsubsection}{\numberline {4.5.3.6}shiftreg\_put1()}{22}{subsubsection.4.5.3.6}%
+\contentsline {subsubsection}{\numberline {4.5.3.7}shiftreg\_put16()}{23}{subsubsection.4.5.3.7}%
+\contentsline {subsubsection}{\numberline {4.5.3.8}shiftreg\_put8()}{23}{subsubsection.4.5.3.8}%
+\contentsline {subsubsection}{\numberline {4.5.3.9}shiftreg\_select()}{23}{subsubsection.4.5.3.9}%
+\contentsline {subsubsection}{\numberline {4.5.3.10}shiftreg\_shift1()}{23}{subsubsection.4.5.3.10}%
+\contentsline {subsubsection}{\numberline {4.5.3.11}shiftreg\_shift16()}{23}{subsubsection.4.5.3.11}%
+\contentsline {subsubsection}{\numberline {4.5.3.12}shiftreg\_shift8()}{23}{subsubsection.4.5.3.12}%
+\contentsline {section}{\numberline {4.6}sn74hc595n.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{24}{section.4.6}%
+\contentsline {section}{\numberline {4.7}include/drako/terminal.h File Reference}{24}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Macro Definition Documentation}{25}{subsection.4.7.1}%
+\contentsline {subsubsection}{\numberline {4.7.1.1}DRKO\_TERM}{25}{subsubsection.4.7.1.1}%
+\contentsline {subsubsection}{\numberline {4.7.1.2}DRKO\_TERM\_BUFSIZE}{25}{subsubsection.4.7.1.2}%
+\contentsline {subsection}{\numberline {4.7.2}Typedef Documentation}{25}{subsection.4.7.2}%
+\contentsline {subsubsection}{\numberline {4.7.2.1}terminal\_command}{25}{subsubsection.4.7.2.1}%
+\contentsline {subsection}{\numberline {4.7.3}Function Documentation}{25}{subsection.4.7.3}%
+\contentsline {subsubsection}{\numberline {4.7.3.1}\_terminal\_clean\_string()}{25}{subsubsection.4.7.3.1}%
+\contentsline {subsubsection}{\numberline {4.7.3.2}terminal\_command\_free()}{25}{subsubsection.4.7.3.2}%
+\contentsline {subsubsection}{\numberline {4.7.3.3}terminal\_get\_command()}{25}{subsubsection.4.7.3.3}%
+\contentsline {subsubsection}{\numberline {4.7.3.4}terminal\_get\_line()}{26}{subsubsection.4.7.3.4}%
+\contentsline {section}{\numberline {4.8}terminal.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{26}{section.4.8}%
+\contentsline {section}{\numberline {4.9}src/drako/display.c File Reference}{27}{section.4.9}%
+\contentsline {subsection}{\numberline {4.9.1}Function Documentation}{28}{subsection.4.9.1}%
+\contentsline {subsubsection}{\numberline {4.9.1.1}byte2disp()}{28}{subsubsection.4.9.1.1}%
+\contentsline {subsubsection}{\numberline {4.9.1.2}display\_clear()}{28}{subsubsection.4.9.1.2}%
+\contentsline {subsubsection}{\numberline {4.9.1.3}display\_hex()}{28}{subsubsection.4.9.1.3}%
+\contentsline {subsubsection}{\numberline {4.9.1.4}display\_hide()}{28}{subsubsection.4.9.1.4}%
+\contentsline {subsubsection}{\numberline {4.9.1.5}display\_init()}{28}{subsubsection.4.9.1.5}%
+\contentsline {subsubsection}{\numberline {4.9.1.6}display\_show()}{28}{subsubsection.4.9.1.6}%
+\contentsline {subsubsection}{\numberline {4.9.1.7}display\_write()}{28}{subsubsection.4.9.1.7}%
+\contentsline {section}{\numberline {4.10}src/drako/hardware/at28c64b.c File Reference}{28}{section.4.10}%
+\contentsline {subsection}{\numberline {4.10.1}Function Documentation}{29}{subsection.4.10.1}%
+\contentsline {subsubsection}{\numberline {4.10.1.1}eeprom\_init()}{29}{subsubsection.4.10.1.1}%
+\contentsline {subsubsection}{\numberline {4.10.1.2}eeprom\_read8()}{29}{subsubsection.4.10.1.2}%
+\contentsline {subsubsection}{\numberline {4.10.1.3}eeprom\_select()}{29}{subsubsection.4.10.1.3}%
+\contentsline {subsubsection}{\numberline {4.10.1.4}eeprom\_write8()}{30}{subsubsection.4.10.1.4}%
+\contentsline {section}{\numberline {4.11}src/drako/hardware/at28c64b\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}hidden.c File Reference}{30}{section.4.11}%
+\contentsline {subsection}{\numberline {4.11.1}Function Documentation}{30}{subsection.4.11.1}%
+\contentsline {subsubsection}{\numberline {4.11.1.1}\_eeprom\_data\_in()}{30}{subsubsection.4.11.1.1}%
+\contentsline {subsubsection}{\numberline {4.11.1.2}\_eeprom\_data\_out()}{31}{subsubsection.4.11.1.2}%
+\contentsline {subsubsection}{\numberline {4.11.1.3}\_eeprom\_execute\_write()}{31}{subsubsection.4.11.1.3}%
+\contentsline {subsubsection}{\numberline {4.11.1.4}\_eeprom\_gpio\_init()}{31}{subsubsection.4.11.1.4}%
+\contentsline {subsubsection}{\numberline {4.11.1.5}\_eeprom\_set\_idle\_condition()}{31}{subsubsection.4.11.1.5}%
+\contentsline {subsubsection}{\numberline {4.11.1.6}\_eeprom\_set\_read\_condition()}{32}{subsubsection.4.11.1.6}%
+\contentsline {subsubsection}{\numberline {4.11.1.7}\_eeprom\_set\_write\_condition()}{32}{subsubsection.4.11.1.7}%
+\contentsline {section}{\numberline {4.12}src/drako/hardware/sn74hc595n.c File Reference}{32}{section.4.12}%
+\contentsline {subsection}{\numberline {4.12.1}Function Documentation}{33}{subsection.4.12.1}%
+\contentsline {subsubsection}{\numberline {4.12.1.1}shiftreg\_init()}{33}{subsubsection.4.12.1.1}%
+\contentsline {subsubsection}{\numberline {4.12.1.2}shiftreg\_latch()}{33}{subsubsection.4.12.1.2}%
+\contentsline {subsubsection}{\numberline {4.12.1.3}shiftreg\_oe\_hi()}{33}{subsubsection.4.12.1.3}%
+\contentsline {subsubsection}{\numberline {4.12.1.4}shiftreg\_oe\_lo()}{33}{subsubsection.4.12.1.4}%
+\contentsline {subsubsection}{\numberline {4.12.1.5}shiftreg\_pulse\_clock()}{33}{subsubsection.4.12.1.5}%
+\contentsline {subsubsection}{\numberline {4.12.1.6}shiftreg\_put1()}{33}{subsubsection.4.12.1.6}%
+\contentsline {subsubsection}{\numberline {4.12.1.7}shiftreg\_put16()}{33}{subsubsection.4.12.1.7}%
+\contentsline {subsubsection}{\numberline {4.12.1.8}shiftreg\_put8()}{34}{subsubsection.4.12.1.8}%
+\contentsline {subsubsection}{\numberline {4.12.1.9}shiftreg\_select()}{34}{subsubsection.4.12.1.9}%
+\contentsline {subsubsection}{\numberline {4.12.1.10}shiftreg\_shift1()}{34}{subsubsection.4.12.1.10}%
+\contentsline {subsubsection}{\numberline {4.12.1.11}shiftreg\_shift16()}{34}{subsubsection.4.12.1.11}%
+\contentsline {subsubsection}{\numberline {4.12.1.12}shiftreg\_shift8()}{34}{subsubsection.4.12.1.12}%
+\contentsline {section}{\numberline {4.13}src/drako/terminal.c File Reference}{34}{section.4.13}%
+\contentsline {subsection}{\numberline {4.13.1}Function Documentation}{35}{subsection.4.13.1}%
+\contentsline {subsubsection}{\numberline {4.13.1.1}\_terminal\_clean\_string()}{35}{subsubsection.4.13.1.1}%
+\contentsline {subsubsection}{\numberline {4.13.1.2}terminal\_command\_free()}{35}{subsubsection.4.13.1.2}%
+\contentsline {subsubsection}{\numberline {4.13.1.3}terminal\_get\_command()}{35}{subsubsection.4.13.1.3}%
+\contentsline {subsubsection}{\numberline {4.13.1.4}terminal\_get\_line()}{35}{subsubsection.4.13.1.4}%
+\contentsline {section}{\numberline {4.14}src/main.c File Reference}{36}{section.4.14}%
+\contentsline {subsection}{\numberline {4.14.1}Function Documentation}{36}{subsection.4.14.1}%
+\contentsline {subsubsection}{\numberline {4.14.1.1}display\_shell()}{36}{subsubsection.4.14.1.1}%
+\contentsline {subsubsection}{\numberline {4.14.1.2}eeprom\_test()}{36}{subsubsection.4.14.1.2}%
+\contentsline {subsubsection}{\numberline {4.14.1.3}full\_test()}{36}{subsubsection.4.14.1.3}%
+\contentsline {subsubsection}{\numberline {4.14.1.4}main()}{36}{subsubsection.4.14.1.4}%
+\contentsline {chapter}{Index}{37}{section*.27}%

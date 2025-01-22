@@ -1,0 +1,42 @@
+\doxysection{sn74hc595n.\+h}
+\hypertarget{sn74hc595n_8h_source}{}\label{sn74hc595n_8h_source}\index{include/drako/hardware/sn74hc595n.h@{include/drako/hardware/sn74hc595n.h}}
+\mbox{\hyperlink{sn74hc595n_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ \_\_drako\_sn74hc595n}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ \_\_drako\_sn74hc595n}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ SR\_DELAY\_US\ 10}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsn74hc595n}{sn74hc595n}}\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structsn74hc595n_ab386172dc0689e6d91b82565d801f64f}{ser}};}
+\DoxyCodeLine{00014\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structsn74hc595n_a0ab5336a205261dc4f95ddaac940dc8f}{rclk}};}
+\DoxyCodeLine{00015\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structsn74hc595n_aa22f54cc006b665ebd39eb2647de005a}{srclk}};}
+\DoxyCodeLine{00016\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structsn74hc595n_aafc12c6bbf807557c2ba5041f7d88f7d}{oe}};}
+\DoxyCodeLine{00017\ \}\ \mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_aab02bf9d474b5b569d2499d4d6198c69}{shiftreg\_init}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg,\ uint8\_t\ ser,\ uint8\_t\ rclk,\ uint8\_t\ srclk,\ uint8\_t\ oe);}
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_a9eada68ebf28cc497ba20cd73bc2faf4}{shiftreg\_select}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg);}
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_a63e5b2edeecca2c5883702649175a02f}{shiftreg\_pulse\_clock}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg);}
+\DoxyCodeLine{00023\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_a37918aee70c5c90565cedf128a2378ec}{shiftreg\_latch}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_a8bb0a13addde98a9b15dc2f3e43c1561}{shiftreg\_oe\_hi}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg);}
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_af278af03f01b2454782f791741531805}{shiftreg\_oe\_lo}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_aa2d69b7a17e44b7542e83e5f29357218}{shiftreg\_shift1}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg,\ \textcolor{keywordtype}{bool}\ bit);}
+\DoxyCodeLine{00029\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_a871167dbe3ef1523bb1c76d6f44f6fbd}{shiftreg\_shift8}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg,\ uint8\_t\ \textcolor{keywordtype}{byte});}
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_a56af0beac3048804ae101cadd8ee8a00}{shiftreg\_shift16}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg,\ uint16\_t\ data);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_a8d9849f6d8a4fad9f8a00f06a7b7255f}{shiftreg\_put1}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg,\ \textcolor{keywordtype}{bool}\ bit);}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_a99da6bc9b1fba6f1e8984dcd2c91095f}{shiftreg\_put8}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg,\ uint8\_t\ \textcolor{keywordtype}{byte});}
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sn74hc595n_8h_a40ab42131b7ae84bf58abf30cea74178}{shiftreg\_put16}}(\mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}*\ sreg,\ uint16\_t\ data);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
