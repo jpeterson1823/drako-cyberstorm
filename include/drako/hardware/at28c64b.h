@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define EEPROM_OP_DELAY 1000
+#define EEPROM_CONDITION_DELAY_US 100
 
 typedef struct at28c64b {
     uint32_t data_bus;

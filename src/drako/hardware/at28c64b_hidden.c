@@ -17,6 +17,7 @@ void _eeprom_data_in(eeprom* prom) {
 void _eeprom_data_out(eeprom* prom) {
     gpio_set_dir_out_masked(prom->data_bus);
     prom->data_dir = GPIO_OUT;
+    sleep_us(EEPROM_CONDITION_DELAY_US);
 }
 
 
@@ -43,6 +44,7 @@ void _eeprom_set_idle_condition(eeprom* prom) {
     gpio_put(prom->we, 1);
     gpio_put(prom->ce, 1);
     gpio_put(prom->oe, 1);
+    sleep_us(EEPROM_CONDITION_DELAY_US);
 }
 
 
@@ -54,6 +56,8 @@ void _eeprom_set_read_condition(eeprom* prom) {
     gpio_put(prom->we, 1);
     gpio_put(prom->ce, 0);
     gpio_put(prom->oe, 0);
+    //sleep_ms(10);
+    sleep_us(EEPROM_CONDITION_DELAY_US);
 }
 
 
@@ -65,7 +69,7 @@ void _eeprom_set_write_condition(eeprom* prom) {
     gpio_put(prom->we, 1);
     gpio_put(prom->ce, 0);
     gpio_put(prom->oe, 1);
-    sleep_us(1);
+    sleep_us(EEPROM_CONDITION_DELAY_US);
 }
 
 

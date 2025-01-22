@@ -2,14 +2,17 @@
 #include <pico/rand.h>
 #include <stdio.h>
 #include <tusb.h>
+#include <stdlib.h>
 
 #include "drako/display.h"
 #include "drako/hardware/at28c64b.h"
 
+// uncomment to see full printout of randomized_full_test
+//#define RNG_FULL_TEST_DEBUG
 
 void display_shell(display* disp);
-void eeprom_test(eeprom* prom);
 void full_test(eeprom* prom, display* disp);
+size_t randomized_full_test(eeprom* prom, display* disp, size_t nbytes);
 
 
 
@@ -47,7 +50,22 @@ int main() {
     display_init(&disp);
 
     // run full test
-    full_test(&prom, &disp);
+    //full_test(&prom, &disp);
+    randomized_full_test(&prom, &disp, 100);
+
+    char buf[5] = "";
+    uint16_t addr;
+    while (true) {
+        buf[0] = getchar();
+        buf[1] = getchar();
+        buf[2] = getchar();
+        buf[3] = getchar();
+        addr = strtoul(buf, NULL, 16);
+
+        uint8_t byte;
+        eeprom_read8(&prom, addr, &byte);
+        printf("0x%04x has 0x%02x", addr, byte);
+    }
 
     // turn off on-bard LED
     gpio_put(25, 0);
@@ -177,23 +195,6 @@ void display_shell(display* disp) {
 }
 
 
-void eeprom_test(eeprom* prom) {
-    eeprom_select(prom);
-    _eeprom_set_idle_condition(prom);
-
-    uint8_t i;
-    size_t n = 10;
-    for(i = 0; i < n; i++)
-        eeprom_write8(prom, 0x0010 + i, n-i-1);
-
-    uint8_t buff;
-    for(i = 0; i < n; i++) {
-        eeprom_read8(prom, 0x0010 + i, &buff);
-        printf("0x%.4x : 0x%.2x\n", 0x0010 + i, buff);
-    }
-}
-
-
 void full_test(eeprom* prom, display* disp) {
     // generate random starting address that's no greater than 0x0FFF
     uint32_t addr = get_rand_32() % 0x0FFF;
@@ -233,3 +234,95 @@ void full_test(eeprom* prom, display* disp) {
         sleep_ms(1000);
     }
 }
+
+
+size_t randomized_full_test(eeprom* prom, display* disp, size_t nbytes) {
+    // loop control vars
+    size_t i, j;
+    bool duplicateFound;
+
+
+    // arrays to store rng addrs and bytes for checking
+    uint16_t addrs[nbytes];
+    uint8_t  bytes[nbytes];
+
+    // clear display
+    display_select(disp);
+    display_clear(disp);
+    display_hide(disp);
+
+    // make sure to enable eeprom databus and chipselect
+    eeprom_select(prom);
+
+
+    printf("Running Test: Randomized Full Test\n");
+    printf("    Writing random bytes to random addresses... \n");
+#ifdef RNG_FULL_TEST_DEBUG
+    printf("[WRITE TEST] Randomly generating addresses and bytes: \n");
+    printf("[WRITE TEST]     ADDR      BYTE\n");
+#endif
+
+    // populate arrays and write rng bytes to their rng address
+    for (i = 0; i < nbytes; i++) {
+        // generate RNG addr and byte
+        bytes[i] = (uint8_t )(get_rand_32() % UINT8_MAX);
+        addrs[i] = (uint16_t)(get_rand_32() % 0x07FF);
+
+        // make sure addr isnt already being tested
+        while (true) {
+            duplicateFound = false;
+            for (j = 0; j < i; j++) {
+                // if duplicate found, generate new rng addr and check again
+                if (addrs[i] == addrs[j]) {
+                    addrs[i] = (uint16_t)(get_rand_32() % 0x07FF);
+                    duplicateFound = true;
+                    break;
+                }
+            }
+
+            // if no duplicate found, break loop
+            if (!duplicateFound)
+                break;
+        }
+
+        eeprom_write8(prom, addrs[i], bytes[i]);
+
+#ifdef RNG_FULL_TEST_DEBUG
+        printf("[WRITE TEST]    0x%04x    0x%02x\n", addrs[i], bytes[i]);
+#endif
+    }
+
+    printf("    Validating writes...\n");
+#ifdef RNG_FULL_TEST_DEBUG
+    printf("[READ TEST] Checking written values:\n");
+    printf("[READ TEST]      ADDR     BYTE    STATUS\n");
+#endif
+
+    // check written bytes
+    uint8_t byte;
+    size_t failCount = 0;
+    for (i = 0; i < nbytes; i++) {
+        // read byte from eeprom
+        eeprom_read8(prom, addrs[i], &byte);
+
+#ifdef RNG_FULL_TEST_DEBUG
+        printf("[READ TEST]     0x%04x    0x%02x    ", addrs[i], byte);
+
+        // check if read byte matches what was supposed to be written
+        if (byte != bytes[i]) {
+            failCount++;
+            printf("FAIL    expected 0x%02x\n", bytes[i]);
+        } else {
+            printf("PASS\n");
+        }
+#endif
+    }
+
+    printf(
+            "Randomized Full Test Completed.\n    Total Failures: %d\n    Grade: %s\n",
+            failCount,
+            failCount > 0 ? "FAIL" : "PASS"
+    );
+    return failCount;
+}
+

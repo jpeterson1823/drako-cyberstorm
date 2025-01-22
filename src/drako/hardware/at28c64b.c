@@ -58,7 +58,6 @@ void eeprom_read8(eeprom* prom, uint32_t addr, uint8_t* buff) {
 
     // set read condition for EEPROM
     _eeprom_set_read_condition(prom);
-    sleep_ms(1);
 
     // read all GPIO pins, allowing for data truncation
     // since only the lower 8 bits are of interest
@@ -79,6 +78,7 @@ void eeprom_write8(eeprom* prom, uint32_t addr, uint8_t data) {
     // put address and data out on their respective buses
     gpio_put_masked(prom->addr_bus, addr<<8);
     gpio_put_masked(prom->data_bus, data);
+    sleep_ms(1);
 
     _eeprom_set_write_condition(prom);
     _eeprom_execute_write(prom);
