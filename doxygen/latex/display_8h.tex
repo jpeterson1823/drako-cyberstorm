@@ -1,0 +1,363 @@
+\doxysection{include/drako/display.h File Reference}
+\hypertarget{display_8h}{}\label{display_8h}\index{include/drako/display.h@{include/drako/display.h}}
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include "{}drako/hardware/sn74hc595n.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct____display__struct}{\+\_\+\+\_\+display\+\_\+struct}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{display_8h_a6eb38e2ce5269d6119894d4ae42e1550}{DRKO\+\_\+\+DISPL\+\_\+0}}~0x003F
+\item 
+\#define \mbox{\hyperlink{display_8h_afaf3a3c7d49ed1d22625d415617b916c}{DRKO\+\_\+\+DISPL\+\_\+1}}~0x0006
+\item 
+\#define \mbox{\hyperlink{display_8h_a2b4a215e4b3174f649567f6ec9f14547}{DRKO\+\_\+\+DISPL\+\_\+2}}~0x005B
+\item 
+\#define \mbox{\hyperlink{display_8h_a387cb47bf70d3a621ef544394e688b46}{DRKO\+\_\+\+DISPL\+\_\+3}}~0x004F
+\item 
+\#define \mbox{\hyperlink{display_8h_ac0a2904d2da978d5635de09fbc63169b}{DRKO\+\_\+\+DISPL\+\_\+4}}~0x0066
+\item 
+\#define \mbox{\hyperlink{display_8h_a974e334975c0bf231d06e9f0b9e4d7a3}{DRKO\+\_\+\+DISPL\+\_\+5}}~0x006D
+\item 
+\#define \mbox{\hyperlink{display_8h_a09c9e416297530c8c93453e949f166fa}{DRKO\+\_\+\+DISPL\+\_\+6}}~0x007D
+\item 
+\#define \mbox{\hyperlink{display_8h_a18bbab72738557589184c661c8048dc8}{DRKO\+\_\+\+DISPL\+\_\+7}}~0x0007
+\item 
+\#define \mbox{\hyperlink{display_8h_a5b3a404e39f3efde8b582d24f529ad52}{DRKO\+\_\+\+DISPL\+\_\+8}}~0x007F
+\item 
+\#define \mbox{\hyperlink{display_8h_a6930ba6b0f104932d2d33d2ddbef8df2}{DRKO\+\_\+\+DISPL\+\_\+9}}~0x006F
+\item 
+\#define \mbox{\hyperlink{display_8h_a5515c7a877e42702f7a2ca47a372c63e}{DRKO\+\_\+\+DISPL\+\_\+A}}~0x0077
+\item 
+\#define \mbox{\hyperlink{display_8h_a111cc76130c9046f67f0ad375d6fa9d0}{DRKO\+\_\+\+DISPL\+\_\+B}}~0x007C
+\item 
+\#define \mbox{\hyperlink{display_8h_adab7ca867a13ff6e0bdba5605206feaa}{DRKO\+\_\+\+DISPL\+\_\+C}}~0x0039
+\item 
+\#define \mbox{\hyperlink{display_8h_a7455fd8aa6a656931d1dd9a23988ae92}{DRKO\+\_\+\+DISPL\+\_\+D}}~0x005E
+\item 
+\#define \mbox{\hyperlink{display_8h_ab947da8c12b9d4e70935476f106800b8}{DRKO\+\_\+\+DISPL\+\_\+E}}~0x0079
+\item 
+\#define \mbox{\hyperlink{display_8h_a497a04bb7ba75b1c2c3efd337f0c5b08}{DRKO\+\_\+\+DISPL\+\_\+F}}~0x0071
+\item 
+\#define \mbox{\hyperlink{display_8h_a457bd9c3b9e433cd6fdb86d11ae8276d}{DRKO\+\_\+\+DISPL\+\_\+P}}~0x0080
+\item 
+\#define \mbox{\hyperlink{display_8h_ac2cc4e818c5bb357ecb5bbee276720d8}{DRKO\+\_\+\+DISPM\+\_\+0}}~0x3\+F00
+\item 
+\#define \mbox{\hyperlink{display_8h_a38c2a55ad59d370b500ece54080ac2d8}{DRKO\+\_\+\+DISPM\+\_\+1}}~0x0600
+\item 
+\#define \mbox{\hyperlink{display_8h_a3e4c0cee7bbac31c738906869e02c4da}{DRKO\+\_\+\+DISPM\+\_\+2}}~0x5\+B00
+\item 
+\#define \mbox{\hyperlink{display_8h_acb640be267c5409f240821ad66bc4460}{DRKO\+\_\+\+DISPM\+\_\+3}}~0x4\+F00
+\item 
+\#define \mbox{\hyperlink{display_8h_a3bf3a6d0b77748e04b502ff6a5a826b6}{DRKO\+\_\+\+DISPM\+\_\+4}}~0x6600
+\item 
+\#define \mbox{\hyperlink{display_8h_a5115a39e9c455176ed5fa947c63745c1}{DRKO\+\_\+\+DISPM\+\_\+5}}~0x6\+D00
+\item 
+\#define \mbox{\hyperlink{display_8h_a2ccdaf4971610175f17c1965a3e1559b}{DRKO\+\_\+\+DISPM\+\_\+6}}~0x7\+D00
+\item 
+\#define \mbox{\hyperlink{display_8h_adaba595cf74a07949e36b6e9d99fafa8}{DRKO\+\_\+\+DISPM\+\_\+7}}~0x0700
+\item 
+\#define \mbox{\hyperlink{display_8h_a7c9694a6410fa03bd2a41db38969b5cb}{DRKO\+\_\+\+DISPM\+\_\+8}}~0x7\+F00
+\item 
+\#define \mbox{\hyperlink{display_8h_a375f9aea053064e6aca1e94a672f347b}{DRKO\+\_\+\+DISPM\+\_\+9}}~0x6\+F00
+\item 
+\#define \mbox{\hyperlink{display_8h_ae38304e5188ae2e80d90579b50fa8c45}{DRKO\+\_\+\+DISPM\+\_\+A}}~0x7700
+\item 
+\#define \mbox{\hyperlink{display_8h_af0e35055a9a259e6e1e38f12359da9c2}{DRKO\+\_\+\+DISPM\+\_\+B}}~0x7\+C00
+\item 
+\#define \mbox{\hyperlink{display_8h_a290e8d790b7066b2ebfaf29aca4490c9}{DRKO\+\_\+\+DISPM\+\_\+C}}~0x3900
+\item 
+\#define \mbox{\hyperlink{display_8h_a6ea37eca4f086e6d29276442692c6fa2}{DRKO\+\_\+\+DISPM\+\_\+D}}~0x5\+E00
+\item 
+\#define \mbox{\hyperlink{display_8h_a51cedf7923ad527d1263d276616592c7}{DRKO\+\_\+\+DISPM\+\_\+E}}~0x7900
+\item 
+\#define \mbox{\hyperlink{display_8h_acb5ec85684d971ef13e1e5cc85db9d10}{DRKO\+\_\+\+DISPM\+\_\+F}}~0x7100
+\item 
+\#define \mbox{\hyperlink{display_8h_a153f398dc9a7e64deddbd2ad3f7e2930}{DRKO\+\_\+\+DISPM\+\_\+P}}~0x8000
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{struct____display__struct}{\+\_\+\+\_\+display\+\_\+struct}} \mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{display_8h_ac475c443fb5574878be0b300e3b5ff40}{display\+\_\+init}} (\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}disp)
+\item 
+void \mbox{\hyperlink{display_8h_a9275d6e5d878dce000619e139c9c196a}{display\+\_\+show}} (\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}disp)
+\item 
+void \mbox{\hyperlink{display_8h_aea62b3bf2b50c50f15f9e0c7b416bf8d}{display\+\_\+hide}} (\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}disp)
+\item 
+void \mbox{\hyperlink{display_8h_a64daac013c9cee909be503785c06354b}{display\+\_\+clear}} (\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}disp)
+\item 
+void \mbox{\hyperlink{display_8h_aa48176ea86f895b78a360f958077d538}{display\+\_\+write}} (\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}disp, uint16\+\_\+t data)
+\item 
+void \mbox{\hyperlink{display_8h_a328ec7152a37649c2153cc7b72d9264b}{display\+\_\+hex}} (\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}disp, uint8\+\_\+t byte)
+\item 
+uint16\+\_\+t \mbox{\hyperlink{display_8h_afbed80d96977d6c02595b2dc1dbb83e2}{byte2disp}} (uint8\+\_\+t data)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{display_8h_a6eb38e2ce5269d6119894d4ae42e1550}\index{display.h@{display.h}!DRKO\_DISPL\_0@{DRKO\_DISPL\_0}}
+\index{DRKO\_DISPL\_0@{DRKO\_DISPL\_0}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_0}{DRKO\_DISPL\_0}}
+{\footnotesize\ttfamily \label{display_8h_a6eb38e2ce5269d6119894d4ae42e1550} 
+\#define DRKO\+\_\+\+DISPL\+\_\+0~0x003F}
+
+\Hypertarget{display_8h_afaf3a3c7d49ed1d22625d415617b916c}\index{display.h@{display.h}!DRKO\_DISPL\_1@{DRKO\_DISPL\_1}}
+\index{DRKO\_DISPL\_1@{DRKO\_DISPL\_1}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_1}{DRKO\_DISPL\_1}}
+{\footnotesize\ttfamily \label{display_8h_afaf3a3c7d49ed1d22625d415617b916c} 
+\#define DRKO\+\_\+\+DISPL\+\_\+1~0x0006}
+
+\Hypertarget{display_8h_a2b4a215e4b3174f649567f6ec9f14547}\index{display.h@{display.h}!DRKO\_DISPL\_2@{DRKO\_DISPL\_2}}
+\index{DRKO\_DISPL\_2@{DRKO\_DISPL\_2}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_2}{DRKO\_DISPL\_2}}
+{\footnotesize\ttfamily \label{display_8h_a2b4a215e4b3174f649567f6ec9f14547} 
+\#define DRKO\+\_\+\+DISPL\+\_\+2~0x005B}
+
+\Hypertarget{display_8h_a387cb47bf70d3a621ef544394e688b46}\index{display.h@{display.h}!DRKO\_DISPL\_3@{DRKO\_DISPL\_3}}
+\index{DRKO\_DISPL\_3@{DRKO\_DISPL\_3}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_3}{DRKO\_DISPL\_3}}
+{\footnotesize\ttfamily \label{display_8h_a387cb47bf70d3a621ef544394e688b46} 
+\#define DRKO\+\_\+\+DISPL\+\_\+3~0x004F}
+
+\Hypertarget{display_8h_ac0a2904d2da978d5635de09fbc63169b}\index{display.h@{display.h}!DRKO\_DISPL\_4@{DRKO\_DISPL\_4}}
+\index{DRKO\_DISPL\_4@{DRKO\_DISPL\_4}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_4}{DRKO\_DISPL\_4}}
+{\footnotesize\ttfamily \label{display_8h_ac0a2904d2da978d5635de09fbc63169b} 
+\#define DRKO\+\_\+\+DISPL\+\_\+4~0x0066}
+
+\Hypertarget{display_8h_a974e334975c0bf231d06e9f0b9e4d7a3}\index{display.h@{display.h}!DRKO\_DISPL\_5@{DRKO\_DISPL\_5}}
+\index{DRKO\_DISPL\_5@{DRKO\_DISPL\_5}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_5}{DRKO\_DISPL\_5}}
+{\footnotesize\ttfamily \label{display_8h_a974e334975c0bf231d06e9f0b9e4d7a3} 
+\#define DRKO\+\_\+\+DISPL\+\_\+5~0x006D}
+
+\Hypertarget{display_8h_a09c9e416297530c8c93453e949f166fa}\index{display.h@{display.h}!DRKO\_DISPL\_6@{DRKO\_DISPL\_6}}
+\index{DRKO\_DISPL\_6@{DRKO\_DISPL\_6}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_6}{DRKO\_DISPL\_6}}
+{\footnotesize\ttfamily \label{display_8h_a09c9e416297530c8c93453e949f166fa} 
+\#define DRKO\+\_\+\+DISPL\+\_\+6~0x007D}
+
+\Hypertarget{display_8h_a18bbab72738557589184c661c8048dc8}\index{display.h@{display.h}!DRKO\_DISPL\_7@{DRKO\_DISPL\_7}}
+\index{DRKO\_DISPL\_7@{DRKO\_DISPL\_7}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_7}{DRKO\_DISPL\_7}}
+{\footnotesize\ttfamily \label{display_8h_a18bbab72738557589184c661c8048dc8} 
+\#define DRKO\+\_\+\+DISPL\+\_\+7~0x0007}
+
+\Hypertarget{display_8h_a5b3a404e39f3efde8b582d24f529ad52}\index{display.h@{display.h}!DRKO\_DISPL\_8@{DRKO\_DISPL\_8}}
+\index{DRKO\_DISPL\_8@{DRKO\_DISPL\_8}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_8}{DRKO\_DISPL\_8}}
+{\footnotesize\ttfamily \label{display_8h_a5b3a404e39f3efde8b582d24f529ad52} 
+\#define DRKO\+\_\+\+DISPL\+\_\+8~0x007F}
+
+\Hypertarget{display_8h_a6930ba6b0f104932d2d33d2ddbef8df2}\index{display.h@{display.h}!DRKO\_DISPL\_9@{DRKO\_DISPL\_9}}
+\index{DRKO\_DISPL\_9@{DRKO\_DISPL\_9}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_9}{DRKO\_DISPL\_9}}
+{\footnotesize\ttfamily \label{display_8h_a6930ba6b0f104932d2d33d2ddbef8df2} 
+\#define DRKO\+\_\+\+DISPL\+\_\+9~0x006F}
+
+\Hypertarget{display_8h_a5515c7a877e42702f7a2ca47a372c63e}\index{display.h@{display.h}!DRKO\_DISPL\_A@{DRKO\_DISPL\_A}}
+\index{DRKO\_DISPL\_A@{DRKO\_DISPL\_A}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_A}{DRKO\_DISPL\_A}}
+{\footnotesize\ttfamily \label{display_8h_a5515c7a877e42702f7a2ca47a372c63e} 
+\#define DRKO\+\_\+\+DISPL\+\_\+A~0x0077}
+
+\Hypertarget{display_8h_a111cc76130c9046f67f0ad375d6fa9d0}\index{display.h@{display.h}!DRKO\_DISPL\_B@{DRKO\_DISPL\_B}}
+\index{DRKO\_DISPL\_B@{DRKO\_DISPL\_B}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_B}{DRKO\_DISPL\_B}}
+{\footnotesize\ttfamily \label{display_8h_a111cc76130c9046f67f0ad375d6fa9d0} 
+\#define DRKO\+\_\+\+DISPL\+\_\+B~0x007C}
+
+\Hypertarget{display_8h_adab7ca867a13ff6e0bdba5605206feaa}\index{display.h@{display.h}!DRKO\_DISPL\_C@{DRKO\_DISPL\_C}}
+\index{DRKO\_DISPL\_C@{DRKO\_DISPL\_C}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_C}{DRKO\_DISPL\_C}}
+{\footnotesize\ttfamily \label{display_8h_adab7ca867a13ff6e0bdba5605206feaa} 
+\#define DRKO\+\_\+\+DISPL\+\_\+C~0x0039}
+
+\Hypertarget{display_8h_a7455fd8aa6a656931d1dd9a23988ae92}\index{display.h@{display.h}!DRKO\_DISPL\_D@{DRKO\_DISPL\_D}}
+\index{DRKO\_DISPL\_D@{DRKO\_DISPL\_D}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_D}{DRKO\_DISPL\_D}}
+{\footnotesize\ttfamily \label{display_8h_a7455fd8aa6a656931d1dd9a23988ae92} 
+\#define DRKO\+\_\+\+DISPL\+\_\+D~0x005E}
+
+\Hypertarget{display_8h_ab947da8c12b9d4e70935476f106800b8}\index{display.h@{display.h}!DRKO\_DISPL\_E@{DRKO\_DISPL\_E}}
+\index{DRKO\_DISPL\_E@{DRKO\_DISPL\_E}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_E}{DRKO\_DISPL\_E}}
+{\footnotesize\ttfamily \label{display_8h_ab947da8c12b9d4e70935476f106800b8} 
+\#define DRKO\+\_\+\+DISPL\+\_\+E~0x0079}
+
+\Hypertarget{display_8h_a497a04bb7ba75b1c2c3efd337f0c5b08}\index{display.h@{display.h}!DRKO\_DISPL\_F@{DRKO\_DISPL\_F}}
+\index{DRKO\_DISPL\_F@{DRKO\_DISPL\_F}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_F}{DRKO\_DISPL\_F}}
+{\footnotesize\ttfamily \label{display_8h_a497a04bb7ba75b1c2c3efd337f0c5b08} 
+\#define DRKO\+\_\+\+DISPL\+\_\+F~0x0071}
+
+\Hypertarget{display_8h_a457bd9c3b9e433cd6fdb86d11ae8276d}\index{display.h@{display.h}!DRKO\_DISPL\_P@{DRKO\_DISPL\_P}}
+\index{DRKO\_DISPL\_P@{DRKO\_DISPL\_P}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPL\_P}{DRKO\_DISPL\_P}}
+{\footnotesize\ttfamily \label{display_8h_a457bd9c3b9e433cd6fdb86d11ae8276d} 
+\#define DRKO\+\_\+\+DISPL\+\_\+P~0x0080}
+
+\Hypertarget{display_8h_ac2cc4e818c5bb357ecb5bbee276720d8}\index{display.h@{display.h}!DRKO\_DISPM\_0@{DRKO\_DISPM\_0}}
+\index{DRKO\_DISPM\_0@{DRKO\_DISPM\_0}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_0}{DRKO\_DISPM\_0}}
+{\footnotesize\ttfamily \label{display_8h_ac2cc4e818c5bb357ecb5bbee276720d8} 
+\#define DRKO\+\_\+\+DISPM\+\_\+0~0x3\+F00}
+
+\Hypertarget{display_8h_a38c2a55ad59d370b500ece54080ac2d8}\index{display.h@{display.h}!DRKO\_DISPM\_1@{DRKO\_DISPM\_1}}
+\index{DRKO\_DISPM\_1@{DRKO\_DISPM\_1}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_1}{DRKO\_DISPM\_1}}
+{\footnotesize\ttfamily \label{display_8h_a38c2a55ad59d370b500ece54080ac2d8} 
+\#define DRKO\+\_\+\+DISPM\+\_\+1~0x0600}
+
+\Hypertarget{display_8h_a3e4c0cee7bbac31c738906869e02c4da}\index{display.h@{display.h}!DRKO\_DISPM\_2@{DRKO\_DISPM\_2}}
+\index{DRKO\_DISPM\_2@{DRKO\_DISPM\_2}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_2}{DRKO\_DISPM\_2}}
+{\footnotesize\ttfamily \label{display_8h_a3e4c0cee7bbac31c738906869e02c4da} 
+\#define DRKO\+\_\+\+DISPM\+\_\+2~0x5\+B00}
+
+\Hypertarget{display_8h_acb640be267c5409f240821ad66bc4460}\index{display.h@{display.h}!DRKO\_DISPM\_3@{DRKO\_DISPM\_3}}
+\index{DRKO\_DISPM\_3@{DRKO\_DISPM\_3}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_3}{DRKO\_DISPM\_3}}
+{\footnotesize\ttfamily \label{display_8h_acb640be267c5409f240821ad66bc4460} 
+\#define DRKO\+\_\+\+DISPM\+\_\+3~0x4\+F00}
+
+\Hypertarget{display_8h_a3bf3a6d0b77748e04b502ff6a5a826b6}\index{display.h@{display.h}!DRKO\_DISPM\_4@{DRKO\_DISPM\_4}}
+\index{DRKO\_DISPM\_4@{DRKO\_DISPM\_4}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_4}{DRKO\_DISPM\_4}}
+{\footnotesize\ttfamily \label{display_8h_a3bf3a6d0b77748e04b502ff6a5a826b6} 
+\#define DRKO\+\_\+\+DISPM\+\_\+4~0x6600}
+
+\Hypertarget{display_8h_a5115a39e9c455176ed5fa947c63745c1}\index{display.h@{display.h}!DRKO\_DISPM\_5@{DRKO\_DISPM\_5}}
+\index{DRKO\_DISPM\_5@{DRKO\_DISPM\_5}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_5}{DRKO\_DISPM\_5}}
+{\footnotesize\ttfamily \label{display_8h_a5115a39e9c455176ed5fa947c63745c1} 
+\#define DRKO\+\_\+\+DISPM\+\_\+5~0x6\+D00}
+
+\Hypertarget{display_8h_a2ccdaf4971610175f17c1965a3e1559b}\index{display.h@{display.h}!DRKO\_DISPM\_6@{DRKO\_DISPM\_6}}
+\index{DRKO\_DISPM\_6@{DRKO\_DISPM\_6}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_6}{DRKO\_DISPM\_6}}
+{\footnotesize\ttfamily \label{display_8h_a2ccdaf4971610175f17c1965a3e1559b} 
+\#define DRKO\+\_\+\+DISPM\+\_\+6~0x7\+D00}
+
+\Hypertarget{display_8h_adaba595cf74a07949e36b6e9d99fafa8}\index{display.h@{display.h}!DRKO\_DISPM\_7@{DRKO\_DISPM\_7}}
+\index{DRKO\_DISPM\_7@{DRKO\_DISPM\_7}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_7}{DRKO\_DISPM\_7}}
+{\footnotesize\ttfamily \label{display_8h_adaba595cf74a07949e36b6e9d99fafa8} 
+\#define DRKO\+\_\+\+DISPM\+\_\+7~0x0700}
+
+\Hypertarget{display_8h_a7c9694a6410fa03bd2a41db38969b5cb}\index{display.h@{display.h}!DRKO\_DISPM\_8@{DRKO\_DISPM\_8}}
+\index{DRKO\_DISPM\_8@{DRKO\_DISPM\_8}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_8}{DRKO\_DISPM\_8}}
+{\footnotesize\ttfamily \label{display_8h_a7c9694a6410fa03bd2a41db38969b5cb} 
+\#define DRKO\+\_\+\+DISPM\+\_\+8~0x7\+F00}
+
+\Hypertarget{display_8h_a375f9aea053064e6aca1e94a672f347b}\index{display.h@{display.h}!DRKO\_DISPM\_9@{DRKO\_DISPM\_9}}
+\index{DRKO\_DISPM\_9@{DRKO\_DISPM\_9}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_9}{DRKO\_DISPM\_9}}
+{\footnotesize\ttfamily \label{display_8h_a375f9aea053064e6aca1e94a672f347b} 
+\#define DRKO\+\_\+\+DISPM\+\_\+9~0x6\+F00}
+
+\Hypertarget{display_8h_ae38304e5188ae2e80d90579b50fa8c45}\index{display.h@{display.h}!DRKO\_DISPM\_A@{DRKO\_DISPM\_A}}
+\index{DRKO\_DISPM\_A@{DRKO\_DISPM\_A}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_A}{DRKO\_DISPM\_A}}
+{\footnotesize\ttfamily \label{display_8h_ae38304e5188ae2e80d90579b50fa8c45} 
+\#define DRKO\+\_\+\+DISPM\+\_\+A~0x7700}
+
+\Hypertarget{display_8h_af0e35055a9a259e6e1e38f12359da9c2}\index{display.h@{display.h}!DRKO\_DISPM\_B@{DRKO\_DISPM\_B}}
+\index{DRKO\_DISPM\_B@{DRKO\_DISPM\_B}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_B}{DRKO\_DISPM\_B}}
+{\footnotesize\ttfamily \label{display_8h_af0e35055a9a259e6e1e38f12359da9c2} 
+\#define DRKO\+\_\+\+DISPM\+\_\+B~0x7\+C00}
+
+\Hypertarget{display_8h_a290e8d790b7066b2ebfaf29aca4490c9}\index{display.h@{display.h}!DRKO\_DISPM\_C@{DRKO\_DISPM\_C}}
+\index{DRKO\_DISPM\_C@{DRKO\_DISPM\_C}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_C}{DRKO\_DISPM\_C}}
+{\footnotesize\ttfamily \label{display_8h_a290e8d790b7066b2ebfaf29aca4490c9} 
+\#define DRKO\+\_\+\+DISPM\+\_\+C~0x3900}
+
+\Hypertarget{display_8h_a6ea37eca4f086e6d29276442692c6fa2}\index{display.h@{display.h}!DRKO\_DISPM\_D@{DRKO\_DISPM\_D}}
+\index{DRKO\_DISPM\_D@{DRKO\_DISPM\_D}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_D}{DRKO\_DISPM\_D}}
+{\footnotesize\ttfamily \label{display_8h_a6ea37eca4f086e6d29276442692c6fa2} 
+\#define DRKO\+\_\+\+DISPM\+\_\+D~0x5\+E00}
+
+\Hypertarget{display_8h_a51cedf7923ad527d1263d276616592c7}\index{display.h@{display.h}!DRKO\_DISPM\_E@{DRKO\_DISPM\_E}}
+\index{DRKO\_DISPM\_E@{DRKO\_DISPM\_E}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_E}{DRKO\_DISPM\_E}}
+{\footnotesize\ttfamily \label{display_8h_a51cedf7923ad527d1263d276616592c7} 
+\#define DRKO\+\_\+\+DISPM\+\_\+E~0x7900}
+
+\Hypertarget{display_8h_acb5ec85684d971ef13e1e5cc85db9d10}\index{display.h@{display.h}!DRKO\_DISPM\_F@{DRKO\_DISPM\_F}}
+\index{DRKO\_DISPM\_F@{DRKO\_DISPM\_F}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_F}{DRKO\_DISPM\_F}}
+{\footnotesize\ttfamily \label{display_8h_acb5ec85684d971ef13e1e5cc85db9d10} 
+\#define DRKO\+\_\+\+DISPM\+\_\+F~0x7100}
+
+\Hypertarget{display_8h_a153f398dc9a7e64deddbd2ad3f7e2930}\index{display.h@{display.h}!DRKO\_DISPM\_P@{DRKO\_DISPM\_P}}
+\index{DRKO\_DISPM\_P@{DRKO\_DISPM\_P}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{DRKO\_DISPM\_P}{DRKO\_DISPM\_P}}
+{\footnotesize\ttfamily \label{display_8h_a153f398dc9a7e64deddbd2ad3f7e2930} 
+\#define DRKO\+\_\+\+DISPM\+\_\+P~0x8000}
+
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{display_8h_af4783ca94ddbace56d4fbf32966acbab}\index{display.h@{display.h}!display@{display}}
+\index{display@{display}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{display}{display}}
+{\footnotesize\ttfamily \label{display_8h_af4783ca94ddbace56d4fbf32966acbab} 
+typedef struct \mbox{\hyperlink{struct____display__struct}{\+\_\+\+\_\+display\+\_\+struct}} \mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}}}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{display_8h_afbed80d96977d6c02595b2dc1dbb83e2}\index{display.h@{display.h}!byte2disp@{byte2disp}}
+\index{byte2disp@{byte2disp}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{byte2disp()}{byte2disp()}}
+{\footnotesize\ttfamily \label{display_8h_afbed80d96977d6c02595b2dc1dbb83e2} 
+uint16\+\_\+t byte2disp (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{data}{}\end{DoxyParamCaption})}
+
+\Hypertarget{display_8h_a64daac013c9cee909be503785c06354b}\index{display.h@{display.h}!display\_clear@{display\_clear}}
+\index{display\_clear@{display\_clear}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{display\_clear()}{display\_clear()}}
+{\footnotesize\ttfamily \label{display_8h_a64daac013c9cee909be503785c06354b} 
+void display\+\_\+clear (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}}]{disp}{}\end{DoxyParamCaption})}
+
+\Hypertarget{display_8h_a328ec7152a37649c2153cc7b72d9264b}\index{display.h@{display.h}!display\_hex@{display\_hex}}
+\index{display\_hex@{display\_hex}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{display\_hex()}{display\_hex()}}
+{\footnotesize\ttfamily \label{display_8h_a328ec7152a37649c2153cc7b72d9264b} 
+void display\+\_\+hex (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}}]{disp}{, }\item[{uint8\+\_\+t}]{byte}{}\end{DoxyParamCaption})}
+
+\Hypertarget{display_8h_aea62b3bf2b50c50f15f9e0c7b416bf8d}\index{display.h@{display.h}!display\_hide@{display\_hide}}
+\index{display\_hide@{display\_hide}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{display\_hide()}{display\_hide()}}
+{\footnotesize\ttfamily \label{display_8h_aea62b3bf2b50c50f15f9e0c7b416bf8d} 
+void display\+\_\+hide (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}}]{disp}{}\end{DoxyParamCaption})}
+
+\Hypertarget{display_8h_ac475c443fb5574878be0b300e3b5ff40}\index{display.h@{display.h}!display\_init@{display\_init}}
+\index{display\_init@{display\_init}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{display\_init()}{display\_init()}}
+{\footnotesize\ttfamily \label{display_8h_ac475c443fb5574878be0b300e3b5ff40} 
+void display\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}}]{disp}{}\end{DoxyParamCaption})}
+
+\Hypertarget{display_8h_a9275d6e5d878dce000619e139c9c196a}\index{display.h@{display.h}!display\_show@{display\_show}}
+\index{display\_show@{display\_show}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{display\_show()}{display\_show()}}
+{\footnotesize\ttfamily \label{display_8h_a9275d6e5d878dce000619e139c9c196a} 
+void display\+\_\+show (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}}]{disp}{}\end{DoxyParamCaption})}
+
+\Hypertarget{display_8h_aa48176ea86f895b78a360f958077d538}\index{display.h@{display.h}!display\_write@{display\_write}}
+\index{display\_write@{display\_write}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{display\_write()}{display\_write()}}
+{\footnotesize\ttfamily \label{display_8h_aa48176ea86f895b78a360f958077d538} 
+void display\+\_\+write (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}} \texorpdfstring{$\ast$}{*}}]{disp}{, }\item[{uint16\+\_\+t}]{data}{}\end{DoxyParamCaption})}
+

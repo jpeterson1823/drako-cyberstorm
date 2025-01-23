@@ -1,0 +1,74 @@
+\doxysection{display.\+h}
+\hypertarget{display_8h_source}{}\label{display_8h_source}\index{include/drako/display.h@{include/drako/display.h}}
+\mbox{\hyperlink{display_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ \_\_drako\_display}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ \_\_drako\_display}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{sn74hc595n_8h}{drako/hardware/sn74hc595n.h}}"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ Least-\/Significant\ Digit}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_0\ 0x003F}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_1\ 0x0006}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_2\ 0x005B}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_3\ 0x004F}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_4\ 0x0066}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_5\ 0x006D}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_6\ 0x007D}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_7\ 0x0007}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_8\ 0x007F}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_9\ 0x006F}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_A\ 0x0077}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_B\ 0x007C}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_C\ 0x0039}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_D\ 0x005E}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_E\ 0x0079}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_F\ 0x0071}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ DRKO\_DISPL\_P\ 0x0080}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ Most-\/Significant\ Digit}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_0\ 0x3F00}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_1\ 0x0600}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_2\ 0x5B00}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_3\ 0x4F00}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_4\ 0x6600}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_5\ 0x6D00}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_6\ 0x7D00}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_7\ 0x0700}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_8\ 0x7F00}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_9\ 0x6F00}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_A\ 0x7700}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_B\ 0x7C00}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_C\ 0x3900}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_D\ 0x5E00}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_E\ 0x7900}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_F\ 0x7100}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ DRKO\_DISPM\_P\ 0x8000}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct____display__struct}{\_\_display\_struct}}\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{sn74hc595n_8h_a217da3682c7d399754db1f15c637ee4c}{shiftreg}}\ \mbox{\hyperlink{struct____display__struct_aa3cc3aba276087ba31ace0cc2fb753da}{sreg}};}
+\DoxyCodeLine{00047\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct____display__struct_a9d5ae92cd3fb40ffd99d22df0b4474b9}{data}};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct____display__struct_ab76719b0b3fb3281065691f2e07481fa}{show\_state}};}
+\DoxyCodeLine{00049\ \}\ \mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{display_8h_ac475c443fb5574878be0b300e3b5ff40}{display\_init}}(\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}}*\ disp);}
+\DoxyCodeLine{00053\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{display_8h_a9275d6e5d878dce000619e139c9c196a}{display\_show}}(\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}}*\ disp);}
+\DoxyCodeLine{00054\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{display_8h_aea62b3bf2b50c50f15f9e0c7b416bf8d}{display\_hide}}(\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}}*\ disp);}
+\DoxyCodeLine{00055\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{display_8h_a64daac013c9cee909be503785c06354b}{display\_clear}}(\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}}*\ disp);}
+\DoxyCodeLine{00056\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{display_8h_aa48176ea86f895b78a360f958077d538}{display\_write}}(\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}}*\ disp,\ uint16\_t\ data);}
+\DoxyCodeLine{00057\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{display_8h_a328ec7152a37649c2153cc7b72d9264b}{display\_hex}}(\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}}*\ disp,\ uint8\_t\ \textcolor{keywordtype}{byte});}
+\DoxyCodeLine{00058\ uint16\_t\ \mbox{\hyperlink{display_8h_afbed80d96977d6c02595b2dc1dbb83e2}{byte2disp}}(uint8\_t\ data);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ display\_select(\mbox{\hyperlink{display_8h_af4783ca94ddbace56d4fbf32966acbab}{display}}*\ disp)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{sn74hc595n_8h_a9eada68ebf28cc497ba20cd73bc2faf4}{shiftreg\_select}}(\&disp-\/>\mbox{\hyperlink{struct____display__struct_aa3cc3aba276087ba31ace0cc2fb753da}{sreg}});}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{if}\ (disp-\/>\mbox{\hyperlink{struct____display__struct_ab76719b0b3fb3281065691f2e07481fa}{show\_state}})}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{display_8h_a9275d6e5d878dce000619e139c9c196a}{display\_show}}(disp);}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{display_8h_aea62b3bf2b50c50f15f9e0c7b416bf8d}{display\_hide}}(disp);}
+\DoxyCodeLine{00066\ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
