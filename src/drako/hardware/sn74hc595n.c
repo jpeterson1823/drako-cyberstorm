@@ -2,7 +2,7 @@
 #include <pico/stdlib.h>
 
 
-void shiftreg_init(shiftreg* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uint8_t oe)
+void sn74hc595n_init(sn74hc595n* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uint8_t oe)
 {
     // initialize struct
     sreg->ser = ser;
@@ -34,7 +34,7 @@ void shiftreg_init(shiftreg* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uin
 
 
 // Takes GPIO control for current shift register
-void shiftreg_select(shiftreg* sreg) {
+void sn74hc595n_select(sn74hc595n* sreg) {
     // reset pin dirs
     gpio_set_dir(sreg->ser,   GPIO_OUT);
     gpio_set_dir(sreg->rclk,  GPIO_OUT);
@@ -48,79 +48,79 @@ void shiftreg_select(shiftreg* sreg) {
 }
 
 
-// Pulses clock by SR_DELAY_US microseconds
-void shiftreg_pulse_clock(shiftreg *sreg) {
+// Pulses clock by SN74HC595N_DELAY_US microseconds
+void sn74hc595n_pulse_clock(sn74hc595n *sreg) {
     gpio_put(sreg->srclk, 1);
-    sleep_us(SR_DELAY_US);
+    sleep_us(SN74HC595N_DELAY_US);
     gpio_put(sreg->srclk, 0);
-    sleep_us(SR_DELAY_US);
+    sleep_us(SN74HC595N_DELAY_US);
 }
 
 
 // Latches current shift register's state to the output register
-void shiftreg_latch(shiftreg* sreg) {
+void sn74hc595n_latch(sn74hc595n* sreg) {
     gpio_put(sreg->rclk, 1);
-    sleep_us(SR_DELAY_US);
+    sleep_us(SN74HC595N_DELAY_US);
     gpio_put(sreg->rclk, 0);
-    sleep_us(SR_DELAY_US);
+    sleep_us(SN74HC595N_DELAY_US);
 }
 
 
 // Sets OE pin HIGH
-void shiftreg_oe_hi(shiftreg* sreg) {
+void sn74hc595n_oe_hi(sn74hc595n* sreg) {
     gpio_put(sreg->oe, 1);
-    sleep_us(SR_DELAY_US);
+    sleep_us(SN74HC595N_DELAY_US);
 }
 
 
 // Sets OE pin LOW
-void shiftreg_oe_lo(shiftreg* sreg) {
+void sn74hc595n_oe_lo(sn74hc595n* sreg) {
     gpio_put(sreg->oe, 0);
-    sleep_us(SR_DELAY_US);
+    sleep_us(SN74HC595N_DELAY_US);
 }
 
 
 // Loads a single bit into the shift register.
-void shiftreg_shift1(shiftreg* sreg, bool bit) {
+void sn74hc595n_shift1(sn74hc595n* sreg, bool bit) {
     gpio_put(sreg->ser, bit);
-    shiftreg_pulse_clock(sreg);
+    sn74hc595n_pulse_clock(sreg);
 }
 
 
 // Loads byte into shift register without latching to output. LSB first
-void shiftreg_shift8(shiftreg *sreg, uint8_t byte) {
+void sn74hc595n_shift8(sn74hc595n *sreg, uint8_t byte) {
     for (uint8_t i = 0; i < 8; i++) {
         gpio_put(sreg->ser, byte&(0x80>>i));
-        sleep_us(SR_DELAY_US);
-        shiftreg_pulse_clock(sreg);
-        sleep_us(SR_DELAY_US);
+        sleep_us(SN74HC595N_DELAY_US);
+        sn74hc595n_pulse_clock(sreg);
+        sleep_us(SN74HC595N_DELAY_US);
     }
 }
 
 
 // Loads 16-biy data into shift register without latching to output. LSB first
-void shiftreg_shift16(shiftreg* sreg, uint16_t data) {
-    shiftreg_shift8(sreg, data);
-    shiftreg_shift8(sreg, data>>8);
+void sn74hc595n_shift16(sn74hc595n* sreg, uint16_t data) {
+    sn74hc595n_shift8(sreg, data);
+    sn74hc595n_shift8(sreg, data>>8);
 }
 
 
 // Loads AND latches a single bit into shift register.
-void shiftreg_put1(shiftreg *sreg, bool bit) {
-    shiftreg_shift1(sreg, bit);
-    shiftreg_latch(sreg);
+void sn74hc595n_put1(sn74hc595n *sreg, bool bit) {
+    sn74hc595n_shift1(sreg, bit);
+    sn74hc595n_latch(sreg);
 }
 
 
 // Loads AND latches byte into shift register. LSB fisrt.
-void shiftreg_put8(shiftreg *sreg, uint8_t byte) {
-    shiftreg_shift8(sreg, byte);
-    shiftreg_latch(sreg);
+void sn74hc595n_put8(sn74hc595n *sreg, uint8_t byte) {
+    sn74hc595n_shift8(sreg, byte);
+    sn74hc595n_latch(sreg);
 }
 
 
 // Loads AND latches 16-bit data into shift register. LSB first.
-void shiftreg_put16(shiftreg* sreg, uint16_t data) {
-    shiftreg_shift16(sreg, data);
-    shiftreg_latch(sreg);
+void sn74hc595n_put16(sn74hc595n* sreg, uint16_t data) {
+    sn74hc595n_shift16(sreg, data);
+    sn74hc595n_latch(sreg);
 }

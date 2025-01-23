@@ -1,7 +1,6 @@
 #include <drako/modules/terminal.h>
 #include <stdlib.h>
 
-
 /**
  * @brief Cleans string of leading and tailing spaces, tabs, and/or newline chars.
  * @param str String to clean
@@ -22,12 +21,13 @@ void _terminal_clean_string(char* str, size_t slen) {
             break;
 
     // overwrite leading spaces and add null char after last valid char
-    for (size_t i = 0; i < slen; i++) {
+    while (i_start <= i_end) {
         // copy valid chars
         if (i_start <= i_end) {
-            str[i] = str[i_start++];
+            *str = str[i_start++];
+            str++;
         } else {
-            str[i] = 0;
+            *str = 0;
             break;
         }
     }
@@ -40,16 +40,37 @@ void _terminal_clean_string(char* str, size_t slen) {
  * @param n   Length of provided buffer.
  */
 void terminal_get_line(char* buf, size_t n) {
-    // get the first char of line
-    char c = getc(stdin);
+    size_t i = 0;
+    char c;
 
-    // read char into buf until newline is read or end of buffer is reached
-    char* ptr = buf;
-    while (c != '\n' || buf + n - 1 == ptr)
-        *ptr++ = getc(stdin);
+    // loop until newline is received
+    while (true) {
+        // if data is available on rx fifo, read in chars
+        if (tud_cdc_available()) {
+            c = tud_cdc_read_char();
 
-    // append null char to end of read-in string
-    *ptr = 0;
+            // echo the char back to terminal
+            // if it's a carriage return, echo a newline with it
+            printf("%c", c);
+            if (c == '\r')
+                printf("\n");
+
+            // if char is a newline or carriage return, then command is finished
+            if (c == '\n' || c == '\r') {
+                // flush rx fifo and break loop
+                tud_cdc_read_flush();
+                // add null terminator to buffer
+                buf[i] = 0;
+                // break while loop
+                break;
+            }
+            // if it isnt a new line, add it to the buffer if there is room
+            if (i < n)
+                buf[i++] = c;
+        }
+        // if no data available, wait until there is
+    }
+    //printf("terminal_get_line(...) : buf = %s\n", buf);
 }
 
 
@@ -60,26 +81,42 @@ void terminal_get_line(char* buf, size_t n) {
  * @note Make sure to free the tcmd_t after it has been used!
  */
 void terminal_get_command(tcmd_t* tcmd) {
-    // get line from terminal
+    // stack allocation
     char buf[DRKO_TERM_BUFSIZE];
+    char* token;
+    size_t i;
+
+    // get line from terminal
     terminal_get_line(buf, DRKO_TERM_BUFSIZE);
 
-    // clean string
-    _terminal_clean_string(buf, DRKO_TERM_BUFSIZE);
+    // clean string WARNING: THIS SEGFAULTS AND PROBABLY ISNT NEEDED!
+    //_terminal_clean_string(buf, DRKO_TERM_BUFSIZE);
+    //printf("terminal_get_command(...) : buf after cleaning = %s\n", buf);
 
     // calc argc
     tcmd->argc = 0;
-    for (size_t i = 0; i < strlen(buf); i++) {
+    for (i = 0; i < strlen(buf); i++) {
         // count number of spaces
         if (buf[i] == ' ')
             tcmd->argc++;
     }
     // if last char is valid, then increment argc to account for trailing argument
-    if (_terminal_is_valid_char(buf[strlen(buf-1)]))
+    if (_terminal_is_valid_char(buf[strlen(buf)-1]))
         tcmd->argc++;
+
+    fflush(stdout);
 
     // allocate tcmd_t memory
     _tcmd_alloc(tcmd);
 
-    // TODO: split cleaned string into separate arguments
+    // tokenize arguments and copy them into tcmd
+    token = strtok(buf, " ");
+    for (i = 0; i < tcmd->argc && token != NULL; i++) {
+        // allocate memory for string and copy arg to tcmd
+        tcmd->argv[i] = (char*)malloc(sizeof(char) * strlen(token)+1);
+        strcpy(tcmd->argv[i], token);
+
+        // tokenize next argument
+        token = strtok(NULL, " ");
+    }
 }

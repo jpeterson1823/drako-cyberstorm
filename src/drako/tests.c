@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 
-void full_test(eeprom* prom, display* disp) {
+void full_test(at28c64b* prom, display* disp) {
     // generate random starting address that's no greater than 0x0FFF
     uint32_t addr = get_rand_32() % 0x0FFF;
 
@@ -12,15 +12,15 @@ void full_test(eeprom* prom, display* disp) {
     size_t n = 10;
     uint8_t bytes[n];
 
-    // write `n` random values to eeprom sequentially.
-    eeprom_select(prom);
+    // write `n` random values to at28c64b sequentially.
+    at28c64b_select(prom);
     printf("        ADDR       BYTE\n");
     uint8_t i;
     for(i = 0; i < n; i++) {
         // generate random byte and save for later validation
         bytes[i] = get_rand_32() % 0xFF;
         // write byte to address (contiguously incremented)
-        eeprom_write8(prom, addr + i, bytes[i]);
+        at28c64b_write8(prom, addr + i, bytes[i]);
         // print update to serial
         printf("WRITE: 0x%.4x <--- 0x%.2x\n", addr+i, bytes[i]);
     }
@@ -28,8 +28,8 @@ void full_test(eeprom* prom, display* disp) {
     // read `n` values that were written to EEPROM starting at `addr`
     uint8_t byte;
     for(i = 0; i < n; i++) {
-        eeprom_select(prom);
-        eeprom_read8(prom, addr+i, &byte);
+        at28c64b_select(prom);
+        at28c64b_read8(prom, addr+i, &byte);
         if (byte == bytes[i])
             printf("READ : 0x%.4x ---> 0x%.2x     [CORRECT]\n", addr+i, byte);
         else
@@ -45,7 +45,7 @@ void full_test(eeprom* prom, display* disp) {
 }
 
 
-size_t randomized_full_test(eeprom* prom, display* disp, size_t nbytes) {
+size_t randomized_full_test(at28c64b* prom, display* disp, size_t nbytes) {
     // loop control vars
     bool duplicateFound = false;
     size_t i = 0;
@@ -60,8 +60,8 @@ size_t randomized_full_test(eeprom* prom, display* disp, size_t nbytes) {
     display_clear(disp);
     display_hide(disp);
 
-    // make sure to enable eeprom databus and chipselect
-    eeprom_select(prom);
+    // make sure to enable at28c64b databus and chipselect
+    at28c64b_select(prom);
 
     printf("Running Test: Randomized Full Test\n");
     printf("    Writing random bytes to random addresses... \n");
@@ -94,7 +94,7 @@ size_t randomized_full_test(eeprom* prom, display* disp, size_t nbytes) {
                 break;
         }
 
-        eeprom_write8(prom, addrs[i], bytes[i]);
+        at28c64b_write8(prom, addrs[i], bytes[i]);
 
 #ifndef RNG_FULL_TEST_DEBUG
         printf("        %d/%d writes completed\r", i+1, nbytes);
@@ -119,8 +119,8 @@ size_t randomized_full_test(eeprom* prom, display* disp, size_t nbytes) {
     uint8_t byte;
     size_t failCount = 0;
     for (i = 0; i < nbytes; i++) {
-        // read byte from eeprom
-        eeprom_read8(prom, addrs[i], &byte);
+        // read byte from at28c64b
+        at28c64b_read8(prom, addrs[i], &byte);
 
 #ifdef RNG_FULL_TEST_DEBUG
         printf("[READ TEST]     0x%04x    0x%02x    ", addrs[i], byte);

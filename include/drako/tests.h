@@ -8,7 +8,7 @@
 //#define RNG_FULL_TEST_DEBUG
 
 
-void full_test(eeprom* prom, display* disp);
-size_t randomized_full_test(eeprom* prom, display* disp, size_t nbytes);
+void full_test(at28c64b* prom, display* disp);
+size_t randomized_full_test(at28c64b* prom, display* disp, size_t nbytes);
 
 #endif

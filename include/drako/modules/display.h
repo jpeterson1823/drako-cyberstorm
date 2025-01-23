@@ -51,7 +51,7 @@ enum DispHighByte {
 
 
 typedef struct __display_struct {
-    shiftreg sreg;
+    sn74hc595n sreg;
     uint16_t data;
     bool show_state;
 } display;
@@ -66,7 +66,7 @@ void display_hex(display* disp, uint8_t byte);
 uint16_t byte2disp(uint8_t data);
 
 static inline void display_select(display* disp) {
-    shiftreg_select(&disp->sreg);
+    sn74hc595n_select(&disp->sreg);
     if (disp->show_state)
         display_show(disp);
     else
