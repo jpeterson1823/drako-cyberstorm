@@ -1,7 +1,5 @@
-#include <drako/terminal.h>
+#include <drako/modules/terminal.h>
 #include <stdlib.h>
-
-
 
 
 /**
@@ -10,10 +8,10 @@
  * @param buf Buffer to store cleaned string
  * @param nbuf Length of storage buffer
  */
-void _terminal_clean_string(char* str, char* buf, size_t nbuf) {
+void _terminal_clean_string(char* str, size_t slen) {
     // skip all leading unwanted chars and get pointer to first valid char
     size_t i_start;
-    for (i_start = 0; i_start < nbuf; i_start++)
+    for (i_start = 0; i_start < slen; i_start++)
         if (_terminal_is_valid_char(str[i_start]))
             break;
 
@@ -23,11 +21,17 @@ void _terminal_clean_string(char* str, char* buf, size_t nbuf) {
         if (_terminal_is_valid_char(str[i_end]))
             break;
 
-    // copy valid part of string into buf
-    strncpy(buf, str+i_start, i_end-i_start);
+    // overwrite leading spaces and add null char after last valid char
+    for (size_t i = 0; i < slen; i++) {
+        // copy valid chars
+        if (i_start <= i_end) {
+            str[i] = str[i_start++];
+        } else {
+            str[i] = 0;
+            break;
+        }
+    }
 }
-
-
 
 
 /**
@@ -49,44 +53,33 @@ void terminal_get_line(char* buf, size_t n) {
 }
 
 
-
-
 /**
- * @brief Gets command from terminal in argc/argv format.
- * @param tcmd Pointer to terminal_command buffer.
+ * @brief Gets command from terminal.
+ * @param tcmd Pointer to tcmd_t object.
  *
- * @note Do not forget to free the terminal_command object after using.
+ * @note Make sure to free the tcmd_t after it has been used!
  */
-void terminal_get_command(terminal_command* tcmd) {
+void terminal_get_command(tcmd_t* tcmd) {
     // get line from terminal
     char buf[DRKO_TERM_BUFSIZE];
     terminal_get_line(buf, DRKO_TERM_BUFSIZE);
 
     // clean string
-    char clean[DRKO_TERM_BUFSIZE];
-    _terminal_clean_string(buf, clean, DRKO_TERM_BUFSIZE);
+    _terminal_clean_string(buf, DRKO_TERM_BUFSIZE);
 
     // calc argc
     tcmd->argc = 0;
-    for (size_t i = 0; i < strlen(clean); i++) {
+    for (size_t i = 0; i < strlen(buf); i++) {
         // count number of spaces
-        if (clean[i] == ' ')
+        if (buf[i] == ' ')
             tcmd->argc++;
     }
     // if last char is valid, then increment argc to account for trailing argument
-    if (_terminal_is_valid_char(clean[strlen(clean)-1]))
+    if (_terminal_is_valid_char(buf[strlen(buf-1)]))
         tcmd->argc++;
 
-    // allocate necessary memory for argv
-    tcmd->argv = (char**)malloc(sizeof(char*) * tcmd->argc);
+    // allocate tcmd_t memory
+    _tcmd_alloc(tcmd);
 
     // TODO: split cleaned string into separate arguments
-}
-
-
-
-
-void terminal_command_free(terminal_command* tcmd) {
-    if (tcmd->argv != NULL)
-        free(tcmd->argv);
 }

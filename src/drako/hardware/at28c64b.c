@@ -1,5 +1,6 @@
 #include <drako/hardware/at28c64b.h>
 
+
 /**
  * @brief Initialize a previously allocated EEPROM struct
  * @param prom      Pointer to EEPROM struct

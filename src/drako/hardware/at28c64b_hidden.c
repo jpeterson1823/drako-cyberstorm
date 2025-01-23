@@ -1,5 +1,6 @@
 #include <drako/hardware/at28c64b.h>
 
+
 /**
  * @brief Sets data bus to input mode
  * @param prom Pointer to EEPROM struct

@@ -2,35 +2,48 @@
 #define __drako_terminal
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 #include <pico/stdlib.h>
 #include <tusb.h>
 
 
-
-
 #define DRKO_TERM_BUFSIZE 256
 #define DRKO_TERM "[-BASILISK-]"
 
+static bool term_connected = false;
+
+typedef struct tcmd_struct {
+    char**  argv;
+    uint8_t argc;
+} tcmd_t;
 
 
-
-typedef struct terminal_command_struct {
-    char** argv;
-    size_t argc;
-} terminal_command;
-
-
-
-
-void _terminal_clean_string(char* str, char* buf, size_t nbuf);
-
+void _terminal_clean_string(char* str, size_t slen);
 void terminal_get_line(char* buf, size_t n);
-void terminal_get_command(terminal_command* tcmd);
-void terminal_command_free(terminal_command* tcmd);
+void terminal_get_command(tcmd_t* tcmd);
 
 
+/**
+ * @brief Allocates tcmd_t object.
+ * @param tcmd Pointer to tcmd_t object.
+ */
+static inline void _tcmd_alloc(tcmd_t* tcmd) {
+    if (tcmd->argc != 0)
+        tcmd->argv = (char**)malloc(sizeof(char*) * tcmd->argc);
+}
+
+
+/**
+ * @brief Free's allocated tcmd_t object.
+ * @param tcmd Pointer to allocated tcmd_t object.
+ */
+static inline void term_cmd_free(tcmd_t* tcmd) {
+    while (tcmd->argc-- > 0)
+        free(tcmd->argv[tcmd->argc]);
+    free(tcmd->argv);
+}
 
 
 /**
@@ -41,8 +54,6 @@ void terminal_command_free(terminal_command* tcmd);
 static inline bool _terminal_is_valid_char(char c) {
     return (c == ' ' || c == '\n' || c == '\t');
 }
-
-
 
 
 /**
@@ -71,8 +82,6 @@ static inline void _terminal_greet() {
 }
 
 
-
-
 /**
  * @brief Open a terminal connection via STDIN (Serial). Operation is blocking.
  */
@@ -85,6 +94,9 @@ static inline void terminal_open_connection() {
         sleep_ms(250);
     }
 
+    // connection established. update state
+    term_connected = true;
+
     // display greeting
     _terminal_greet();
 
@@ -96,11 +108,13 @@ static inline void terminal_open_connection() {
 
 
 /**
- * @brief Checks terminal connection.
- * @return true if connection is currently established. false otherwise.
+ * @brief Runs required connection maintenance. Needs to be called periodically.
  */
-static inline bool terminal_is_connected() {
-    return tud_cdc_connected();
+static inline void terminal_sync() {
+    // check for connection drop
+    if (!tud_cdc_connected()) {
+        term_connected = false;
+    }
 }
 
 

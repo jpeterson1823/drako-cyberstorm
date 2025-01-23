@@ -20,8 +20,8 @@ add_executable(drako
     src/drako/hardware/at28c64b.c
     src/drako/hardware/at28c64b_hidden.c
 
-    src/drako/display.c
-    src/drako/terminal.c
+    src/drako/modules/display.c
+    src/drako/modules/terminal.c
 
     src/drako/tests.c
 )

@@ -1,6 +1,7 @@
 #include <drako/hardware/sn74hc595n.h>
 #include <pico/stdlib.h>
 
+
 void shiftreg_init(shiftreg* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uint8_t oe)
 {
     // initialize struct
@@ -31,6 +32,7 @@ void shiftreg_init(shiftreg* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uin
     gpio_put(oe, 1);
 }
 
+
 // Takes GPIO control for current shift register
 void shiftreg_select(shiftreg* sreg) {
     // reset pin dirs
@@ -45,6 +47,7 @@ void shiftreg_select(shiftreg* sreg) {
     gpio_put(sreg->oe, 1);
 }
 
+
 // Pulses clock by SR_DELAY_US microseconds
 void shiftreg_pulse_clock(shiftreg *sreg) {
     gpio_put(sreg->srclk, 1);
@@ -52,6 +55,7 @@ void shiftreg_pulse_clock(shiftreg *sreg) {
     gpio_put(sreg->srclk, 0);
     sleep_us(SR_DELAY_US);
 }
+
 
 // Latches current shift register's state to the output register
 void shiftreg_latch(shiftreg* sreg) {
@@ -61,11 +65,13 @@ void shiftreg_latch(shiftreg* sreg) {
     sleep_us(SR_DELAY_US);
 }
 
+
 // Sets OE pin HIGH
 void shiftreg_oe_hi(shiftreg* sreg) {
     gpio_put(sreg->oe, 1);
     sleep_us(SR_DELAY_US);
 }
+
 
 // Sets OE pin LOW
 void shiftreg_oe_lo(shiftreg* sreg) {
@@ -73,11 +79,13 @@ void shiftreg_oe_lo(shiftreg* sreg) {
     sleep_us(SR_DELAY_US);
 }
 
+
 // Loads a single bit into the shift register.
 void shiftreg_shift1(shiftreg* sreg, bool bit) {
     gpio_put(sreg->ser, bit);
     shiftreg_pulse_clock(sreg);
 }
+
 
 // Loads byte into shift register without latching to output. LSB first
 void shiftreg_shift8(shiftreg *sreg, uint8_t byte) {
@@ -89,11 +97,13 @@ void shiftreg_shift8(shiftreg *sreg, uint8_t byte) {
     }
 }
 
+
 // Loads 16-biy data into shift register without latching to output. LSB first
 void shiftreg_shift16(shiftreg* sreg, uint16_t data) {
     shiftreg_shift8(sreg, data);
     shiftreg_shift8(sreg, data>>8);
 }
+
 
 // Loads AND latches a single bit into shift register.
 void shiftreg_put1(shiftreg *sreg, bool bit) {
@@ -101,11 +111,13 @@ void shiftreg_put1(shiftreg *sreg, bool bit) {
     shiftreg_latch(sreg);
 }
 
+
 // Loads AND latches byte into shift register. LSB fisrt.
 void shiftreg_put8(shiftreg *sreg, uint8_t byte) {
     shiftreg_shift8(sreg, byte);
     shiftreg_latch(sreg);
 }
+
 
 // Loads AND latches 16-bit data into shift register. LSB first.
 void shiftreg_put16(shiftreg* sreg, uint16_t data) {
