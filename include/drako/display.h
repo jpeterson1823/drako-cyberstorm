@@ -2,7 +2,7 @@
 #define __drako_display
 
 #include <stdbool.h>
-#include "drako/hardware/sn74hc595n.h"
+#include <drako/hardware/sn74hc595n.h>
 
 // Least-Significant Digit
 #define DRKO_DISPL_0 0x003F

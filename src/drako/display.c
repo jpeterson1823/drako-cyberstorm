@@ -1,4 +1,4 @@
-#include "drako/display.h"
+#include <drako/display.h>
 
 void display_init(display* disp) {
     // init shift register, clear display, and show display

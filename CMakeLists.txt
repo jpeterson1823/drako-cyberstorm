@@ -19,8 +19,11 @@ add_executable(drako
     src/drako/hardware/sn74hc595n.c
     src/drako/hardware/at28c64b.c
     src/drako/hardware/at28c64b_hidden.c
+
     src/drako/display.c
     src/drako/terminal.c
+
+    src/drako/tests.c
 )
 
 pico_set_program_name(drako "drako")
