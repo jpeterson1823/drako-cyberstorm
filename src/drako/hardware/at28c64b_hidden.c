@@ -1,10 +1,11 @@
 #include <drako/hardware/at28c64b.h>
 
+
 /**
  * @brief Sets data bus to input mode
  * @param prom Pointer to EEPROM struct
  */
-void _eeprom_data_in(eeprom* prom) {
+void _at28c64b_data_in(at28c64b* prom) {
     gpio_set_dir_in_masked(prom->data_bus);
     prom->data_dir = GPIO_IN;
 }
@@ -14,7 +15,7 @@ void _eeprom_data_in(eeprom* prom) {
  * @brief Sets data bus to input mode
  * @param prom Pointer to EEPROM struct
  */
-void _eeprom_data_out(eeprom* prom) {
+void _at28c64b_data_out(at28c64b* prom) {
     gpio_set_dir_out_masked(prom->data_bus);
     prom->data_dir = GPIO_OUT;
     sleep_us(EEPROM_CONDITION_DELAY_US);
@@ -25,7 +26,7 @@ void _eeprom_data_out(eeprom* prom) {
  * @brief Initialize GPIO pins used for EEPROM
  * @param prom Pointer to EEPROM struct
 **/
-void _eeprom_gpio_init(eeprom* prom) {
+void _at28c64b_gpio_init(at28c64b* prom) {
     // init control pins
     gpio_init(prom->we);
     gpio_init(prom->oe);
@@ -40,7 +41,7 @@ void _eeprom_gpio_init(eeprom* prom) {
  * @brief Sets all control pins to HIGH (inactive)
  * @param prom Pointer to EEPROM struct
  */
-void _eeprom_set_idle_condition(eeprom* prom) {
+void _at28c64b_set_idle_condition(at28c64b* prom) {
     gpio_put(prom->we, 1);
     gpio_put(prom->ce, 1);
     gpio_put(prom->oe, 1);
@@ -52,7 +53,7 @@ void _eeprom_set_idle_condition(eeprom* prom) {
  * @brief Sets EEPROM read condition. Must be called before executing a READ.
  * @param prom Pointer to EEPROM struct
  */
-void _eeprom_set_read_condition(eeprom* prom) {
+void _at28c64b_set_read_condition(at28c64b* prom) {
     gpio_put(prom->we, 1);
     gpio_put(prom->ce, 0);
     gpio_put(prom->oe, 0);
@@ -65,7 +66,7 @@ void _eeprom_set_read_condition(eeprom* prom) {
  * @brief Sets EEPROM write condition. Must be called before executing a WRITE.
  * @param prom Pointer to EEPROM struct
  */
-void _eeprom_set_write_condition(eeprom* prom) {
+void _at28c64b_set_write_condition(at28c64b* prom) {
     gpio_put(prom->we, 1);
     gpio_put(prom->ce, 0);
     gpio_put(prom->oe, 1);
@@ -77,7 +78,7 @@ void _eeprom_set_write_condition(eeprom* prom) {
  * @brief Executes WRITE. Must be called AFTER setting a WRITE condition.
  * @param prom Pointer to EEPROM struct
  */
-void _eeprom_execute_write(eeprom* prom) {
+void _at28c64b_execute_write(at28c64b* prom) {
     gpio_put(prom->we, 0);
     sleep_us(1);
     gpio_put(prom->we, 1);

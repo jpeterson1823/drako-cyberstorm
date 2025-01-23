@@ -6,31 +6,31 @@
 #include <stdbool.h>
 
 
-#define SR_DELAY_US 10
+#define SN74HC595N_DELAY_US 10
 
 
-typedef struct sn74hc595n {
+typedef struct sn74hc595n_struct {
     uint8_t ser;
     uint8_t rclk;
     uint8_t srclk;
     uint8_t oe;
-} shiftreg;
+} sn74hc595n;
 
 
-void shiftreg_init(shiftreg* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uint8_t oe);
-void shiftreg_select(shiftreg* sreg);
-void shiftreg_pulse_clock(shiftreg* sreg);
-void shiftreg_latch(shiftreg* sreg);
+void sn74hc595n_init(sn74hc595n* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uint8_t oe);
+void sn74hc595n_select(sn74hc595n* sreg);
+void sn74hc595n_pulse_clock(sn74hc595n* sreg);
+void sn74hc595n_latch(sn74hc595n* sreg);
 
-void shiftreg_oe_hi(shiftreg* sreg);
-void shiftreg_oe_lo(shiftreg* sreg);
+void sn74hc595n_oe_hi(sn74hc595n* sreg);
+void sn74hc595n_oe_lo(sn74hc595n* sreg);
 
-void shiftreg_shift1(shiftreg* sreg, bool bit);
-void shiftreg_shift8(shiftreg* sreg, uint8_t byte);
-void shiftreg_shift16(shiftreg* sreg, uint16_t data);
+void sn74hc595n_shift1(sn74hc595n* sreg, bool bit);
+void sn74hc595n_shift8(sn74hc595n* sreg, uint8_t byte);
+void sn74hc595n_shift16(sn74hc595n* sreg, uint16_t data);
 
-void shiftreg_put1(shiftreg* sreg, bool bit);
-void shiftreg_put8(shiftreg* sreg, uint8_t byte);
-void shiftreg_put16(shiftreg* sreg, uint16_t data);
+void sn74hc595n_put1(sn74hc595n* sreg, bool bit);
+void sn74hc595n_put8(sn74hc595n* sreg, uint8_t byte);
+void sn74hc595n_put16(sn74hc595n* sreg, uint16_t data);
 
 #endif
