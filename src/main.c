@@ -1,3 +1,4 @@
+#include "at28c64b.h"
 #include <pico/stdlib.h>
 #include <pico/rand.h>
 #include <stdio.h>
@@ -5,7 +6,10 @@
 
 #include <drako/drako.h>
 #include <drako/default_commands.h>
+#include <drako/tests.h>
 
+// DO NOT REMOVE. This is extern'd, so removing it will blow everything up!
+Drako drako;
 
 int main() {
     // initialize pico stdio and built-in led
@@ -16,30 +20,28 @@ int main() {
     // initialize Drako
     drako_init();
 
+
+
     // begin logic loop
-    tcmd_t tcmd;    // terminal command
-    while (true) {
+    tcmd_t tcmd;
+    while (!drako.exit_flag) {
         // run terminal sync to handle serial maintenance
         terminal_sync();
 
         // make sure terminal is connected. if it isnt, attempt reconnect.
         if (!terminal_is_connected())
             terminal_open_connection();
-        
-        // prompt user and get command
+
+        // get line from user
+        //terminal_get_line(buf, buflen);
+        //printf("You typed: \"%s\"\n", buf);
         terminal_prompt();
         terminal_get_command(&tcmd);
-
-        // handle commands here
-        if(!is_default_cmd(tcmd.argv[0])) {
-            printf("\"%s\" is not a default command.\n", tcmd.argv[0]);
-            printf("Number of arguments provided: %d\n", tcmd.argc);
-        }
-
-        // free tcmd after it's been handled
-        tcmd_free(&tcmd);
+        tcmd_println(&tcmd);
     }
 
+    // close serial connection
+    tud_disconnect();
 
     // turn off on-bard LED
     gpio_put(25, 0);

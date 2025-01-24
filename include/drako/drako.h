@@ -15,23 +15,31 @@ typedef at28c64b eeprom;
 typedef struct drako_struct {
     eeprom prom;
     display disp;
+    bool exit_flag;
 } Drako;
 
-static Drako drako;
+// extern Drako definition so all files that include this header can see it.
+extern Drako drako;
 
 /**
- * @brief Initializes Drako and its hardware
+ * @brief Initializes Drako and its hardware. Must be called before any other Drako function.
  */
 static inline void drako_init() {
-    // create eeprom struct and init
+    // initialize drako's eeprom struct
     at28c64b_init(&drako.prom,
         0x000000FF,     // data bus on GPIO[0:7]
         0x001FFF00,     // addr bus on GPIO[8:20]
         26, 22, 21
     );
 
-    // create display struct and init
+    // initialize drako's display struct
     display_init(&drako.disp);
+    display_select(&drako.disp);
+    display_clear(&drako.disp);
+    display_hide(&drako.disp);
+
+    // set exit flag to false
+    drako.exit_flag = false;
 }
 
 #endif

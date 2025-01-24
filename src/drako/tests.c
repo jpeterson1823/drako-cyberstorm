@@ -1,3 +1,5 @@
+#include "at28c64b.h"
+#include "class/cdc/cdc_device.h"
 #include <drako/tests.h>
 #include <pico/rand.h>
 #include <stdio.h>
@@ -22,7 +24,7 @@ void full_test(at28c64b* prom, display* disp) {
         // write byte to address (contiguously incremented)
         at28c64b_write8(prom, addr + i, bytes[i]);
         // print update to serial
-        printf("WRITE: 0x%.4x <--- 0x%.2x\n", addr+i, bytes[i]);
+        printf("WRITE: 0x%.4x <--- 0x%.2x\n", (uint16_t)addr+i, bytes[i]);
     }
 
     // read `n` values that were written to EEPROM starting at `addr`
@@ -31,9 +33,9 @@ void full_test(at28c64b* prom, display* disp) {
         at28c64b_select(prom);
         at28c64b_read8(prom, addr+i, &byte);
         if (byte == bytes[i])
-            printf("READ : 0x%.4x ---> 0x%.2x     [CORRECT]\n", addr+i, byte);
+            printf("READ : 0x%.4x ---> 0x%.2x     [CORRECT]\n", (uint16_t)addr+i, byte);
         else
-            printf("READ : 0x%.4x ---> 0x%.2x     [-ERROR-]\n", addr+i, byte);
+            printf("READ : 0x%.4x ---> 0x%.2x     [-ERROR-]\n", (uint16_t)addr+i, byte);
 
         // display byte
         display_select(disp);
@@ -60,9 +62,6 @@ size_t randomized_full_test(at28c64b* prom, display* disp, size_t nbytes) {
     display_clear(disp);
     display_hide(disp);
 
-    // make sure to enable at28c64b databus and chipselect
-    at28c64b_select(prom);
-
     printf("Running Test: Randomized Full Test\n");
     printf("    Writing random bytes to random addresses... \n");
 
@@ -75,7 +74,7 @@ size_t randomized_full_test(at28c64b* prom, display* disp, size_t nbytes) {
     for (i = 0; i < nbytes; i++) {
         // generate RNG addr and byte
         bytes[i] = (uint8_t )(get_rand_32() % UINT8_MAX);
-        addrs[i] = (uint16_t)(get_rand_32() % 0x07FF);
+        addrs[i] = (uint16_t)(get_rand_32() % 0x1FFF);
 
         // make sure addr isnt already being tested
         while (true) {
@@ -83,7 +82,7 @@ size_t randomized_full_test(at28c64b* prom, display* disp, size_t nbytes) {
             for (j = 0; j < i; j++) {
                 // if duplicate found, generate new rng addr and check again
                 if (addrs[i] == addrs[j]) {
-                    addrs[i] = (uint16_t)(get_rand_32() % 0x07FF);
+                    addrs[i] = (uint16_t)(get_rand_32() % 0x1FFF);
                     duplicateFound = true;
                     break;
                 }
@@ -93,8 +92,13 @@ size_t randomized_full_test(at28c64b* prom, display* disp, size_t nbytes) {
             if (!duplicateFound)
                 break;
         }
-
+        // make sure to enable at28c64b databus and chipselect
+        at28c64b_select(prom);
         at28c64b_write8(prom, addrs[i], bytes[i]);
+
+        display_select(disp);
+        display_hex(disp, bytes[i]);
+        display_show(disp);
 
 #ifndef RNG_FULL_TEST_DEBUG
         printf("        %d/%d writes completed\r", i+1, nbytes);
@@ -120,7 +124,12 @@ size_t randomized_full_test(at28c64b* prom, display* disp, size_t nbytes) {
     size_t failCount = 0;
     for (i = 0; i < nbytes; i++) {
         // read byte from at28c64b
+        at28c64b_select(prom);
         at28c64b_read8(prom, addrs[i], &byte);
+
+        display_select(disp);
+        display_hex(disp, bytes[i]);
+        display_show(disp);
 
 #ifdef RNG_FULL_TEST_DEBUG
         printf("[READ TEST]     0x%04x    0x%02x    ", addrs[i], byte);

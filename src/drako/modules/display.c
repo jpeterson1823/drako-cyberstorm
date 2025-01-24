@@ -1,43 +1,73 @@
 #include <drako/modules/display.h>
 
 
+/**
+ * @brief Initializes display object.
+ * @param disp Pointer to display object.
+ */
 void display_init(display* disp) {
     // init shift register, clear display, and show display
-    sn74hc595n_init(&disp->sreg, 0, 1, 2, 27);
+    sn74hc595n_init(&disp->sreg, 2, 1, 3, 0);
     display_clear(disp);
     display_show(disp);
 }
 
 
+/**
+ * @brief Enables output on shift registers that control the display.
+ * @param disp Pointer to display object.
+ */
 void display_show(display* disp) { 
     sn74hc595n_oe_lo(&disp->sreg);
     disp->show_state = true;
 }
 
 
+/**
+ * @brief Disables output on shift registers that control the display.
+ * @param disp Pointer to display object.
+ */
 void display_hide(display* disp) {
     sn74hc595n_oe_hi(&disp->sreg);
     disp->show_state = false;
 }
 
 
+/**
+ * @brief Clears shift registers' data, thereby clearing the display.
+ * @param disp Pointer to display object.
+ */
 void display_clear(display* disp) {
     disp->data = 0x0000;
     sn74hc595n_put16(&disp->sreg, 0x0000);
 }
 
 
+/**
+ * @brief Writes two bytes directly to the display shift registers.
+ * @param disp Pointer to display object.
+ * @param data Raw bytes to send to shift register (LSB First)
+ */
 void display_write(display* disp, uint16_t data) {
     disp->data = data;
     sn74hc595n_put16(&disp->sreg, data);
 }
 
 
+/**
+ * @brief Displays the hex representation of a byte on the display.
+ * @param disp Pointer to display object.
+ * @param byte Byte to display as hex.
+ */
 void display_hex(display* disp, uint8_t byte) {
     display_write(disp, byte2disp(byte));
 }
 
 
+/**
+ * @brief Converts raw byte to Drako display bytes.
+ * @param data Byte to convert to Drako display bytes.
+ */
 uint16_t byte2disp(uint8_t data) {
     uint16_t disp = 0x0000;
 

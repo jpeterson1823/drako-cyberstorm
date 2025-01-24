@@ -13,7 +13,8 @@
 #define DRKO_TERM "[-DRAKO-]"
 #define DRKO_PROMPT "drako >$ "
 
-static bool _term_connected = false;
+extern bool _term_connected;
+extern char _terminal_cmdbuf[];
 
 typedef struct tcmd_struct {
     char**  argv;
@@ -24,6 +25,7 @@ typedef struct tcmd_struct {
 void _terminal_clean_string(char* str, size_t slen);
 void terminal_get_line(char* buf, size_t n);
 void terminal_get_command(tcmd_t* tcmd);
+void tcmd_println(tcmd_t* tcmd);
 
 
 
@@ -63,6 +65,9 @@ static inline void _terminal_greet() {
 }
 
 
+/**
+ * @brief Prints shell-like prompt to terminal
+ */
 static inline void terminal_prompt() {
     printf("%s", DRKO_PROMPT);
 }
@@ -117,24 +122,37 @@ static inline bool terminal_is_connected() {
 
 
 /**
- * @brief Allocates tcmd_t object.
- * @param tcmd Pointer to tcmd_t object.
- */
-static inline void _tcmd_alloc(tcmd_t* tcmd) {
-    if (tcmd->argc != 0)
-        tcmd->argv = (char**)malloc(sizeof(char*) * tcmd->argc);
-}
-
-
-/**
  * @brief Free's allocated tcmd_t object.
  * @param tcmd Pointer to allocated tcmd_t object.
  */
 static inline void tcmd_free(tcmd_t* tcmd) {
+    // free every argument
     while (tcmd->argc-- > 0)
         free(tcmd->argv[tcmd->argc]);
+    // free argv itself
     free(tcmd->argv);
 }
 
+
+/**
+ * @brief Name says it all. It also adds a terminal prefix.
+ * @param str String to print to terminal.
+ */
+static inline void terminal_print(const char* str) {
+    printf("%s %s", DRKO_TERM, str);
+}
+
+
+/**
+ * @brief Really? You got this one. It also adds a terminal prefix.
+ * @param str String to print to terminal (with new line attached).
+ */
+static inline void terminal_println(const char* str) {
+    printf("%s %s\n", DRKO_TERM, str);
+}
+
+static inline bool _is_char_backspace(char c) {
+    return c == 0x08 || c == 0x7f;
+}
 
 #endif
