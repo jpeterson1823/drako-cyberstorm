@@ -9,11 +9,7 @@ set(PICOTOOL_FORCE_FETCH_FROM_GIT 1)
 set(PICO_BOARD pico2)
 
 include(pico-sdk/pico_sdk_init.cmake)
-<<<<<<< HEAD
 project(drako C CXX ASM)
-=======
-project(drako C CXX ASM)
->>>>>>> terminal-api
 
 pico_sdk_init()
 
