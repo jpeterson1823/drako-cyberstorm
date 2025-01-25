@@ -19,6 +19,8 @@ void at28c64b_init(at28c64b* prom, uint32_t data_bus, uint32_t addr_bus, uint8_t
     prom->data_dir = GPIO_OUT;
 
     _at28c64b_gpio_init(prom);
+
+    _at28c64b_set_idle_condition(prom);
 }
 
 
@@ -60,9 +62,8 @@ void at28c64b_read8(at28c64b* prom, uint32_t addr, uint8_t* buff) {
     // set read condition for EEPROM
     _at28c64b_set_read_condition(prom);
 
-    // read all GPIO pins, allowing for data truncation
-    // since only the lower 8 bits are of interest
-    *buff = gpio_get_all();
+    // read all GPIO pins and get last 8
+    *buff = 0x000000FF & gpio_get_all();
     
     // return to idle condition
     _at28c64b_set_idle_condition(prom);
@@ -76,6 +77,9 @@ void at28c64b_read8(at28c64b* prom, uint32_t addr, uint8_t* buff) {
  * @param data Byte data to write to address
  */
 void at28c64b_write8(at28c64b* prom, uint32_t addr, uint8_t data) {
+    // set data bus to output
+    _at28c64b_data_out(prom);
+
     // put address and data out on their respective buses
     gpio_put_masked(prom->addr_bus, addr<<8);
     gpio_put_masked(prom->data_bus, data);

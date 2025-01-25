@@ -9,32 +9,12 @@
 #include <tusb.h>
 
 
-#define DRKO_TERM_BUFSIZE 256
 #define DRKO_TERM "[-DRAKO-]"
 #define DRKO_PROMPT "drako >$ "
 
-static bool _term_connected = false;
+extern bool _term_connected;
 
-typedef struct tcmd_struct {
-    char**  argv;
-    uint8_t argc;
-} tcmd_t;
-
-
-void _terminal_clean_string(char* str, size_t slen);
 void terminal_get_line(char* buf, size_t n);
-void terminal_get_command(tcmd_t* tcmd);
-
-
-
-/**
- * @brief Determines if char is considered valid (not white space, etc)
- * @param c Character to verify
- * @return true if valid char, false otherwise.
- */
-static inline bool _terminal_is_valid_char(char c) {
-    return !(c == ' ' || c == '\n' || c == '\t');
-}
 
 
 /**
@@ -63,6 +43,9 @@ static inline void _terminal_greet() {
 }
 
 
+/**
+ * @brief Prints shell-like prompt to terminal
+ */
 static inline void terminal_prompt() {
     printf("%s", DRKO_PROMPT);
 }
@@ -117,24 +100,24 @@ static inline bool terminal_is_connected() {
 
 
 /**
- * @brief Allocates tcmd_t object.
- * @param tcmd Pointer to tcmd_t object.
+ * @brief Name says it all. It also adds a terminal prefix.
+ * @param str String to print to terminal.
  */
-static inline void _tcmd_alloc(tcmd_t* tcmd) {
-    if (tcmd->argc != 0)
-        tcmd->argv = (char**)malloc(sizeof(char*) * tcmd->argc);
+static inline void terminal_print(const char* str) {
+    printf("%s %s", DRKO_TERM, str);
 }
 
 
 /**
- * @brief Free's allocated tcmd_t object.
- * @param tcmd Pointer to allocated tcmd_t object.
+ * @brief Really? You got this one. It also adds a terminal prefix.
+ * @param str String to print to terminal (with new line attached).
  */
-static inline void tcmd_free(tcmd_t* tcmd) {
-    while (tcmd->argc-- > 0)
-        free(tcmd->argv[tcmd->argc]);
-    free(tcmd->argv);
+static inline void terminal_println(const char* str) {
+    printf("%s %s\n", DRKO_TERM, str);
 }
 
+static inline bool _is_char_backspace(char c) {
+    return c == 0x08 || c == 0x7f;
+}
 
 #endif

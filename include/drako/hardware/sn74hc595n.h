@@ -2,11 +2,13 @@
 #define __drako_sn74hc595n
 
 
+#include <hardware/gpio.h>
+#include <pico/stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
 
 
-#define SN74HC595N_DELAY_US 10
+#define SN74HC595N_DELAY_US 100
 
 
 typedef struct sn74hc595n_struct {
