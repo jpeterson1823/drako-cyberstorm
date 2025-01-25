@@ -15,22 +15,26 @@ enum DrakoDefaultCmds {
     DRAKO_DCMD_CLRS = 2,
     DRAKO_DCMD_PEEK = 3,
     DRAKO_DCMD_PUTB = 4,
-    DRAKO_DCMD_EXIT = 5,
+    DRAKO_DCMD_SHOW = 5,
+    DRAKO_DCMD_HIDE = 6,
+    DRAKO_DCMD_EXIT = 7,
     DRAKO_NOT_A_CMD = 255
 };
 
-bool is_default_cmd( char* argv);
-bool default_cmd( uint8_t argc, char** argv);
+bool is_default_cmd(const char* cmdstr);
+bool execute_default_command(const char* cmdstr);
 
-uint8_t _drako_get_cmd_id(const char* cmd);
-bool _drako_cmd_help(uint8_t cmd_id);
-bool _drako_cmd_cmds();
-bool _drako_cmd_clrs();
-bool _drako_cmd_peek(uint16_t addr);
-bool _drako_cmd_putb(uint16_t addr, uint8_t byte);
-bool _drako_cmd_exit();
+uint8_t _default_cmd_get_id(const char* cmd);
+bool _default_cmd_help(char* token, char** saveptr);
+bool _default_cmd_cmds();
+bool _default_cmd_clrs();
+bool _default_cmd_peek(char* token, char** saveptr);
+bool _default_cmd_putb(char* token, char** saveptr);
+bool _default_cmd_show(char* token, char** saveptr);
+bool _default_cmd_hide();
+bool _default_cmd_exit();
 
 // helper functions
-bool _drako_is_arg_hex(const char* arg);
+bool _is_hex_str(const char* arg);
 
 #endif

@@ -9,34 +9,12 @@
 #include <tusb.h>
 
 
-#define DRKO_TERM_BUFSIZE 256
 #define DRKO_TERM "[-DRAKO-]"
 #define DRKO_PROMPT "drako >$ "
 
 extern bool _term_connected;
-extern char _terminal_cmdbuf[];
 
-typedef struct tcmd_struct {
-    char**  argv;
-    uint8_t argc;
-} tcmd_t;
-
-
-void _terminal_clean_string(char* str, size_t slen);
 void terminal_get_line(char* buf, size_t n);
-void terminal_get_command(tcmd_t* tcmd);
-void tcmd_println(tcmd_t* tcmd);
-
-
-
-/**
- * @brief Determines if char is considered valid (not white space, etc)
- * @param c Character to verify
- * @return true if valid char, false otherwise.
- */
-static inline bool _terminal_is_valid_char(char c) {
-    return !(c == ' ' || c == '\n' || c == '\t');
-}
 
 
 /**
@@ -118,19 +96,6 @@ static inline void terminal_sync() {
  */
 static inline bool terminal_is_connected() {
     return _term_connected;
-}
-
-
-/**
- * @brief Free's allocated tcmd_t object.
- * @param tcmd Pointer to allocated tcmd_t object.
- */
-static inline void tcmd_free(tcmd_t* tcmd) {
-    // free every argument
-    while (tcmd->argc-- > 0)
-        free(tcmd->argv[tcmd->argc]);
-    // free argv itself
-    free(tcmd->argv);
 }
 
 

@@ -7,6 +7,8 @@
 #include <drako/modules/terminal.h>
 #include <drako/default_commands.h>
 
+#define DRAKO_BUFSIZE 255
+
 // typedef sn74hc595n and at28c64b for easier library use
 typedef sn74hc595n shiftreg;
 typedef at28c64b eeprom;
@@ -34,12 +36,15 @@ static inline void drako_init() {
 
     // initialize drako's display struct
     display_init(&drako.disp);
-    display_select(&drako.disp);
-    display_clear(&drako.disp);
-    display_hide(&drako.disp);
 
     // set exit flag to false
     drako.exit_flag = false;
+
+    // For some reason, most boards have issues with writing to the display if the eeprom is not
+    // selected before the first display write. I'm not sure why. Actually, I have no idea why.
+    // I tried resoldering but that did not solve the problem. So, for now and maybe forever,
+    // we just do what makes things work:
+    at28c64b_select(&drako.prom);
 }
 
 #endif

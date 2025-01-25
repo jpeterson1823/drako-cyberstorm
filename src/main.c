@@ -1,7 +1,5 @@
-#include "at28c64b.h"
 #include <pico/stdlib.h>
 #include <pico/rand.h>
-#include <stdio.h>
 #include <tusb.h>
 
 #include <drako/drako.h>
@@ -16,14 +14,17 @@ int main() {
     stdio_init_all();
     gpio_init(25);
     gpio_set_dir(25, GPIO_OUT);
+    gpio_put(25,1);
 
     // initialize Drako
     drako_init();
 
-
+    display_select(&drako.disp);
+    display_write(&drako.disp, 0xFFFF);
+    display_show(&drako.disp);
 
     // begin logic loop
-    tcmd_t tcmd;
+    char input[DRAKO_BUFSIZE];
     while (!drako.exit_flag) {
         // run terminal sync to handle serial maintenance
         terminal_sync();
@@ -32,12 +33,15 @@ int main() {
         if (!terminal_is_connected())
             terminal_open_connection();
 
-        // get line from user
-        //terminal_get_line(buf, buflen);
-        //printf("You typed: \"%s\"\n", buf);
+        // prompt user and get command
         terminal_prompt();
-        terminal_get_command(&tcmd);
-        tcmd_println(&tcmd);
+        terminal_get_line(input, DRAKO_BUFSIZE);
+
+        // execute command
+        if (is_default_cmd(input))
+            execute_default_command(input);
+        else
+            printf("Unknown command \"%s\"\n", input);
     }
 
     // close serial connection

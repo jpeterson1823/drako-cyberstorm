@@ -1,5 +1,4 @@
 #include "at28c64b.h"
-#include "class/cdc/cdc_device.h"
 #include <drako/tests.h>
 #include <pico/rand.h>
 #include <stdio.h>

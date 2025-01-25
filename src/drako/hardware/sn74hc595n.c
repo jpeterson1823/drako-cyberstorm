@@ -2,8 +2,7 @@
 #include <pico/stdlib.h>
 
 
-void sn74hc595n_init(sn74hc595n* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uint8_t oe)
-{
+void sn74hc595n_init(sn74hc595n* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk, uint8_t oe) {
     // initialize struct
     sreg->ser = ser;
     sreg->rclk = rclk;
@@ -23,7 +22,7 @@ void sn74hc595n_init(sn74hc595n* sreg, uint8_t ser, uint8_t rclk, uint8_t srclk,
     gpio_set_dir(oe,    GPIO_OUT);
 
     // pull down active low
-    gpio_pull_down(oe);
+    //gpio_pull_down(oe);
 
     // set default pin states
     gpio_put(ser,   0);
