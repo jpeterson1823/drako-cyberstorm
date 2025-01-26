@@ -12,7 +12,7 @@ const char* DRAKO_DEFAULT_CMDS[] = {
     "commands",
     "clear",
     "peek",
-    "putb",
+    "put",
     "show",
     "hide",
     "exit"
@@ -22,7 +22,7 @@ const char* DRAKO_DEFAULT_CMDS_MAN_STRS[] = {
     "Usage: commands\nDescription: Lists all valid commands.\n",
     "Usage: clear\nDescription: Clears the screen\n",
     "Usage: peek <addr>\nDescription: Reads a byte from the EEPROM at a specified address.\nAddress must be valid hexidecimal (e.g. 23 or 0x23)\n",
-    "Usage: putb <addr> <byte>\nDescription: Writes a byte to a specified address.\nAddress and byte must be valid hexidecimal (e.g. 23 or 0x23)\n",
+    "Usage: put <addr> <byte>\nDescription: Writes a byte to a specified address.\nAddress and byte must be valid hexidecimal (e.g. 23 or 0x23)\n",
     "Usage: show <byte>\nDescription: Displays a byte on the dual 7-segment display.\nByte must be valid hexidecimal (e.g. 23 or 0x23)\n",
     "Usage: hide\nDescription: Turns off the dual 7-segment display.\n",
     "Usage: exit\nDescription: Exits the terminal session. Using this will require you to power cycle Drako to reconnect.\n"
@@ -34,7 +34,7 @@ const char* DRAKO_DEFAULT_CMDS_MAN_STRS[] = {
  * @param cmdstr Entire command string, including its arguments.
  * @return true if a default command is executed. false otherwise.
  */
-bool execute_default_command(const char* cmdstr) {
+bool exec_default_cmd_str(const char* cmdstr) {
     // stack allocations
     char cmd[DRAKO_BUFSIZE];
     char *token, *saveptr;
@@ -58,8 +58,8 @@ bool execute_default_command(const char* cmdstr) {
             return _default_cmd_clrs();
         case DRAKO_DCMD_PEEK:
             return _default_cmd_peek(token, &saveptr);
-        case DRAKO_DCMD_PUTB:
-            return _default_cmd_putb(token, &saveptr);
+        case DRAKO_DCMD_PUT:
+            return _default_cmd_put(token, &saveptr);
         case DRAKO_DCMD_SHOW:
             return _default_cmd_show(token, &saveptr);
         case DRAKO_DCMD_HIDE:
@@ -67,7 +67,7 @@ bool execute_default_command(const char* cmdstr) {
         case DRAKO_DCMD_EXIT:
             return _default_cmd_exit();
         default:
-            printf("Unrecognized Command\n");
+            // unrecognized command
             return false;
     }
 }
@@ -122,6 +122,12 @@ uint8_t _default_cmd_get_id(const char *cmd) {
 bool _default_cmd_help(char* token, char** saveptr) {
     // get second argument and pass it to help function
     token = strtok_r(NULL, " ", saveptr);
+
+    // if second argument is null, print help's help string
+    if (token == NULL) {
+        printf("%s", DRAKO_DEFAULT_CMDS_MAN_STRS[DRAKO_DCMD_HELP]);
+        return false;
+    }
 
     // make sure it's a default command
     uint8_t cmd_id = _default_cmd_get_id(token);
@@ -194,12 +200,12 @@ bool _default_cmd_peek(char* token, char** saveptr) {
  * @param token Previously used, via strtok_r, token pointer.
  * @param saveptr Previously used, via strtok_r, save pointer.
  */
-bool _default_cmd_putb(char* token, char** saveptr) {
+bool _default_cmd_put(char* token, char** saveptr) {
     // get address argument and make sure it's valid hex
     uint16_t addr;
     token = strtok_r(NULL, " ", saveptr);
     if (!_is_hex_str(token)) {
-        printf("Invalid address argument \"%s\".\nSee \"help putb\" for more info.\n", token);
+        printf("Invalid address argument \"%s\".\nSee \"help put\" for more info.\n", token);
         return false;
     } else addr = (uint16_t)strtoul(token, NULL, 16);
 
@@ -207,7 +213,7 @@ bool _default_cmd_putb(char* token, char** saveptr) {
     uint8_t byte;
     token = strtok_r(NULL, " ", saveptr);
     if (!_is_hex_str(token)) {
-        printf("Invalid byte argument \"%s\".\nSee \"help putb\" for more info.\n", token);
+        printf("Invalid byte argument \"%s\".\nSee \"help put\" for more info.\n", token);
         return false;
     } else byte = (uint8_t)strtoul(token, NULL, 16);
 

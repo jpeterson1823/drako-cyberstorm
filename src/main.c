@@ -39,13 +39,17 @@ int main() {
 
         // execute command
         if (is_default_cmd(input))
-            execute_default_command(input);
+            exec_default_cmd_str(input);
         else
             printf("Unknown command \"%s\"\n", input);
     }
 
     // close serial connection
     tud_disconnect();
+
+    // hide display
+    display_select(&drako.disp);
+    display_hide(&drako.disp);
 
     // turn off on-bard LED
     gpio_put(25, 0);

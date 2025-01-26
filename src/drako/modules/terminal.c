@@ -1,4 +1,3 @@
-#include "drako.h"
 #include <drako/modules/terminal.h>
 #include <drako/default_commands.h>
 #include <stdlib.h>
@@ -50,8 +49,11 @@ void terminal_get_line(char* buf, size_t n) {
             buf[i++] = c;
 
         // if char is a backspace, move index backwards (if possible)
-        else if ((c == 0x08 || c == 0x7f) && i > 0)
+        else if ((c == 0x08 || c == 0x7f) && i > 0) {
             i--;
+            // for minicom to display the backspace properly
+            printf(" \b");
+        }
 
         // if char is a newline or return char, then command is completed
         else if (c == '\n' || c == '\r') {
