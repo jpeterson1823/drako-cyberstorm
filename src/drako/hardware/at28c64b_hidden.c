@@ -18,7 +18,7 @@ void _at28c64b_data_in(at28c64b* prom) {
 void _at28c64b_data_out(at28c64b* prom) {
     gpio_set_dir_out_masked(prom->data_bus);
     prom->data_dir = GPIO_OUT;
-    sleep_us(EEPROM_CONDITION_DELAY_US);
+    sleep_us(AT28C64B_CONDITION_DELAY_US);
 }
 
 
@@ -45,7 +45,7 @@ void _at28c64b_set_idle_condition(at28c64b* prom) {
     gpio_put(prom->we, 1);
     gpio_put(prom->ce, 1);
     gpio_put(prom->oe, 1);
-    sleep_us(EEPROM_CONDITION_DELAY_US);
+    sleep_us(AT28C64B_CONDITION_DELAY_US);
 }
 
 
@@ -58,7 +58,7 @@ void _at28c64b_set_read_condition(at28c64b* prom) {
     gpio_put(prom->ce, 0);
     gpio_put(prom->oe, 0);
     //sleep_ms(10);
-    sleep_us(EEPROM_CONDITION_DELAY_US);
+    sleep_us(AT28C64B_CONDITION_DELAY_US);
 }
 
 
@@ -70,7 +70,7 @@ void _at28c64b_set_write_condition(at28c64b* prom) {
     gpio_put(prom->we, 1);
     gpio_put(prom->ce, 0);
     gpio_put(prom->oe, 1);
-    sleep_us(EEPROM_CONDITION_DELAY_US);
+    sleep_us(AT28C64B_CONDITION_DELAY_US);
 }
 
 

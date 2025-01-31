@@ -3,7 +3,7 @@
 #include <tusb.h>
 
 #include <drako/drako.h>
-#include <drako/default_commands.h>
+#include <drako/commands.h>
 #include <drako/tests.h>
 
 // DO NOT REMOVE. This is extern'd, so removing it will blow everything up!
@@ -38,8 +38,8 @@ int main() {
         terminal_get_line(input, DRAKO_BUFSIZE);
 
         // execute command
-        if (is_default_cmd(input))
-            exec_default_cmd_str(input);
+        if (is_drako_cmd(input))
+            exec_drako_cmd_str(input);
         else
             printf("Unknown command \"%s\"\n", input);
     }

@@ -6,7 +6,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define EEPROM_CONDITION_DELAY_US 100
+#define AT28C64B_CONDITION_DELAY_US 5
+#define AT28C64B_MAX_ADDR 0x1fff
 
 typedef struct at28c64b_struct {
     uint32_t data_bus;

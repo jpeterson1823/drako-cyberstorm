@@ -22,7 +22,7 @@ add_executable(drako
 
     src/drako/modules/display.c
     src/drako/modules/terminal.c
-    src/drako/default_commands.c
+    src/drako/commands.c
 
     src/drako/tests.c
 )

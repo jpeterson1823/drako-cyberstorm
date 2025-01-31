@@ -5,7 +5,7 @@
 #include <drako/hardware/at28c64b.h>
 #include <drako/modules/display.h>
 #include <drako/modules/terminal.h>
-#include <drako/default_commands.h>
+#include <drako/commands.h>
 
 #define DRAKO_BUFSIZE 255
 
