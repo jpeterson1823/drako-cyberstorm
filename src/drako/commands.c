@@ -8,7 +8,7 @@
 
 
 
-const size_t DRAKO_N_CMDS = 12;
+const size_t DRAKO_N_CMDS = 10;
 const char* DRAKO_CMDS[] = {
     "help",
     "commands",
@@ -19,8 +19,6 @@ const char* DRAKO_CMDS[] = {
     "hide",
     "exit",
     "steg",
-    "encrypt",
-    "decrypt",
     "hexdump"
 };
 const char* DRAKO_CMD_HELP_STRS[] = {
@@ -32,7 +30,8 @@ const char* DRAKO_CMD_HELP_STRS[] = {
     "Usage: show <byte>\nDescription: Displays a byte on the dual 7-segment display.\nByte must be valid hexidecimal (e.g. 23 or 0x23)\n",
     "Usage: hide\nDescription: Turns off the dual 7-segment display.\n",
     "Usage: exit\nDescription: Exits the terminal session. Using this will require you to power cycle Drako to reconnect.\n",
-    DRAKO_STEG_HELP_STR
+    DRAKO_STEG_HELP_STR,
+    "Usage: hexdump\nDescription:"
 };
 
 
@@ -80,12 +79,6 @@ bool exec_drako_cmd_str(const char* cmdstr) {
         case DRAKO_CMD_STEG:
             nbytes = _drako_parse_steg_cmd(cmdstr, &cfg, bytebuf, DRAKO_BUFSIZE);
             return drako_cmd_steg(cfg, bytebuf, nbytes);
-        case DRAKO_CMD_ENCRYPT:
-            printf("ENCRYPT NOT YET IMPLEMENTED!\n");
-            return false;
-        case DRAKO_CMD_DECRYPT:
-            printf("DECRYPT NOT YET IMPLEMENTED!\n");
-            return false;
         case DRAKO_CMD_HEXDUMP:
             return drako_cmd_hexdump();
         default:

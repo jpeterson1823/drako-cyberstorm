@@ -48,9 +48,7 @@ enum DrakoCmd {
     DRAKO_CMD_HIDE = 6,
     DRAKO_CMD_EXIT = 7,
     DRAKO_CMD_STEG = 8,
-    DRAKO_CMD_ENCRYPT = 9,
-    DRAKO_CMD_DECRYPT = 10,
-    DRAKO_CMD_HEXDUMP = 11,
+    DRAKO_CMD_HEXDUMP = 9,
     DRAKO_NOT_A_CMD = 255
 };
 

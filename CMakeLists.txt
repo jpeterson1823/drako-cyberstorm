@@ -2,6 +2,7 @@
 
 cmake_minimum_required(VERSION 3.13)
 
+set(CMAKE_BUILD_TYPE MinSizeRel)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -46,7 +47,7 @@ target_link_libraries(drako
     hardware_gpio
 )
 
-# Add compile options
-target_compile_options(drako PRIVATE -Wall -O3)
+# Add compile options -- unneccessary with MinSizeRel set
+#target_compile_options(drako PRIVATE -Wall -Os -s -fno-ident -fno-asynchronous-unwind-tables)
 
 pico_add_extra_outputs(drako)
