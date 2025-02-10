@@ -7,7 +7,6 @@
 #include <ctype.h>
 
 
-
 const size_t DRAKO_N_CMDS = 10;
 const char* DRAKO_CMDS[] = {
     "help",
@@ -555,3 +554,4 @@ bool _is_hex_str(const char *arg) {
     }
     return true;
 }
+

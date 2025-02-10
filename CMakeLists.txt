@@ -23,9 +23,11 @@ add_executable(drako
 
     src/drako/modules/display.c
     src/drako/modules/terminal.c
-    src/drako/commands.c
 
-    src/drako/tests.c
+    src/drako/commands.c
+    src/drako/drako.c
+
+    #src/drako/tests.c
 )
 
 pico_set_program_name(drako "drako")
@@ -35,16 +37,16 @@ pico_enable_stdio_uart(drako 0)
 pico_enable_stdio_usb(drako 1)
 
 target_include_directories(drako PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}
+    #${CMAKE_CURRENT_LIST_DIR}
     ./include
-    ./include/drako
-    ./include/drako/hardware
 )
 
 target_link_libraries(drako 
     pico_stdlib
     pico_rand
+    pico_time
     hardware_gpio
+    hardware_flash
 )
 
 # Add compile options -- unneccessary with MinSizeRel set

@@ -1,4 +1,4 @@
-#include "at28c64b.h"
+#include <drako/hardware/at28c64b.h>
 #include <drako/tests.h>
 #include <pico/rand.h>
 #include <stdio.h>

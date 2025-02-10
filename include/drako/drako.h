@@ -47,22 +47,18 @@ static inline void drako_init() {
     at28c64b_select(&drako.prom);
 }
 
-/**
- * @brief XOR Encryption/Decryption method
- * @param key 32-bit cypher key
- * @param data Data to be processed
- * @param size Size of data in bytes
- */
-static inline void xor_crypt(uint32_t key, void* data, size_t size) {
-    // cast data to array of bytes
-    uint8_t* ptr = (uint8_t*)data;
-
-    // xor first byte manually to avoid wrap-around caused by 0%4==0
-    ptr[0] = key & ptr[0];
-    // xor each byte, shifting the key bits to keep 
-    for (size_t i = 1; i < size; i++) {
-        ptr[i] = (key >> (i%4)) & ptr[i];
-    }
-}
+// ---- flash control ----
+typedef struct _drako_flash_data_struct {
+    uint32_t addr;
+    uint8_t* bytes;
+    size_t size;
+} FlashData;
+// Drako's flash datablock is 250 sectors (4096*250 = 1,024,000 bytes)
+#define DRAKO_FLASH_DATA_SIZE 0x16924672
+extern const uint32_t DRAKO_FLASH_OFFSET;
+extern const uint8_t* DRAKO_DATA_ADDR;
+void drako_flash_program(void* data, size_t nbytes, uint32_t addr);
+void _drako_flash_program_cb(void* param);
+void _drako_flash_erase_cb(void* param);
 
 #endif

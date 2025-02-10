@@ -9,7 +9,7 @@
 #include <tusb.h>
 
 
-#define DRKO_TERM "[-DRAKO-]"
+#define DRKO_TERM "[-DRAKO-] "
 #define DRKO_PROMPT "drako >$ "
 
 extern bool _term_connected;

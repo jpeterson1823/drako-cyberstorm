@@ -4,7 +4,11 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <pico/flash.h>
+#include <hardware/flash.h>
 
+// help string defined here instead of in the C file to help with legibility
+// may move all help strings to a separate file to help with legibility... hmm.
 #define DRAKO_STEG_HELP_STR "Usage: steg <flag_string> [arguments]\n"\
                             "Description: Steganography command. Can store or retrieve data in various modes.\n"\
                             "More Info:\n"\
@@ -76,6 +80,25 @@ typedef struct _drako_steg_config {
 uint8_t drako_cmd_get_id(const char* cmd);
 bool exec_drako_cmd_str(const char* cmdstr);
 bool is_drako_cmd(const char* cmdstr);
+
+/**
+ * @brief XOR Encryption/Decryption method
+ * @param key 32-bit cypher key
+ * @param data Data to be processed
+ * @param size Size of data in bytes
+ */
+static inline void drako_xor_crypt(uint32_t key, void* data, size_t size) {
+    // cast data to array of bytes
+    uint8_t* ptr = (uint8_t*)data;
+
+    // xor first byte manually to avoid wrap-around caused by 0%4==0
+    ptr[0] = key & ptr[0];
+    // xor each byte, shifting the key bits to keep 
+    for (size_t i = 1; i < size; i++) {
+        ptr[i] = (key >> (i%4)) & ptr[i];
+    }
+}
+
 
 // individual command functions
 bool drako_cmd_help(char* token, char** saveptr);
