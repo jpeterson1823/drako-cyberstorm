@@ -15,6 +15,7 @@
 extern bool _term_connected;
 
 void terminal_get_line(char* buf, size_t n);
+bool terminal_get_line_timed(char* buf, size_t n, uint32_t timeout_ms);
 
 
 /**
