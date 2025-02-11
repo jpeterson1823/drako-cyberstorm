@@ -45,6 +45,7 @@ target_link_libraries(drako
     pico_stdlib
     pico_rand
     pico_time
+    pico_flash
     hardware_gpio
     hardware_flash
 )

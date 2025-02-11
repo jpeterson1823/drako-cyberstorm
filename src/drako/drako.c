@@ -1,60 +1,24 @@
 #include <drako/drako.h>
-#include <hardware/flash.h>
-#include <pico/flash.h>
-#include <math.h>
 
-// Drako's flash datablock starts 1MB from end of XIP
-const uint32_t DRAKO_FLASH_OFFSET = XIP_END - DRAKO_FLASH_DATA_SIZE;
-
-// Address of the first byte of Drako's flash datablock
-const uint8_t* DRAKO_DATA_ADDR = (const uint8_t*) (XIP_END - DRAKO_FLASH_DATA_SIZE);
-
-void drako_flash_program(void* data, size_t nbytes, uint32_t addr) {
-    // construct FlashData
-    FlashData flashData = {
-        .bytes = (uint8_t*)data,
-        .size = nbytes,
-        .addr = addr
-    };
-
-    // create flash status integer
-    int flashStatus;
-
-    // erase necessary range
-    flashStatus = flash_safe_execute(
-            _drako_flash_erase_cb,
-            (void*)&flashData,
-            UINT32_MAX
-    );
-    hard_assert(flashStatus == PICO_OK);
-
-    // program data
-    flashStatus = flash_safe_execute(
-            _drako_flash_program_cb,
-            (void*)&flashData,
-            UINT32_MAX
-    );
-    hard_assert(flashStatus == PICO_OK);
+/**
+ * @brief Reads byte from Drako's flash datablock.
+ * @param addr Datablock address for read.
+ * @return Byte at specified address.
+ */
+uint8_t drako_datablock_read(uint32_t addr) {
+    return DRAKO_DATABLK[addr];
 }
 
-void _drako_flash_program_cb(void* param) {
-    // convert param back into FlashData
-    FlashData* data = (FlashData*)param;
-    flash_range_program(
-            DRAKO_FLASH_OFFSET + data->addr,
-            data->bytes,
-            FLASH_PAGE_SIZE * ceil((float)data->size / FLASH_PAGE_SIZE)
-    );
+/**
+ * @brief Reads multiple bytes into provided buffer.
+ * @param addr Datablock address at which to start reading.
+ * @param buf Preallocated byte buffer.
+ * @param bufsize Size of preallocated byte buffer in bytes.
+ * @return true if all bytes are read into buffer. false otherwise.
+ */
+bool drako_datablock_read_buf(uint32_t addr, char* buf, size_t bufsize) {
+    size_t i;
+    for (i = 0; i < bufsize && addr+i < DRAKO_DATABLK_END; i++)
+        buf[i] = DRAKO_DATABLK[addr+i];
+    return addr+i <= DRAKO_DATABLK_END && i <= bufsize;
 }
-
-// param is a pointer to flash_data_struct
-void _drako_flash_erase_cb(void* param) {
-    // convert param back into FlashData
-    FlashData* data = (FlashData*)param;
-    // erase necessary area
-    flash_range_erase(
-            DRAKO_FLASH_OFFSET + data->addr,
-            FLASH_PAGE_SIZE * ceil((float)data->size / FLASH_PAGE_SIZE)
-    );
-}
-

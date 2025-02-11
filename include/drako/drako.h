@@ -47,18 +47,22 @@ static inline void drako_init() {
     at28c64b_select(&drako.prom);
 }
 
+
+
+
 // ---- flash control ----
-typedef struct _drako_flash_data_struct {
-    uint32_t addr;
-    uint8_t* bytes;
-    size_t size;
-} FlashData;
-// Drako's flash datablock is 250 sectors (4096*250 = 1,024,000 bytes)
-#define DRAKO_FLASH_DATA_SIZE 0x16924672
-extern const uint32_t DRAKO_FLASH_OFFSET;
-extern const uint8_t* DRAKO_DATA_ADDR;
-void drako_flash_program(void* data, size_t nbytes, uint32_t addr);
-void _drako_flash_program_cb(void* param);
-void _drako_flash_erase_cb(void* param);
+// Drako datablock is 2,048,000 bytes (500 sectors) long
+static const uint32_t DRAKO_DATABLK_SIZE = 500*FLASH_SECTOR_SIZE;
+// Drako binary block is 1,024,000 bytes (250 sectors) long.
+static const uint32_t DRAKO_BINBLK_SIZE  = 250*FLASH_SECTOR_SIZE;
+// Drako datablock immediately follows the binary block
+static const uint32_t DRAKO_DATABLK_BASE = XIP_BASE + DRAKO_BINBLK_SIZE;
+// Pointer to Drako's datablock
+static const uint8_t* DRAKO_DATABLK = (uint8_t*)DRAKO_DATABLK_BASE;
+// End of Drako's datablock
+static const uint32_t DRAKO_DATABLK_END = DRAKO_DATABLK_BASE + DRAKO_DATABLK_SIZE;
+
+uint8_t drako_datablock_read(uint32_t addr);
+bool    drako_datablock_read_buf(uint32_t addr, char* buf, size_t bufsize);
 
 #endif

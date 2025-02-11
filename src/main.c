@@ -44,6 +44,14 @@ int main() {
         }
 
         // if non-default command, run code here
+        if (strcmp(input, "flash") == 0) {
+            printf("Drako Datablock Address: ");
+            terminal_get_line(input, DRAKO_BUFSIZE);
+            if(_is_hex_str(input)) {
+                uint32_t addr = strtoull(input, NULL, 16);
+                printf("DRAKO DATABLOCK @ 0x%08x : 0x%02x\n", addr, drako_datablock_read(addr));
+            }
+        }
     }
 
     // close serial connection
