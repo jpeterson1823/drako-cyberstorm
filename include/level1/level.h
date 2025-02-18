@@ -6,19 +6,24 @@
 #include <stdbool.h>
 #include <drako/drako.h>
 
+#define _LEVEL1_DISP_DELAY 2000
+
 static inline void level1_greeting() {
     printf("Entering this dark room, you notice there is not much present.\n");
     printf("The only thing in this room is a small desk, upon which rests a single piece of paper.\n");
-    printf("The paper reads:\n\n");
+    printf("The paper reads:\n");
 
-    printf("Mimgbecn 7al,");
-    printf("Ewl etg nvzlz lppcmpg alp sliaty M rd, altrr atio xst zgpca sq shqa hasyt hro hvqpiomyv\n");
-    printf("hrnxlre. Ioi edygsapksi mptrrich hgcdzw hpspd rhvgtk atio wjbiswh ssyv mscvvxetu, eys\n");
-    printf("zllsvad homqi pr hpfw ewhx odu'x bjpxp uliw chxfghp. T wlec ioi oxzxlca hcxw sq lhxpg, hro\n");
-    printf("qlrppal ti, h pzl alfbw – ewbvwe apop p oilgafppa. Xst mpzdy fpcleew tc mdvxd xz wwxjo,\n");
-    printf("ppjl dilt prostcn xzd ssfssc, lh pj ewl hfcnizc pxdtsj th smdilrtcn. M dwvyws yidi oict,\n");
-    printf("iye hvqpiomyv aiwaz qp cvx ed smyvlv qdy xzd ssyv. Alth wplrl jptsw lapzp xu e hpf M npu'x\n");
-    printf("jta yyslvdihro puh T rhryda wptt xz glqpbiic <ioihpfsfi>.\n\n");
+    printf("\n"
+        "Mimgbecn 7al,"
+        "Ewl etg nvzlz lppcmpg alp sliaty M rd, altrr atio xst zgpca sq shqa hasyt hro hvqpiomyv\n"
+        "hrnxlre. Ioi edygsapksi mptrrich hgcdzw hpspd rhvgtk atio wjbiswh ssyv mscvvxetu, eys\n"
+        "zllsvad homqi pr hpfw ewhx odu'x bjpxp uliw chxfghp. T wlec ioi oxzxlca hcxw sq lhxpg, hro\n"
+        "qlrppal ti, h pzl alfbw – ewbvwe apop p oilgafppa. Xst mpzdy fpcleew tc mdvxd xz wwxjo,\n"
+        "ppjl dilt prostcn xzd ssfssc, lh pj ewl hfcnizc pxdtsj th smdilrtcn. M dwvyws yidi oict,\n"
+        "iye hvqpiomyv aiwaz qp cvx ed smyvlv qdy xzd ssyv. Alth wplrl jptsw lapzp xu e hpf M npu'x\n"
+        "jta yyslvdihro puh T rhryda wptt xz glqpbiic <ioihpfsfi>.\n"
+    );
+    printf("\nAttached to the bottom of the page is a spell: <insight>\n");
 }
 
 static inline void level1() {
@@ -56,6 +61,31 @@ static inline bool level1_cast(char* cmd) {
             drako.currentLevel++;
             return true;
         }
+        else if (strcmp(token, "<insight>") == 0) {
+            // hit for user to look at board
+            printf("\nDrako begins to change.");
+
+            // select, clear, and enable display
+            display_select(&drako.disp);
+            display_clear(&drako.disp);
+            display_show(&drako.disp);
+
+            // display "HE" for 1 second
+            display_write(&drako.disp, 0x7679);
+            sleep_ms(_LEVEL1_DISP_DELAY);
+            printf(".");
+
+            // display "LP" for 1 second
+            display_write(&drako.disp, 0x3873);
+            sleep_ms(_LEVEL1_DISP_DELAY);
+            printf(".\n");
+
+            // hide the display
+            display_hide(&drako.disp);
+
+            // level not completed, so return false
+            return false;
+        }
         else {
             printf("\n"
                 "The air shimmers as a vortex of light begins to coalesce—a delicate swirl of opalescent hues\n"
@@ -71,5 +101,7 @@ static inline bool level1_cast(char* cmd) {
         return false;
     }
 }
+
+void level1_display();
 
 #endif
