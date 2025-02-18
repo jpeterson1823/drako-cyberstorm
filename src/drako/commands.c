@@ -1,6 +1,7 @@
 #include <drako/drako.h>
 #include <drako/commands.h>
 #include <drako/hardware/at28c64b.h>
+#include <level0/level.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,7 +9,7 @@
 
 
 
-const size_t DRAKO_N_CMDS = 10;
+const size_t DRAKO_N_CMDS = 11;
 const char* DRAKO_CMDS[] = {
     "help",
     "commands",
@@ -19,7 +20,8 @@ const char* DRAKO_CMDS[] = {
     "hide",
     "exit",
     "steg",
-    "hexdump"
+    "hexdump",
+    "enter"
 };
 const char* DRAKO_CMD_HELP_STRS[] = {
     "Usage: help <command>\nDescription: Displays useful info about a specified command.\n",
@@ -31,7 +33,8 @@ const char* DRAKO_CMD_HELP_STRS[] = {
     "Usage: hide\nDescription: Turns off the dual 7-segment display.\n",
     "Usage: exit\nDescription: Exits the terminal session. Using this will require you to power cycle Drako to reconnect.\n",
     DRAKO_STEG_HELP_STR,
-    "Usage: hexdump\nDescription:"
+    "Usage: hexdump\nDescription:",
+    "Usage: enter\nDescription: Begin your adventure.\n"
 };
 
 
@@ -81,6 +84,9 @@ bool exec_drako_cmd_str(const char* cmdstr) {
             return drako_cmd_steg(cfg, bytebuf, nbytes);
         case DRAKO_CMD_HEXDUMP:
             return drako_cmd_hexdump();
+        case DRAKO_CMD_ENTER:
+            level0();
+            return true;
         default:
             // unrecognized command
             return false;

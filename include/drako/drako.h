@@ -18,6 +18,8 @@ typedef struct drako_struct {
     eeprom prom;
     display disp;
     bool exit_flag;
+
+    uint8_t currentLevel;
 } Drako;
 
 // extern Drako definition so all files that include this header can see it.
@@ -39,6 +41,9 @@ static inline void drako_init() {
 
     // set exit flag to false
     drako.exit_flag = false;
+
+    // set current level to 0
+    drako.currentLevel = 0;
 
     // For some reason, most boards have issues with writing to the display if the eeprom is not
     // selected before the first display write. I'm not sure why. Actually, I have no idea why.

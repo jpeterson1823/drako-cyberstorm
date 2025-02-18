@@ -41,6 +41,7 @@ static inline void _terminal_greet() {
     printf("%s CONNECTION: ESTABLISHED\n", DRKO_TERM);
     printf("%s Welcome to DRAKO OS.\n", DRKO_TERM);
     printf("%s Type 'commands' to view list of valid commands.\n", DRKO_TERM);
+    printf("%s When you are ready to begin your adventure, you may enter the dungeon with the \"enter\" command.\n", DRKO_TERM);
 }
 
 

@@ -46,7 +46,7 @@ void terminal_get_line(char* buf, size_t n) {
             printf("%c", c);
 
         // save char if it's a letter, number, or space AND buf has room. also increment index
-        if (i < n-1 && (c == ' ' || isalnum(c) || c == '-'))    // n-1 to guarantee null termination
+        if (i < n-1 && (c == ' ' || isalnum(c) || c == '-' || c == '<' || c == '>'))    // n-1 to guarantee null termination
             buf[i++] = c;
 
         // if char is a backspace, move index backwards (if possible)

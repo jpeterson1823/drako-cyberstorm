@@ -4,7 +4,8 @@
 
 #include <drako/drako.h>
 #include <drako/commands.h>
-#include <drako/tests.h>
+//#include <drako/tests.h>
+#include <level0/level.h>
 
 // DO NOT REMOVE. This is extern'd, so removing it will blow everything up!
 Drako drako;
@@ -40,8 +41,17 @@ int main() {
         // execute command
         if (is_drako_cmd(input))
             exec_drako_cmd_str(input);
-        else
-            printf("Unknown command \"%s\"\n", input);
+
+        // if non-drako command, then must be level specific
+        else {
+            // if on level 0, let level0 command handler take over
+            if (drako.currentLevel == 0) {
+                level0_cast(input);
+            }
+            else {
+                printf("Level %u not yet constructed!\n", drako.currentLevel);
+            }
+        }
     }
 
     // close serial connection

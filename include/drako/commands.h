@@ -49,6 +49,7 @@ enum DrakoCmd {
     DRAKO_CMD_EXIT = 7,
     DRAKO_CMD_STEG = 8,
     DRAKO_CMD_HEXDUMP = 9,
+    DRAKO_CMD_ENTER = 10,
     DRAKO_NOT_A_CMD = 255
 };
 
