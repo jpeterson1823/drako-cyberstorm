@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __drako_level0
+#define __drako_level0
+
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -62,3 +64,4 @@ static inline bool level0_cast(char* cmd) {
     }
 }
 
+#endif
