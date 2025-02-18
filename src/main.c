@@ -6,6 +6,7 @@
 #include <drako/commands.h>
 //#include <drako/tests.h>
 #include <level0/level.h>
+#include <level1/level.h>
 
 // DO NOT REMOVE. This is extern'd, so removing it will blow everything up!
 Drako drako;
@@ -46,7 +47,12 @@ int main() {
         else {
             // if on level 0, let level0 command handler take over
             if (drako.currentLevel == 0) {
-                level0_cast(input);
+                // if level0 is completed, call level1
+                if (level0_cast(input))
+                    level1();
+            }
+            else if (drako.currentLevel == 1) {
+                level1_cast(input);
             }
             else {
                 printf("Level %u not yet constructed!\n", drako.currentLevel);

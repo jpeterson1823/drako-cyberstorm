@@ -25,8 +25,6 @@ static inline void level0() {
 
     // display greeting
     printf("\n%s\n", level0_greeting);
-
-    // start getting input from users
 }
 
 static inline bool level0_cast(char* cmd) {
