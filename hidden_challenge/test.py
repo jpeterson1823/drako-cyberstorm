@@ -4,11 +4,11 @@
 datablock = open("datablock.bin", "rb").read()
 
 n = 0x13
-offset = 0x0f
-interval = 0x12
+offset = 333  # good things come in threes!!!
+interval = 15 # check other files for description
 
-img_start = 0x094F + 1000 + 640 + 29 + 15
-print(f"Image Start Addr: {img_start-30:02x}")
+img_start = 0x094F + 1000 + 640 + 29 + offset
+print(f"Image Start Addr: {img_start-offset:02x}")
 print(f"Steg  Start Addr: {img_start:02x}")
 
 d = []
