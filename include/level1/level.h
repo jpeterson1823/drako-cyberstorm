@@ -59,6 +59,7 @@ static inline bool level1_cast(char* cmd) {
             );
             // increment level
             drako.currentLevel++;
+            drako.currentLevel++;
             return true;
         }
         else if (strcmp(token, "<insight>") == 0) {

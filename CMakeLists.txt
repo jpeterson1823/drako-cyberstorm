@@ -25,6 +25,7 @@ add_executable(drako
     src/drako/modules/terminal.c
     src/drako/commands.c
 
+    src/level3_src/level3.c
     src/drako/tests.c
 )
 
