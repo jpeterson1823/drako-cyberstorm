@@ -64,9 +64,8 @@ def generate_c1() -> bytearray:
         data[f2offset + i] = f2wrapped[i]
 
     # calc mem addr and value for inc var
+    memaddr = sum(SUBFLAG1) % 0x1fff
     memincv = sum(SUBFLAG2) % 0xff
-    #memaddr = (11*sum(SUBFLAG1)) % 0x1FFF
-    memaddr = 0x1fff
 
     # display memory address and value to be written for p2 to unlock
     # mask to fit within 12 bits
@@ -77,8 +76,8 @@ def generate_c1() -> bytearray:
     # display steg info
     #print(f"    Steg Offset   : {sum(SUBFLAG1) % 0xff}")
     #print(f"    Steg Interval : {sum(SUBFLAG2) % 0xff}")
-    print(f"  Steg Offset   : 15")
-    print(f"  Steg Interval : 18")
+    print(f"  Steg Offset   : 250")
+    print(f"  Steg Interval : 15")
 
     return data
 
@@ -99,8 +98,8 @@ def generate_datablock_c_header(datablock: bytearray) -> None:
     with open("hidden_challenge.h", "w+") as f:
         # write include guard and byte array definition
         f.write(
-            "#ifndef __drako_hidden_challenge\n"
-          + "#define __drako_hidden_challenge\n\n"
+            "#ifndef __drako_hidden_challenge_data\n"
+          + "#define __drako_hidden_challenge_data\n\n"
           + "#include <stdint.h>\n\n"
           + f"#define HIDDEN_CHALLENGE_DATABLOCK_SIZE {len(datablock)}\n"
           + "const static uint8_t HIDDEN_CHALLENGE_DATABLOCK[] = {\n    "

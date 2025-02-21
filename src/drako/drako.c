@@ -31,7 +31,7 @@ void drako_reset_eeprom() {
     at28c64b_write8(&drako.prom, 0x1fff, 30);
     
     // reset credential byte
-    at28c64b_write8(&drako.prom, HC_C2_CLEARANCE, 0xff);
+    at28c64b_write8(&drako.prom, HC_C2_CLEARANCE_ADDR, 0xff);
 
     printf("DRAKO RESET COMPLETED.\n");
 }

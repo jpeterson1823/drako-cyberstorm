@@ -4,7 +4,7 @@
 datablock = open("datablock.bin", "rb").read()
 
 n = 0x13
-offset = 333  # good things come in threes!!!
+offset = 250  # resistor value on PCB is incorrect
 interval = 15 # check other files for description
 
 img_start = 0x094F + 1000 + 640 + 29 + offset
