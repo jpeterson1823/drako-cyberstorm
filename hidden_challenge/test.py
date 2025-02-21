@@ -5,9 +5,9 @@ datablock = open("datablock.bin", "rb").read()
 
 n = 0x13
 offset = 250  # resistor value on PCB is incorrect
-interval = 15 # check other files for description
+interval = 15 # SUM(FLAG1+FLAG2) % 0xFF
+img_start = 0x094F + 1000 + 641 + 29 + offset
 
-img_start = 0x094F + 1000 + 640 + 29 + offset
 print(f"Image Start Addr: {img_start-offset:02x}")
 print(f"Steg  Start Addr: {img_start:02x}")
 
