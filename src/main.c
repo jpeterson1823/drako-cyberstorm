@@ -10,6 +10,7 @@
 #include <hidden/hidden.h>
 #include <level0/level.h>
 #include <level1/level.h>
+#include <level3/level.h>
 
 // DO NOT REMOVE. This is extern'd, so removing it will blow everything up!
 //Drako drako;
@@ -66,6 +67,10 @@ int main() {
 
             else if (drako.currentLevel == 1) {
                 level1_cast(input);
+            }
+
+            else if (drako.currentLevel == 3) {
+                level3_main();
             }
 
             // hidden challenge part 3

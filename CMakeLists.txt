@@ -28,7 +28,8 @@ add_executable(drako
     src/drako/commands.c
     src/drako/drako.c
 
-    #src/drako/tests.c
+    src/level3_src/level3.c
+    src/drako/tests.c
 )
 
 target_include_directories(drako PRIVATE
