@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 import random
 
-FLAG1 = [ord(x) for x in "THUBAN"]
-FLAG2 = [ord(x) for x in "DRACONIS"]
+SUBFLAG1 = [ord(x) for x in "THUBAN"]
+SUBFLAG2 = [ord(x) for x in "DRACONIS"]
 
+FLAG1 = "discovery"
+FLAG2 = "understanding"
 
 
 class datablock_header:
@@ -12,7 +14,7 @@ class datablock_header:
 
     def add_field(self, field: tuple[str, str]) -> None:
         self._fields.append(field)
-        print(f"    Added field: {field[0]}={field[1]}")
+        print(f"  Added field: {field[0]}={field[1]}")
 
     def update_field(self, field: tuple[str, str]) -> bool:
         # look for field with matching key and replace it
@@ -44,8 +46,8 @@ def generate_c1() -> bytearray:
     wrapper = [ord(x) for x in "DRAKO"]
 
     # create wrapped flag
-    f1wrapped = wrapper + FLAG1 + wrapper
-    f2wrapped = wrapper + FLAG2 + wrapper
+    f1wrapped = wrapper + SUBFLAG1 + wrapper
+    f2wrapped = wrapper + SUBFLAG2 + wrapper
 
     # randomly generate a fungload of data
     n = 1000
@@ -62,21 +64,21 @@ def generate_c1() -> bytearray:
         data[f2offset + i] = f2wrapped[i]
 
     # calc mem addr and value for inc var
-    memincv = sum(FLAG2) % 0xff
-    #memaddr = (11*sum(FLAG1)) % 0x1FFF
+    memincv = sum(SUBFLAG2) % 0xff
+    #memaddr = (11*sum(SUBFLAG1)) % 0x1FFF
     memaddr = 0x1fff
 
     # display memory address and value to be written for p2 to unlock
     # mask to fit within 12 bits
-    print(f"    Memory Address: {memaddr:#06x} ({memaddr})")
+    print(f"  Memory Address: {memaddr:#06x} ({memaddr})")
     # modulo to set bounds between 0x00-0xff
-    print(f"    Value         : {memincv:#04x} ({memincv})")
+    print(f"  Value         : {memincv:#04x} ({memincv})")
 
     # display steg info
-    #print(f"    Steg Offset   : {sum(FLAG1) % 0xff}")
-    #print(f"    Steg Interval : {sum(FLAG2) % 0xff}")
-    print(f"    Steg Offset   : 30")
-    print(f"    Steg Interval : 20")
+    #print(f"    Steg Offset   : {sum(SUBFLAG1) % 0xff}")
+    #print(f"    Steg Interval : {sum(SUBFLAG2) % 0xff}")
+    print(f"  Steg Offset   : 15")
+    print(f"  Steg Interval : 18")
 
     return data
 
@@ -127,7 +129,7 @@ def main():
     c2data = generate_c2()
     c3data = bytearray("Good things come in threes...", encoding="UTF-8")
     fcdata = bytearray(open("./files/NGC6543-stegged.png", "rb").read())
-    print("DONE")
+    print("DONE\n")
 
     print("Generating datablock header...")
     # create header
@@ -138,9 +140,7 @@ def main():
     header.add_field(("c2len", str(len(c2data))))
     header.add_field(("c3len", str(len(c3data))))
     header.add_field(("fclen", str(len(fcdata))))
-    print("DONE")
-
-    [print(chr(c), end='') for c in header.build()]
+    print("DONE\n")
 
     # generate full datablock
     datablock = header.build() + c1data + c2data + c3data + fcdata
@@ -150,7 +150,7 @@ def main():
     generate_datablock_c_header(datablock)
 
     # generate raw binary file
-    bin = [0] * 2312
+    bin = [random.randint(0x00, 0xFF) for _ in range(2312)]
     bin.extend(datablock)
     bin.extend([0] * (8192 - len(bin)))
     with open("datablock.bin", "wb") as f:

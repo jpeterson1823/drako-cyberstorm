@@ -70,4 +70,7 @@ static inline void xor_crypt(uint32_t key, void* data, size_t size) {
     }
 }
 
+void drako_reset_eeprom();
+
 #endif
+

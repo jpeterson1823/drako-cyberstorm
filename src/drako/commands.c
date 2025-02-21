@@ -149,12 +149,21 @@ bool drako_cmd_help(char* token, char** saveptr) {
         return false;
     }
 
+    // if token is "whatis" and hc_c3 is active, display it's help message
+    else if (hc_c2_complete && strcmp(token, "whatis") == 0) {
+        printf(
+            "Usage: whatis <guess>\n"
+            "Description: Use this to guess the answer to Drako's riddle.\n"
+        );
+    }
+
     // make sure it's a default command
     uint8_t cmd_id = drako_cmd_get_id(token);
     if (cmd_id == DRAKO_NOT_A_CMD){
         printf("Unknown command provided as argument: \"%s\".\nSee \"commands\" for a list of valid commands.\n", token);
         return false;
     }
+
     printf("%s", DRAKO_CMD_HELP_STRS[cmd_id]);
     return true;
 }
@@ -167,6 +176,9 @@ bool drako_cmd_cmds() {
     printf("Available Commands:\n");
     for (uint8_t i = 0; i < DRAKO_N_CMDS; i++)
         printf("    %s\n", DRAKO_CMDS[i]);
+    // display "whatis" command when hc_c3 is active
+    if (hc_c2_complete)
+        printf("    whatis (unlocked via hidden challenge)\n");
     printf("Please use the \"help\" command for more information about a specific command.\n");
     return true;
 }
