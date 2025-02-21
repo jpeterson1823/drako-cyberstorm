@@ -9,7 +9,7 @@
 #include <level1/level.h>
 
 // DO NOT REMOVE. This is extern'd, so removing it will blow everything up!
-Drako drako;
+//Drako drako;
 
 int main() {
     // initialize pico stdio and built-in led

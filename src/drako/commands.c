@@ -2,6 +2,7 @@
 #include <drako/commands.h>
 #include <drako/hardware/at28c64b.h>
 #include <level0/level.h>
+#include <hidden/hidden.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -204,7 +205,10 @@ bool drako_cmd_peek(char* token, char** saveptr) {
     at28c64b_read8(&drako.prom, addr, &byte);
 
     // display read byte
-    printf("PEEK @ 0x%04x : 0x%02x\n", addr, byte);
+    if (addr >= hc_c2_start && addr <= hc_c2_end && !hc_c2_complete)
+        printf("PEEK <--- Overridden: REDACTED --->\n");
+    else
+        printf("PEEK @ 0x%04x : 0x%02x\n", addr, byte);
 
     // restore display as it may have been corrupted by eeprom read
     display_select(&drako.disp);
@@ -442,6 +446,73 @@ uint16_t _drako_parse_steg_cmd(const char* cmd, DrakoStegConfig* config, uint8_t
         return nbytes;
 }
 
+///**
+// * @brief Drako steganography command
+// * @param config Preconfigured DrakoStegConfig struct
+// * @param bytes Byte buffer to either pass in bytes to be steg'd or pass out retrieved bytes
+// * @param nbytes Either the length of bytes being passed in or the number of bytes to be retrieved.
+// */
+//bool drako_cmd_steg(const DrakoStegConfig config, uint8_t* bytes, uint16_t nbytes) {
+//    // set offset address and select eeprom
+//    uint16_t addr = config.offset;
+//    at28c64b_select(&drako.prom);
+//
+//    // store mode
+//    if (config.operation == DRAKO_STEG_STORE) {
+//        // steg each bit or byte
+//        if (config.mode == DRAKO_STEG_MODE_BIT) {
+//            uint8_t byte;   // used in storage mask
+//            for (uint16_t i = 0; i < nbytes; i++) {
+//                at28c64b_read8(&drako.prom, addr, &byte);
+//                at28c64b_write8(&drako.prom, addr, bytes[i]&0x01 ? byte | 0x01 : byte & 0xfe);
+//                addr += config.interval;    // inc address by interval
+//            }
+//        } else {
+//            for (uint16_t i = 0; i < nbytes; i++) {
+//                at28c64b_write8(&drako.prom, addr, bytes[i]);
+//                addr += config.interval;    // inc address by interval
+//            }
+//        }
+//        return true;
+//    }
+//
+//    // retrieve mode
+//    else if (config.operation == DRAKO_STEG_RETRV) {
+//        uint8_t byte;
+//        uint16_t i;
+//        if (config.mode == DRAKO_STEG_MODE_BIT) {
+//            for (i = 0; i < config.nbytes; i++) {
+//                at28c64b_read8(&drako.prom, addr, &byte);
+//                bytes[i] = 0x01 & byte;
+//                addr += config.interval;
+//            }
+//        } else {
+//            for (i = 0; i < nbytes; i++) {
+//                at28c64b_read8(&drako.prom, addr, &byte);
+//                bytes[i] = byte;
+//                addr += config.interval;
+//            }
+//        }
+//        // display retrieved bytes to terminal
+//        for(i = 0; i < config.nbytes; i++)
+//            printf("%02x ", bytes[i]);
+//        printf("\n");
+//        return true;
+//    }
+//
+//    // no operation set: error out
+//    else if (config.operation == DRAKO_STEG_NO_OPERATION) {
+//        printf("[ERROR] Steg operation mode was not specified!\n");
+//        return false;
+//    }
+//    
+//    // pray this does not occur; for if it does, the code gods have certainly forsaken thee.
+//    else {
+//        printf("[CRITICAL ERROR] Unknown steg operation provided in config!\n");
+//        return false;
+//    }
+//}
+
 
 /**
  * @brief Drako steganography command
@@ -456,32 +527,27 @@ bool drako_cmd_steg(const DrakoStegConfig config, uint8_t* bytes, uint16_t nbyte
 
     // store mode
     if (config.operation == DRAKO_STEG_STORE) {
-        // steg each bit or byte
-        if (config.mode == DRAKO_STEG_MODE_BIT) {
-            uint8_t byte;   // used in storage mask
-            for (uint16_t i = 0; i < nbytes; i++) {
-                at28c64b_read8(&drako.prom, addr, &byte);
-                at28c64b_write8(&drako.prom, addr, bytes[i]&0x01 ? byte | 0x01 : byte & 0xfe);
-                addr += config.interval;    // inc address by interval
-            }
-        } else {
-            for (uint16_t i = 0; i < nbytes; i++) {
-                at28c64b_write8(&drako.prom, addr, bytes[i]);
-                addr += config.interval;    // inc address by interval
-            }
-        }
-        return true;
+        printf("%s STEG store mode has been disabled!\n", DRKO_TERM);
+        return false;
     }
 
-    // retrieve mode
+    // retrieve mode. stegged bits are stored MSB first
     else if (config.operation == DRAKO_STEG_RETRV) {
-        uint8_t byte;
+        uint8_t byte, temp;
         uint16_t i;
         if (config.mode == DRAKO_STEG_MODE_BIT) {
             for (i = 0; i < config.nbytes; i++) {
-                at28c64b_read8(&drako.prom, addr, &byte);
-                bytes[i] = 0x01 & byte;
-                addr += config.interval;
+                temp = 0;
+                for (uint8_t bit = 0; bit < 8; bit++) {
+                    // read byte
+                    at28c64b_read8(&drako.prom, addr, &byte);
+                    // get stegged bit (MSB first) from byte and put it in temp
+                    temp |= (byte & 0x01)<<(7-bit);
+                    // inc address by interval
+                    addr += config.interval;
+                }
+                // store byte in bytes array
+                bytes[i] = temp;
             }
         } else {
             for (i = 0; i < nbytes; i++) {
@@ -516,12 +582,16 @@ bool drako_cmd_steg(const DrakoStegConfig config, uint8_t* bytes, uint16_t nbyte
  */
 bool drako_cmd_hexdump() {
     uint8_t byte;
-    printf("0000  | ");
+    printf("0000  |  ");
     for (uint16_t addr = 0; addr <= AT28C64B_MAX_ADDR; addr++) {
         if (addr != 0x0000 && addr % 16 == 0)
             printf("\n%04x  |  ", addr);
         at28c64b_read8(&drako.prom, addr, &byte);
-        printf("%02x ", byte);
+
+        if (addr >= hc_c2_start && addr <= hc_c2_end && !hc_c2_complete)
+            printf("-- ");
+        else
+            printf("%02x ", byte);
     }
     printf("\n");
     return true;

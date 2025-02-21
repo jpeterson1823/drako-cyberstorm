@@ -17,6 +17,8 @@ pico_sdk_init()
 add_executable(drako
     src/main.c
 
+    src/hidden/hidden.c
+
     src/drako/hardware/sn74hc595n.c
     src/drako/hardware/at28c64b.c
     src/drako/hardware/at28c64b_hidden.c
@@ -24,21 +26,13 @@ add_executable(drako
     src/drako/modules/display.c
     src/drako/modules/terminal.c
     src/drako/commands.c
+    src/drako/drako.c
 
-    src/drako/tests.c
+    #src/drako/tests.c
 )
 
-pico_set_program_name(drako "drako")
-pico_set_program_version(drako "0.1")
-
-pico_enable_stdio_uart(drako 0)
-pico_enable_stdio_usb(drako 1)
-
 target_include_directories(drako PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}
     ./include
-    ./include/drako
-    ./include/drako/hardware
 )
 
 target_link_libraries(drako 
@@ -47,7 +41,38 @@ target_link_libraries(drako
     hardware_gpio
 )
 
-# Add compile options -- unneccessary with MinSizeRel set
-#target_compile_options(drako PRIVATE -Wall -Os -s -fno-ident -fno-asynchronous-unwind-tables)
-
+pico_set_program_name(drako "drako")
+pico_set_program_version(drako "0.1")
+pico_enable_stdio_uart(drako 0)
+pico_enable_stdio_usb(drako 1)
 pico_add_extra_outputs(drako)
+
+add_executable(eeprom_programmer
+    src/eeprom_programmer.c
+
+    src/drako/hardware/sn74hc595n.c
+    src/drako/hardware/at28c64b.c
+    src/drako/hardware/at28c64b_hidden.c
+
+    src/drako/modules/display.c
+    src/drako/modules/terminal.c
+    src/drako/commands.c
+    src/drako/drako.c
+)
+
+target_include_directories(eeprom_programmer PRIVATE
+    ./include
+    ./hidden_challenge
+)
+
+target_link_libraries(eeprom_programmer
+    pico_stdlib
+    pico_rand
+    hardware_gpio
+)
+
+pico_set_program_name(eeprom_programmer "eeprom_programmer")
+pico_set_program_version(eeprom_programmer "0.1")
+pico_enable_stdio_uart(eeprom_programmer 0)
+pico_enable_stdio_usb(eeprom_programmer 1)
+pico_add_extra_outputs(eeprom_programmer)

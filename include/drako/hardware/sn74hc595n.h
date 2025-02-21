@@ -8,7 +8,7 @@
 #include <stdbool.h>
 
 
-#define SN74HC595N_DELAY_US 100
+#define SN74HC595N_DELAY_US 5
 
 
 typedef struct sn74hc595n_struct {
