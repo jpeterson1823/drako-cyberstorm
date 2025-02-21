@@ -53,10 +53,11 @@ int main() {
                     level1();
             }
             else if (drako.currentLevel == 1) {
-                level1_cast(input);
+                if (level1_cast(input))
+                    level3();
             }
             else if (drako.currentLevel == 3) {
-                level3_main();
+                level3_main(input);
             }
             else {
                 printf("Level %u not yet constructed!\n", drako.currentLevel);
