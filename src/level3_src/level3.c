@@ -19,10 +19,22 @@ bool level3_main(char* cmd) {
     // check if we reached the center
     if ((userRow == 11) && (userCol == 32)) {
         printf("\n"
-            "Reaching the center of this long, twisting labyrinth you are met\n"
-            "by an unyielding darkness. You begin to cast an enhanced light\n"
-            "spell...\n"
+            "You come across a fellow adventurer who looks beaten and rugged.\n"
+            "Obviously he has been here for a while. \"I... I thought I was\n"
+            "done for,\" the weary traveler stammers, their voice thich with\n"
+            "relief as they clutch your arm. \"Days--maybe weeks--I have been\n"
+            "wandering these cursed halls, and just when I had given up hope,\n"
+            "you appear like a phantom of mercy.\" They gesture to the heavy\n"
+            "chest beside them, its gilded edges glided edges glinting in the\n"
+            "dim torchlight. \"Please, take it. Every coin, every gem--yours.\n"
+            "I owe you my life\" As you pry open the lid, your eyes widen.\n"
+            "Amidst the glittering wealth lies the true prize--the reason you\n"
+            "ventured into this wretched labyrinth in the first place.\n"
+            "Nestled atop a velvet cloth, shimmering with an otherwordly\n"
+            "glow, rests the coveted GOOG TOKEN.\n"
             "\n----- LEVEL 3: COMPLETE -----\n\n"
+            "\n----- YOU WIN! -----\n\n"
+            "\nShow the GOOG TOKEN to your cyberstorm professor to earn credit.\n"
         );
         // increment level
         drako.currentLevel++;
