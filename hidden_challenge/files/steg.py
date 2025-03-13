@@ -4,7 +4,7 @@ img =  bytearray(open("./NGC6543.png", "rb").read())
 
 data = bytearray(open("./fc.txt", "r").read(), encoding="UTF-8")
 
-offset = 250
+offset = 250 - 47
 interval = 15   
 
 print("Stegging... ")

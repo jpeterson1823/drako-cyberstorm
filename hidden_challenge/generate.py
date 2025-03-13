@@ -1,11 +1,31 @@
 #!/usr/bin/python3
 import random
+from files import vigenere
 
 SUBFLAG1 = [ord(x) for x in "THUBAN"]
 SUBFLAG2 = [ord(x) for x in "DRACONIS"]
 
 FLAG1 = "discovery"
 FLAG2 = "understanding"
+
+DATABLOCK_OFFSET = 2312
+EEPROM_SIZE = 0x2000
+EEPROM_MAX_ADDR = 0x1fff
+
+wrapper = [ord(x) for x in "DRAKO"]
+
+# parse riddle hints correctly
+#riddle_hints = open('files/riddle-hints.txt', 'r').readlines();
+
+def xor(data: bytearray, key: bytearray) -> bytearray:
+    cipher = bytearray()
+    j = 0
+    for i in range(len(data)):
+        if j >= len(key):
+            j = 0
+        cipher.append(data[i] ^ key[j])
+        j += 1
+    return cipher
 
 
 class datablock_header:
@@ -42,9 +62,6 @@ class datablock_header:
         return header
 
 def generate_c1() -> bytearray:
-    # set flag's "wrapper"
-    wrapper = [ord(x) for x in "DRAKO"]
-
     # create wrapped flag
     f1wrapped = wrapper + SUBFLAG1 + wrapper
     f2wrapped = wrapper + SUBFLAG2 + wrapper
@@ -148,10 +165,54 @@ def main():
     # generate c header file
     generate_datablock_c_header(datablock)
 
-    # generate raw binary file
-    bin = [random.randint(0x00, 0xFF) for _ in range(2312)]
+    # generate raw binary file and fill empty space with random bytes
+    bin = [random.randint(0x00, 0xFF) for _ in range(DATABLOCK_OFFSET)]
     bin.extend(datablock)
-    bin.extend([0] * (8192 - len(bin)))
+    bin.extend([random.randint(0x00, 0xFF) for _ in range(EEPROM_SIZE - len(bin))])
+
+    # riddle stuffs
+    riddle_answer_addr_hint_addr = 65 # only whole number value in Drako's astonomical coords (found on handout)
+    riddle_answer_addr_hint = "Heed not the deceptive sigil upon my resistor, inscribed as \"250 ohms\" by mortal hands--for the answer to your question is found at the difference between the false and true."
+    riddle_answer_addr = 250 - 47   # incorrect resistor value - actual resistor value
+    riddle_answer_vig_key = "DRAKO"
+    riddle_xor_key = bytearray(wrapper)
+    riddle_answer_cipher = xor(bytearray(vigenere.encode(FLAG2, riddle_answer_vig_key),"UTF-8"), riddle_xor_key)
+    riddle_answer_barr = "Who am I? I am ".encode("UTF-8") + riddle_answer_cipher;
+    riddle_answer_xor_key_hint = "Amidst arcane whispers, 'DRAKO' encircles its most hallowed treasures."
+    riddle_answer_xor_key_hint_addr = 523
+    hint_occam_addr = 1234
+    hint_occam = "Occam's Razor will serve you well in this challenge."
+
+    interval_hint_addr = 1800
+    interval_hint = "The key to all requires that which drives the curious; a pair in which the second cannot exist without the first. Combine these two, piece by piece, to obtain the interval!"
+    offset_hint_addr = 986
+    offset_hint = "Dog just use the correct resistor value for the offset."
+
+    # place riddle answer
+    for i in range(len(riddle_answer_barr)):
+        bin[riddle_answer_addr + i] = riddle_answer_barr[i]
+
+    # place riddle answer address hint
+    for i in range(len(riddle_answer_addr_hint)):
+        bin[riddle_answer_addr_hint_addr + i] = ord(riddle_answer_addr_hint[i])
+
+    # place riddle xor key hint
+    for i in range(len(riddle_answer_xor_key_hint)):
+        bin[riddle_answer_xor_key_hint_addr + i] = ord(riddle_answer_xor_key_hint[i])
+
+    # place occam advisory
+    for i in range(len(hint_occam)):
+        bin[hint_occam_addr + i] = ord(hint_occam[i])
+
+    # place interval hint
+    for i in range(len(interval_hint)):
+        bin[interval_hint_addr + i] = ord(interval_hint[i])
+
+    # place offset hint
+    for i in range(len(offset_hint)):
+        bin[offset_hint_addr + i] = ord(offset_hint[i])
+
+    # write binary to file
     with open("datablock.bin", "wb") as f:
         f.write(bytearray(bin))
     print("Generated binary file: datablock.bin")
