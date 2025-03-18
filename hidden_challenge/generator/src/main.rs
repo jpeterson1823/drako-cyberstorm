@@ -1,54 +1,54 @@
+mod c_header;
 mod hidden_challenge;
-use hidden_challenge::*;
-use rand;
-use rand::prelude::*;
 
-use std::fs::File;
-use std::io::prelude::*;
+use hidden_challenge::HiddenChallenge;
+
+use std::fs::{File, create_dir};
+use std::io::Write;
+
+fn save_bin(path: &str, data: &[u8]) {
+    // open file
+    let mut f: File = match File::create(path) {
+        Ok(f) => f,
+        Err(e) => panic!("[IO ERROR] Failed to open file {}\nError:{}", path, e)
+    };
+
+    //write data
+    match f.write(data) {
+        Ok(_) => {},
+        Err(e) => panic!("[IO ERROR] Failed to open file {}\nError:{}", path, e)
+    };
+}
 
 fn main() {
-    // generate challenges
-    print!("Generating challenges...");
-    let c1: Challenge1 = Challenge1::new();
-    let c2: Challenge2 = Challenge2::new();
-    let c3: Challenge3 = Challenge3::new();
-    let c4: Challenge4 = Challenge4::new();
-    println!("DONE");
+    // create hidden challenge object
+    let mut hc: HiddenChallenge = HiddenChallenge::new();
 
-    // generate challenge header
-    print!("Generating header... ");
-    let header: String = format!(
-        "\x01name=Drako Hidden Challenge\x1Ec1len={}\x1Ec2len={}\x1Ec3len={}\x1Ec4len={}\x02",
-        c1.size(),
-        c2.size(),
-        c3.size(),
-        c4.size()
-    );
-    println!("DONE");
+    // generate challenge datablock
+    let datablock: Vec<u8> = hc.generate_datablock();
 
-    // generate fill data
-    let nbytes: usize = (constants::EEPROM_SIZE as usize) - header.len() - c1.size() - c2.size() - c3.size() - c4.size();
-    let filler = (0..nbytes).map(|_| rand::rng().random::<u8>());
+    // generate eeprom memory space
+    let memspace: Vec<u8> = hc.generate_eeprom_memspace(&datablock);
 
-    // generate datablock
-    let mut datablock: Vec<u8> = Vec::new();
-    print!("Generating datablock...");
-    datablock.extend(header.chars().map(|c| c as u8));
-    datablock.extend(c1.gen_field().iter());
-    datablock.extend(c2.gen_field().iter());
-    datablock.extend(c3.gen_field().iter());
-    datablock.extend(c4.gen_field().iter());
-    datablock.extend(filler);
-    println!("DONE");
+    // generate c header
+    c_header::generate(&memspace);
 
-    // generate and write c header
-    print!("Generating and writing C header... ");
-    generate_c_header(&datablock);
-    println!("DONE");
+    // create binary dir
+    match create_dir("./generated/bin") {
+        Ok(_) => {},
+        Err(e) => {
+            if e.kind() == std::io::ErrorKind::AlreadyExists {}
+            else {
+                panic!("[IO ERROR] An error occured when trying to create ./generated/bin\nError Output: {}", e)
+            }
+        }
+    };
 
-    // write datablock to binary file
-    print!("Writing datablock to file (datablock.bin)...");
-    let mut file = File::create("datablock.bin").expect("Failed to create datablock.bin");
-    file.write(datablock.as_slice()).expect("Failed to write datablock to datablock.bin");
-    println!("DONE");
+    // save datablock and memspace to file
+    save_bin("./generated/bin/datablock.bin", &datablock);
+    println!("Created ./generated/bin/memspace.bin");
+    save_bin("./generated/bin/memspace.bin", &memspace);
+    println!("Created ./generated/bin/datablock.bin");
+
+    // display important data
 }

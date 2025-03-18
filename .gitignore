@@ -3,3 +3,4 @@
 **/.cache/**
 **/Cargo.lock/**
 **/target/**
+**/generated/**
