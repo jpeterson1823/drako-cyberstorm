@@ -1,3 +1,5 @@
 **/build/**
 **/doxygen/**
 **/.cache/**
+**/Cargo.lock/**
+**/target/**
