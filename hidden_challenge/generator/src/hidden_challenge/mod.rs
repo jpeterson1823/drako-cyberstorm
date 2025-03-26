@@ -1,38 +1,31 @@
 mod challenges;
+mod header;
 
 use challenges::*;
+use header::{Field, FieldType};
 use rand::prelude::*;
 
-pub const DATABLOCK_OFFSET  : usize = 2312;
-pub const EEPROM_SIZE       : usize = 0x2000;
-pub const EEPROM_MAX_ADDR   : usize = 0x1FFE;   // last byte is used in challenge, so cannot use it
+pub const DATABLOCK_OFFSET  : u16 = 2312;
+pub const EEPROM_SIZE       : u16 = 0x2000;
+pub const EEPROM_MAX_ADDR   : u16 = 0x1FFE;   // last byte is used in challenge, so cannot use it
 
 /// Minimum allowable number of bytes between hints.
-pub const MIN_HINT_SEP: usize = 150; // setting this too high will cause infinite loop
-
-/// Contains the hint itself and its offset within the EEPROM address space.
-type Hint = (String, usize);
-/// Calculates the address of the last byte of the hint
-fn hint_tail(hint: &Hint) -> usize { hint.0.len() + hint.1 }
-
+pub const MIN_HINT_SEP: u16 = 150; // setting this too high will cause infinite loop
+                                   //
 /// Holds all critical data for the entire hidden challenge
 pub struct HiddenChallenge {
-    header: String,
+    header: Vec<Field>,
     c1: Challenge1,
     c2: Challenge2,
     c3: Challenge3,
     c4: Challenge4,
 
-    datablock_head: usize,
-    datablock_tail: usize,
-    placed_hints: Vec<Hint>
+    datablock_head: u16,
+    datablock_tail: u16,
 }
 
 impl HiddenChallenge {
     pub fn new() -> Self {
-        // create empty vec for hints as they need to be added later
-        let placed_hints = Vec::new();
-
         // generate challenges
         print!("Generating challenges...");
         let c1: Challenge1 = Challenge1::new();
@@ -43,26 +36,25 @@ impl HiddenChallenge {
 
         // generate header
         print!("Generating header... ");
-        let header: String = format!(
-            "\x01name=Drako Hidden Challenge\x1Ec1len={}\x1Ec2len={}\x1Ec3len={}\x1Ec4len={}\x02",
-            c1.size(),
-            c2.size(),
-            c3.size(),
-            c4.size()
-        );
+        let header: Vec<header::Field> = vec![
+            Field::new("name", FieldType::Text(String::from("Drako Hidden Challenge"))),
+            Field::new("c1len", FieldType::Size(c1.size())),
+            Field::new("c2len", FieldType::Size(c2.size())),
+            Field::new("c3len", FieldType::Size(c3.size())),
+            Field::new("c4len", FieldType::Size(c4.size())),
+        ];
         println!("DONE");
 
         // calculate datablock size and head/tail offset
-        let datablock_size: usize = header.len()+c1.size()+c2.size()+c3.size()+c4.size();
-        let datablock_head: usize = DATABLOCK_OFFSET;
-        let datablock_tail: usize = DATABLOCK_OFFSET + datablock_size;
+        let datablock_size: u16 = header.len() as u16 + c1.size() + c2.size() + c3.size() + c4.size();
+        let datablock_head: u16 = DATABLOCK_OFFSET;
+        let datablock_tail: u16 = DATABLOCK_OFFSET + datablock_size;
 
         // construct and return struct
         HiddenChallenge {
             header, c1, c2, c3, c4,
             datablock_head,
-            datablock_tail,
-            placed_hints
+            datablock_tail
         }
     }
 
@@ -71,7 +63,7 @@ impl HiddenChallenge {
         let mut datablock: Vec<u8> = Vec::new();
 
         print!("Generating datablock...");
-        datablock.extend(self.header.as_bytes());
+        datablock.extend(header::generate(&self.header).as_bytes());
         datablock.extend(self.c1.gen_field().iter());
         datablock.extend(self.c2.gen_field().iter());
         datablock.extend(self.c3.gen_field().iter());
@@ -90,32 +82,35 @@ impl HiddenChallenge {
 
         // place datablock at its offset
         for i in 0..datablock.len() {
-            memspace[i+DATABLOCK_OFFSET] = datablock[i];
+            memspace[i+(DATABLOCK_OFFSET as usize)] = datablock[i];
         }
 
         // generate hint offsets and place them in EEPROM memory space
-        for hint in self.c2.get_hints() {
-            // gen offset and store in placed_hints
-            let offset = self.gen_rand_hint_offset(hint.len());
-            self.placed_hints.push((hint.clone(), offset));
+        let mut offsets: Vec<u16> = Vec::new();
+        for hint in self.c2.get_hints().iter() {
+            // gen offset
+            let offset: u16 = self.gen_rand_hint_offset(hint.0.len() as u16);
+            offsets.push(offset);
 
             // place hint in memory space
-            for byte in hint.bytes().enumerate() {
-                memspace[offset + byte.0] = byte.1;
+            for byte in hint.0.bytes().enumerate() {
+                memspace[(offset as usize) + byte.0] = byte.1;
             }
         }
+        // update hints in c2
+        self.c2.update_hint_offsets(offsets);
 
         // return EEPROM memspace
         memspace
     }
 
     /// Generates valid offset for hint and ensures proper spacing and no overwrites.
-    fn gen_rand_hint_offset(&self, hint_len: usize) -> usize {
+    fn gen_rand_hint_offset(&self, hint_len: u16) -> u16 {
         // get rng
         let mut rng = rand::rng();
 
         // attempt to generate random offset that wont overwrite occupied memory
-        let mut offset: usize = rng.random_range(0..EEPROM_MAX_ADDR);
+        let mut offset: u16 = rng.random_range(0..EEPROM_MAX_ADDR);
         while !self.is_valid_hint_offset(hint_len, offset) {
             offset = rng.random_range(0..EEPROM_MAX_ADDR);
         }
@@ -129,7 +124,7 @@ impl HiddenChallenge {
     ///   - The hint can fit on the EEPROM at the specified offset
     ///   - The hint does not overwrite occupied memory
     ///   - The distance between the hint and any other hint is >= MIN_HINT_SEP
-    pub fn is_valid_hint_offset(&self, hint_len: usize, offset: usize) -> bool {
+    pub fn is_valid_hint_offset(&self, hint_len: u16, offset: u16) -> bool {
         // invalid if hint cannot fit on EEPROM at specified offset.
         if offset + hint_len > EEPROM_MAX_ADDR {
             //println!("INVALID: offset causes hint to no longer fit on EEPROM.");
@@ -143,22 +138,22 @@ impl HiddenChallenge {
         }
 
         // check offset against every placed hint
-        for placed_hint in self.placed_hints.iter() {
+        for hint in self.c2.get_hints().iter() {
             // invalid if offset lies inside another hint
-            if offset >= placed_hint.1 && offset <= hint_tail(&placed_hint) {
+            if offset >= hint.1 && offset <= self.hint_tail(&hint) {
                 //println!("INVALID: offset within another hint.");
                 return false;
             }
 
             // invalid if hint's tail ends up in occupied space (indicating an overwrite)
-            let tail: usize = offset+hint_len;
-            if tail >= placed_hint.1 && tail <= hint_tail(&placed_hint) {
+            let tail: u16 = offset+hint_len;
+            if tail >= hint.1 && tail <= self.hint_tail(&hint) {
                 //println!("INVALID: offset causes overwrite.");
                 return false;
             }
 
             // invalid if hint is too close to any other hint
-            if tail.abs_diff(placed_hint.1) < MIN_HINT_SEP || hint_tail(&placed_hint).abs_diff(tail) < MIN_HINT_SEP {
+            if tail.abs_diff(hint.1) < MIN_HINT_SEP || self.hint_tail(&hint).abs_diff(tail) < MIN_HINT_SEP {
                 //println!("INVALID: offset violates minimum hint separation.");
                 return false;
             }
@@ -168,9 +163,39 @@ impl HiddenChallenge {
         true
     }
 
-    pub fn get_header(&self) -> &String { &self.header }
+    fn hint_tail(&self, hint: &(String, u16)) -> u16 {
+        hint.1 + hint.0.len() as u16
+    }
+
+    pub fn get_header(&self) -> &Vec<Field> { &self.header }
     pub fn get_c1(&self) -> &Challenge1 { &self.c1 }
     pub fn get_c2(&self) -> &Challenge2 { &self.c2 }
     pub fn get_c3(&self) -> &Challenge3 { &self.c3 }
     pub fn get_c4(&self) -> &Challenge4 { &self.c4 }
+
+    pub fn calc_c1_memspace_offset(&self) -> u16 { DATABLOCK_OFFSET + self.header.len() as u16 }
+    pub fn calc_c2_memspace_offset(&self) -> u16 { self.calc_c1_memspace_offset() + self.c1.size() }
+    pub fn calc_c3_memspace_offset(&self) -> u16 { self.calc_c2_memspace_offset() + self.c2.size() }
+    pub fn calc_c4_memspace_offset(&self) -> u16 { self.calc_c3_memspace_offset() + self.c3.size() }
+
+    pub fn display_info(&self) {
+        println!("\n");
+        println!("########################################");
+        println!("##### HIDDEN CHALLENGE INFORMATION #####");
+        println!("########################################\n");
+        // display header info
+        println!("Challenge Header Fields {{");
+        for field in self.header.iter().enumerate() {
+            print!("    \"{}\"", field.1.to_string().as_str());
+            if field.0 == self.header.len() - 1 {
+                println!("\n}}\n");
+            } else {
+                print!("\n");
+            }
+        }
+
+        // display challenge 1 info
+        self.c1.display_info(self.calc_c1_memspace_offset()); println!();
+        self.c2.display_info(self.calc_c2_memspace_offset()); println!();
+    }
 }

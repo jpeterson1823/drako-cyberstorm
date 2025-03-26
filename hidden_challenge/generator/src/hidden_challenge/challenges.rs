@@ -2,26 +2,29 @@ use rand::prelude::*;
 
 pub const C1_WRAPPER        : &str  = "DRAKO";
 
+
 // Challenge Structs
 pub struct Challenge1 {
-    field_size  : usize,
+    field_size  : u16,
     subflags    : Vec<String>,
     sf_offsets  : Vec<usize>,
     flag        : String
 }
 
 pub struct Challenge2 {
-    field_size: usize,
-    hints: Vec<String>,
-    riddle: String
+    field_size : u16,
+    hints      : Vec<(String, u16)>,
+    riddle     : String
 }
 
 pub struct Challenge3 {
-    data: String
+    field_size : u16,
+    data       : String
 }
 
 pub struct Challenge4 {
-    data: Vec<u8>
+    field_size : u16,
+    data       : Vec<u8>
 }
 
 impl Challenge1 {
@@ -65,8 +68,21 @@ impl Challenge1 {
         return bin;
     }
 
-    pub fn size(&self) -> usize {
+    pub fn size(&self) -> u16 {
         self.field_size
+    }
+
+    pub fn display_info(&self, memspace_offset: u16) {
+        // get max len of subflag for display padding
+        let subflag_padding: usize = self.subflags.iter().map(|sf: &String| sf.len()).max().unwrap();
+        // do the displaying
+        println!("Challenge 1 {{");
+        println!("    memspace offset : {:#06x}", memspace_offset);
+        println!("    size            : {}", self.field_size);
+        println!("    subflags {{");
+        println!("        {:<subflag_padding$} : local offset = {:#06x}", self.subflags[0], self.sf_offsets[0]);
+        println!("        {:<subflag_padding$} : local offset = {:#06x}", self.subflags[1], self.sf_offsets[1]);
+        println!("    }}\n}}");
     }
 }
 
@@ -76,7 +92,7 @@ impl Challenge2 {
         let riddle: String = String::from(include_str!("../../files/riddle.txt"));
 
         // load hints into string vector
-        let mut hints: Vec<String> = Vec::new();
+        let mut hints: Vec<(String, u16)> = Vec::new();
         let mut hint: String = String::new();
         for line in include_str!("../../files/riddle-hints.txt").lines() {
             // if part of hint, add to subriddle var
@@ -89,7 +105,7 @@ impl Challenge2 {
             }
             // raw newline means end of hint, so push to hints vec
             else {
-                hints.push(hint);
+                hints.push((hint, 0u16));
                 // make sure to create new string as ownership has changed
                 // bonus cuz we needed to clear the string anyhow
                 hint = String::new();
@@ -98,7 +114,7 @@ impl Challenge2 {
         
         // return constructed struct
         Challenge2 {
-            field_size: riddle.len(),
+            field_size: riddle.len() as u16,
             hints,
             riddle
         }
@@ -109,19 +125,42 @@ impl Challenge2 {
         self.riddle.as_bytes().to_vec()
     }
 
-    pub fn get_hints(&self) -> &Vec<String> {
+    pub fn get_hints(&self) -> &Vec<(String, u16)> {
         &self.hints
     }
 
-    pub fn size(&self) -> usize {
+    pub fn update_hint_offsets(&mut self, offsets: Vec<u16>) {
+        for i in 0..self.hints.len() {
+            self.hints[i].1 = offsets[i];
+        }
+    }
+
+    pub fn size(&self) -> u16 {
         self.field_size
+    }
+
+    pub fn display_info(&self, memspace_offset: u16) {
+        println!("Challenge 2 {{");
+        println!("    memspace offset : {:#06x},", memspace_offset + self.field_size);
+        println!("    hint offsets (local) {{ ");
+        for hint in self.hints.iter().enumerate() {
+            print!("        \"{}...\" : {:#06x}", &hint.1.0[..11], hint.1.1);
+            if hint.0 == self.hints.len() - 1 {
+                println!("\n    }}");
+            } else {
+                print!("\n");
+            }
+        }
+        println!("}}");
     }
 }
 
 impl Challenge3 {
     pub fn new() -> Challenge3 {
+        let data: String = String::from("Good things come in threes...");
         Challenge3 {
-            data: String::from("Good things come in threes...")
+            field_size : data.len() as u16,
+            data
         }
     }
 
@@ -129,15 +168,17 @@ impl Challenge3 {
         self.data.as_bytes().to_vec()
     }
 
-    pub fn size(&self) -> usize {
-        self.data.len()
+    pub fn size(&self) -> u16 {
+        self.data.len() as u16
     }
 }
 
 impl Challenge4 {
     pub fn new() -> Challenge4 {
+        let data: Vec<u8> = Vec::from(include_bytes!("../../files/steg/NGC6543-stegged.png"));
         Challenge4 {
-            data: Vec::from(include_bytes!("../../files/steg/NGC6543-stegged.png"))
+            field_size : data.len() as u16,
+            data
         }
     }
 
@@ -145,7 +186,7 @@ impl Challenge4 {
         &self.data
     }
 
-    pub fn size(&self) -> usize {
-        self.data.len()
+    pub fn size(&self) -> u16 {
+        self.data.len() as u16
     }
 }

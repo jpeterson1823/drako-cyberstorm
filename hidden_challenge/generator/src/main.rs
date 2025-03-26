@@ -6,6 +6,7 @@ use hidden_challenge::HiddenChallenge;
 use std::fs::{File, create_dir};
 use std::io::Write;
 
+/// Writes byte data to specified path
 fn save_bin(path: &str, data: &[u8]) {
     // open file
     let mut f: File = match File::create(path) {
@@ -23,14 +24,17 @@ fn save_bin(path: &str, data: &[u8]) {
 fn main() {
     // create hidden challenge object
     let mut hc: HiddenChallenge = HiddenChallenge::new();
+    println!("hidden challenge object created.");
 
     // generate challenge datablock
     let datablock: Vec<u8> = hc.generate_datablock();
+    println!("datablock generated.");
 
     // generate eeprom memory space
     let memspace: Vec<u8> = hc.generate_eeprom_memspace(&datablock);
+    println!("memspace generated.");
 
-    // generate c header
+    // generate c header file
     c_header::generate(&memspace);
 
     // create binary dir
@@ -51,4 +55,5 @@ fn main() {
     println!("Created ./generated/bin/datablock.bin");
 
     // display important data
+    hc.display_info();
 }
