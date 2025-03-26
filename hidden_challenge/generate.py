@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import random
-from files import vigenere
+from files.scripts import vigenere
 
 SUBFLAG1 = [ord(x) for x in "THUBAN"]
 SUBFLAG2 = [ord(x) for x in "DRACONIS"]
@@ -144,7 +144,7 @@ def main():
     c1data = generate_c1()
     c2data = generate_c2()
     c3data = bytearray("Good things come in threes...", encoding="UTF-8")
-    fcdata = bytearray(open("./files/NGC6543-stegged.png", "rb").read())
+    fcdata = bytearray(open("./files/steg/NGC6543-stegged.png", "rb").read())
     print("DONE\n")
 
     print("Generating datablock header...")
@@ -186,7 +186,7 @@ def main():
     interval_hint_addr = 1800
     interval_hint = "The key to all requires that which drives the curious; a pair in which the second cannot exist without the first. Combine these two, piece by piece, to obtain the interval!"
     offset_hint_addr = 986
-    offset_hint = "Dog just use the correct resistor value for the offset."
+    offset_hint = "Use the correct resistor value for the offset."
 
     # place riddle answer
     for i in range(len(riddle_answer_barr)):
