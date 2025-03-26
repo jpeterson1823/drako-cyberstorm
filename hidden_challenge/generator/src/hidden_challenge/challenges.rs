@@ -1,6 +1,7 @@
 use rand::prelude::*;
 
-pub const C1_WRAPPER        : &str  = "DRAKO";
+pub const C1_WRAPPER: &str = "DRAKO";
+const C3_MESSAGE    : &str = "To obtain the "
 
 
 // Challenge Structs
@@ -75,14 +76,24 @@ impl Challenge1 {
     pub fn display_info(&self, memspace_offset: u16) {
         // get max len of subflag for display padding
         let subflag_padding: usize = self.subflags.iter().map(|sf: &String| sf.len()).max().unwrap();
+
+        // calculate magic credential offset and password byte
+        let mc_addr: u16 = self.subflags[0].chars().map(|c| c as u32).sum::<u32>() as u16;
+        let mc_pass: u8  = self.subflags[1].chars().map(|c| c as u32).sum::<u32>() as u8;
+
         // do the displaying
         println!("Challenge 1 {{");
+        println!("    challenge flag  : discovery");
         println!("    memspace offset : {:#06x}", memspace_offset);
         println!("    size            : {}", self.field_size);
         println!("    subflags {{");
         println!("        {:<subflag_padding$} : local offset = {:#06x}", self.subflags[0], self.sf_offsets[0]);
         println!("        {:<subflag_padding$} : local offset = {:#06x}", self.subflags[1], self.sf_offsets[1]);
-        println!("    }}\n}}");
+        println!("    }}");
+        println!("    magic credentials {{");
+        println!("        {:<subflag_padding$} ---> {:#06x}", self.subflags[0], mc_addr);
+        println!("        {:<subflag_padding$} ---> {:#06x}", self.subflags[1], mc_pass);
+        println!("    }}");
     }
 }
 
@@ -141,6 +152,7 @@ impl Challenge2 {
 
     pub fn display_info(&self, memspace_offset: u16) {
         println!("Challenge 2 {{");
+        println!("    challenge flag  : understanding");
         println!("    memspace offset : {:#06x},", memspace_offset + self.field_size);
         println!("    hint offsets (local) {{ ");
         for hint in self.hints.iter().enumerate() {
@@ -171,6 +183,12 @@ impl Challenge3 {
     pub fn size(&self) -> u16 {
         self.data.len() as u16
     }
+
+    pub fn display_info(&self, memspace_offset: u16) {
+        println!("Challenge 3 {{");
+        println!("    message : \"{}\"", self.data);
+        println!("}}");
+    }
 }
 
 impl Challenge4 {
@@ -188,5 +206,14 @@ impl Challenge4 {
 
     pub fn size(&self) -> u16 {
         self.data.len() as u16
+    }
+
+    pub fn display_info(&self, memspace_offset: u16) {
+        println!("Challenge 4 {{");
+        println!("    challenge flag: Eltanin");
+        println!("    steg offset   : 250 (labeled resistor value)");
+        println!("    steg interval :  47 (correct resistor value)");
+        println!("    steg mode     : bit-wise retrieve");
+        println!("}}");
     }
 }

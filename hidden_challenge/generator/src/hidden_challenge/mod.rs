@@ -197,5 +197,6 @@ impl HiddenChallenge {
         // display challenge 1 info
         self.c1.display_info(self.calc_c1_memspace_offset()); println!();
         self.c2.display_info(self.calc_c2_memspace_offset()); println!();
+        self.c3.display_info(self.calc_c3_memspace_offset()); println!();
     }
 }
