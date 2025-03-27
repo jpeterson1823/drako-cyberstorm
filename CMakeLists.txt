@@ -33,7 +33,7 @@ add_executable(drako
 
 target_include_directories(drako PRIVATE
     ./include
-    ./hidden_challenge
+    ./hidden_challenge/generator/generated
 )
 
 target_link_libraries(drako 

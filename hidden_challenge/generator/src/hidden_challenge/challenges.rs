@@ -1,7 +1,8 @@
 use rand::prelude::*;
 
 pub const C1_WRAPPER: &str = "DRAKO";
-const C3_MESSAGE    : &str = "To obtain the "
+// caesar this message with c-flags words being rot-n ciphered
+const C3_MESSAGE    : &str = "Before understanding comes discovery. Discovery unveils the puzzle. Understanding places the pieces. Discovery is to -XOR- as Understanding is to *Vigenere*. That which is *scrambled* then -obfuscated- must be -deciphered- then *restored*... Here lies the penultimate challenge--no more than a covert messegner. Heed its words, seeker. The final challenge awiats.";
 
 
 // Challenge Structs
