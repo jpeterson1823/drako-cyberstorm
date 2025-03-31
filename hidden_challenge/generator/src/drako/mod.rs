@@ -1,7 +1,8 @@
-mod challenges;
+mod challenge;
 mod header;
+mod crypto;
 
-use challenges::*;
+use challenge::*;
 use header::{Field, FieldType};
 use rand::prelude::*;
 
@@ -15,11 +16,12 @@ pub const MIN_HINT_SEP: u16 = 150; // setting this too high will cause infinite 
 /// Holds all critical data for the entire hidden challenge
 pub struct HiddenChallenge {
     header: Vec<Field>,
-    c1: Challenge1,
-    c2: Challenge2,
-    c3: Challenge3,
-    c4: Challenge4,
+    c1: ch1::ChInfo,
+    c2: ch2::ChInfo,
+    c3: ch3::ChInfo,
+    c4: ch4::ChInfo,
 
+    datablock_size: u16,
     datablock_head: u16,
     datablock_tail: u16,
 }
@@ -28,10 +30,10 @@ impl HiddenChallenge {
     pub fn new() -> Self {
         // generate challenges
         print!("Generating challenges...");
-        let c1: Challenge1 = Challenge1::new();
-        let c2: Challenge2 = Challenge2::new();
-        let c3: Challenge3 = Challenge3::new();
-        let c4: Challenge4 = Challenge4::new();
+        let c1: ch1::ChInfo = ch1::ChInfo::new(DATABLOCK_OFFSET);
+        let c2: ch2::ChInfo = ch2::ChInfo::new();
+        let c3: ch3::ChInfo = ch3::ChInfo::new();
+        let c4: ch4::ChInfo = ch4::ChInfo::new();
         println!("DONE");
 
         // generate header
@@ -53,8 +55,9 @@ impl HiddenChallenge {
         // construct and return struct
         HiddenChallenge {
             header, c1, c2, c3, c4,
+            datablock_size,
             datablock_head,
-            datablock_tail
+            datablock_tail,
         }
     }
 
@@ -168,10 +171,10 @@ impl HiddenChallenge {
     }
 
     pub fn get_header(&self) -> &Vec<Field> { &self.header }
-    pub fn get_c1(&self) -> &Challenge1 { &self.c1 }
-    pub fn get_c2(&self) -> &Challenge2 { &self.c2 }
-    pub fn get_c3(&self) -> &Challenge3 { &self.c3 }
-    pub fn get_c4(&self) -> &Challenge4 { &self.c4 }
+    pub fn get_c1(&self) -> &ch1::ChInfo { &self.c1 }
+    pub fn get_c2(&self) -> &ch2::ChInfo { &self.c2 }
+    pub fn get_c3(&self) -> &ch3::ChInfo { &self.c3 }
+    pub fn get_c4(&self) -> &ch4::ChInfo { &self.c4 }
 
     pub fn calc_c1_memspace_offset(&self) -> u16 { DATABLOCK_OFFSET + self.header.len() as u16 }
     pub fn calc_c2_memspace_offset(&self) -> u16 { self.calc_c1_memspace_offset() + self.c1.size() }

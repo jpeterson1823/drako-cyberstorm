@@ -1,16 +1,18 @@
 use std::fs::{File, create_dir};
 use std::io::Write;
+use super::drako::HiddenChallenge;
 
 /// Path where generated header will be written
 pub const HEADER_PATH: &str = "./generated/hidden_challenge.h";
 
 /// Generate C Header file containing all relevant info
-pub fn generate(memspace: &Vec<u8>) {
+pub fn generate(hc: &HiddenChallenge, memspace: &Vec<u8>) {
     print!("Generating and writing C header... ");
 
     // generate header content
     let mut content: String = String::new(); 
     content += generate_includes_and_guard().as_str();
+    content += generate_constants(hc, memspace).as_str();
     content += generate_memspace_array(memspace).as_str();
 
     // create output directory if it isnt there already.
@@ -47,11 +49,21 @@ fn generate_includes_and_guard() -> String {
     )
 }
 
+/// Generates string containing the constants for the hidden challenge
+fn generate_constants(hc: &HiddenChallenge, memspace: &Vec<u8>) -> String {
+    let mut content: String = String::new();
+    content += format!("#define HC_DATABLOCK_SIZE {}\n", memspace.len()).as_str();
+    content += format!("#define HC_C1_MEMSPACE_OFFSET {}\n", hc.calc_c1_memspace_offset()).as_str();
+    content += format!("#define HC_C2_MEMSPACE_OFFSET {}\n", hc.calc_c2_memspace_offset()).as_str();
+    content += format!("#define HC_C3_MEMSPACE_OFFSET {}\n", hc.calc_c3_memspace_offset()).as_str();
+    content += format!("#define HC_C4_MEMSPACE_OFFSET {}\n", hc.calc_c4_memspace_offset()).as_str();
+    content
+}
+
 /// Generates string containing the datablock constant static array
 fn generate_memspace_array(memspace: &Vec<u8>) -> String {
     // create content string initially containing the definition of the array
     let mut content: String = String::new();
-    content += format!("#define HIDDEN_CHALLENGE_DATABLOCK_SIZE {}\n", memspace.len()).as_str();
     content += "const static uint8_t HIDDEN_CHALLENGE_DATABLOCK[] = {\n";
 
     // write datablock bytes as hex values to array

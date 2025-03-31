@@ -26,9 +26,9 @@
 
 extern bool hc_c2_complete;
 extern bool hc_c2_animated;
-static const size_t hc_c2_length = 640;
-static const uint16_t hc_c2_start = 0x094f + 1000;
-static const uint16_t hc_c2_end   = hc_c2_start + hc_c2_length;
+static const size_t HC_C2_LENGTH = 640;
+static const uint16_t HC_C2_START = 0x094f + 1000;
+static const uint16_t HC_C2_END   = HC_C2_START + HC_C2_LENGTH;
 
 static inline void hc_c2_update_clearance() {
     at28c64b_select(&drako.prom);

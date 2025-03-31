@@ -1,7 +1,7 @@
 mod c_header;
-mod hidden_challenge;
+mod drako;
 
-use hidden_challenge::HiddenChallenge;
+use drako::HiddenChallenge;
 
 use std::fs::{File, create_dir};
 use std::io::Write;
@@ -35,7 +35,7 @@ fn main() {
     println!("memspace generated.");
 
     // generate c header file
-    c_header::generate(&memspace);
+    c_header::generate(&hc, &memspace);
 
     // create binary dir
     match create_dir("./generated/bin") {
