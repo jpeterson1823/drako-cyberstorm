@@ -2,7 +2,7 @@ use crate::drako::crypto::*;
 
 // caesar this message with c-flags words being rot-n ciphered
 const C3_PLAINTEXT  : &[u8] = b"Before understanding comes discovery.\nDiscovery unveils the puzzle. Understanding places the pieces.\nDiscovery is to -XOR- as Understanding is to *Vigenere*.\nThat which is *scrambled* then -obfuscated- must be -deciphered- then *restored*...\nHere lies the penultimate challenge--no more than a covert messegner.\nHeed its words, cryptseeker. The final challenge awiats.";
-const C3_CAESAR_LUT : &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789,.~'?!*";
+pub const C3_CAESAR_LUT : &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789,.~'?!*";
 
 pub struct ChInfo {
     field_size : u16,

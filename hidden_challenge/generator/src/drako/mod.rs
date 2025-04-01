@@ -1,6 +1,6 @@
-mod challenge;
-mod header;
-mod crypto;
+pub mod challenge;
+pub mod header;
+pub mod crypto;
 
 use challenge::*;
 use header::{Field, FieldType};

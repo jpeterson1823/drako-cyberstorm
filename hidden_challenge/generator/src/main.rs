@@ -2,6 +2,7 @@ mod c_header;
 mod drako;
 
 use drako::HiddenChallenge;
+use drako::crypto::xor;
 
 use std::fs::{File, create_dir};
 use std::io::Write;
@@ -56,4 +57,7 @@ fn main() {
 
     // display important data
     hc.display_info();
+
+    let data = [0;50];
+    xor::encrypt(&data, 0);
 }
