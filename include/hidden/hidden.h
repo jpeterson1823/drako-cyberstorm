@@ -11,19 +11,6 @@
 #define HC_C2_CLEARANCE_ADDR 0x01c2     // obtained by summing all chars of subflag1 and casting as uint16_t
 #define HC_C2_CLEARANCE 0x55            // obtained by summing all chars of subflag2 and casting as uint8_t
 
-#define HC_C3_HINT1 "I am within all texts, embedded by their authors."
-#define HC_C3_HINT2 "I can be obtained, yet I am sometimes challenging to gift."
-#define HC_C3_HINT3 "Without me, knowledge is meaningless."
-#define HC_C3_HINT4 "In my presence, every enigma finds its answer."
-
-// Note: sum([ord(x) for x in P1+P2]) = 2382
-// sum digits: 2+3+8+2 = 15 = steg offset
-// interval: Draco Constellation is 26.28Mly from earth (hinted by c3 paper)
-//           sum digits: 2+6+2+8 = 18
-// Steg Summary:
-//   offset  : img_addr + 15
-//   interval: 18
-
 extern bool hc_c2_complete;
 extern bool hc_c2_animated;
 static const size_t HC_C2_LENGTH = 640;

@@ -1,6 +1,7 @@
 pub mod challenge;
 pub mod header;
 pub mod crypto;
+pub mod steg;
 
 use challenge::*;
 use header::{Field, FieldType};
@@ -175,6 +176,7 @@ impl HiddenChallenge {
     pub fn get_c2(&self) -> &ch2::ChInfo { &self.c2 }
     pub fn get_c3(&self) -> &ch3::ChInfo { &self.c3 }
     pub fn get_c4(&self) -> &ch4::ChInfo { &self.c4 }
+    pub fn get_datablock_size(&self) -> u16 { self.datablock_size }
 
     pub fn calc_c1_memspace_offset(&self) -> u16 { DATABLOCK_OFFSET + self.header.len() as u16 }
     pub fn calc_c2_memspace_offset(&self) -> u16 { self.calc_c1_memspace_offset() + self.c1.size() }
@@ -201,5 +203,6 @@ impl HiddenChallenge {
         self.c1.display_info(self.calc_c1_memspace_offset()); println!();
         self.c2.display_info(self.calc_c2_memspace_offset()); println!();
         self.c3.display_info(self.calc_c3_memspace_offset()); println!();
+        self.c4.display_info(self.calc_c4_memspace_offset()); println!();
     }
 }

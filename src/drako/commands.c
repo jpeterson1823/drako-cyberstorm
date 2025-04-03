@@ -3,6 +3,7 @@
 #include <drako/hardware/at28c64b.h>
 #include <level0/level.h>
 #include <hidden/hidden.h>
+#include <hidden_challenge.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -217,7 +218,7 @@ bool drako_cmd_peek(char* token, char** saveptr) {
     at28c64b_read8(&drako.prom, addr, &byte);
 
     // display read byte
-    if (addr >= hc_c2_start && addr <= hc_c2_end && !hc_c2_complete)
+    if (addr >= HC_C2_MEMSPACE_OFFSET && addr <= HC_C2_MEMSPACE_TAIL  && !hc_c2_complete)
         printf("PEEK <--- Overridden: REDACTED --->\n");
     else
         printf("PEEK @ 0x%04x : 0x%02x\n", addr, byte);
@@ -600,7 +601,7 @@ bool drako_cmd_hexdump() {
             printf("\n%04x  |  ", addr);
         at28c64b_read8(&drako.prom, addr, &byte);
 
-        if (addr >= hc_c2_start && addr <= hc_c2_end && !hc_c2_complete)
+        if (addr >= HC_C2_MEMSPACE_OFFSET && addr <= HC_C2_MEMSPACE_TAIL && !hc_c2_complete)
             printf("-- ");
         else
             printf("%02x ", byte);

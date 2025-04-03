@@ -13,10 +13,11 @@ void drako_reset_eeprom() {
     // select eeprom
     at28c64b_select(&drako.prom);
 
+    // write entire memspace
     uint8_t byte;
-    for (size_t i = 0; i < HIDDEN_CHALLENGE_DATABLOCK_SIZE; i++) {
+    for (size_t i = 0; i < HC_DATABLOCK_SIZE; i++) {
         //printf("Writing %02x to %04x... ", HIDDEN_CHALLENGE_DATABLOCK[i], datablock_offset + i);
-        at28c64b_write8(&drako.prom, datablock_offset + i, HIDDEN_CHALLENGE_DATABLOCK[i]);
+        at28c64b_write8(&drako.prom, datablock_offset + i, HIDDEN_CHALLENGE_MEMSPACE[i]);
 
         at28c64b_read8(&drako.prom, datablock_offset + i, &byte);
         //if (byte == HIDDEN_CHALLENGE_DATABLOCK[i])

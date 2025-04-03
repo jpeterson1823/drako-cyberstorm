@@ -1,6 +1,7 @@
 use std::fs::{File, create_dir};
 use std::io::Write;
 use super::drako::HiddenChallenge;
+use super::drako::challenge;
 
 /// Path where generated header will be written
 pub const HEADER_PATH: &str = "./generated/hidden_challenge.h";
@@ -52,11 +53,25 @@ fn generate_includes_and_guard() -> String {
 /// Generates string containing the constants for the hidden challenge
 fn generate_constants(hc: &HiddenChallenge, memspace: &Vec<u8>) -> String {
     let mut content: String = String::new();
-    content += format!("#define HC_DATABLOCK_SIZE {}\n", memspace.len()).as_str();
+    content += format!("#define HC_DATABLOCK_SIZE {}\n", hc.get_datablock_size()).as_str();
+    content += format!("#define HC_MEMSPACE_SIZE {}\n", memspace.len()).as_str();
+
     content += format!("#define HC_C1_MEMSPACE_OFFSET {}\n", hc.calc_c1_memspace_offset()).as_str();
+    content += format!("#define HC_C1_MEMSPACE_TAIL {}\n", hc.calc_c1_memspace_offset() + hc.get_c1().size()-1).as_str();
+
     content += format!("#define HC_C2_MEMSPACE_OFFSET {}\n", hc.calc_c2_memspace_offset()).as_str();
+    content += format!("#define HC_C2_MEMSPACE_TAIL {}\n", hc.calc_c2_memspace_offset() + hc.get_c2().size()-1).as_str();
+
     content += format!("#define HC_C3_MEMSPACE_OFFSET {}\n", hc.calc_c3_memspace_offset()).as_str();
+    content += format!("#define HC_C3_MEMSPACE_TAIL {}\n", hc.calc_c3_memspace_offset() + hc.get_c3().size()-1).as_str();
+
     content += format!("#define HC_C4_MEMSPACE_OFFSET {}\n", hc.calc_c4_memspace_offset()).as_str();
+    content += format!("#define HC_C4_MEMSPACE_TAIL {}\n", hc.calc_c4_memspace_offset() + hc.get_c4().size()-1).as_str();
+
+    content += format!("#define HC_C4_STEG_OFFSET {}\n", challenge::ch4::STEG_OFFSET).as_str();
+    content += format!("#define HC_C4_STEG_INTERVAL {}\n", challenge::ch4::STEG_INTERVAL).as_str();
+    content += format!("#define HC_C4_STEG_N_BYTES {}\n", challenge::ch4::STEG_N_BYTES).as_str();
+    content += "\n";
     content
 }
 
@@ -64,7 +79,7 @@ fn generate_constants(hc: &HiddenChallenge, memspace: &Vec<u8>) -> String {
 fn generate_memspace_array(memspace: &Vec<u8>) -> String {
     // create content string initially containing the definition of the array
     let mut content: String = String::new();
-    content += "const static uint8_t HIDDEN_CHALLENGE_DATABLOCK[] = {\n";
+    content += "const static uint8_t HIDDEN_CHALLENGE_MEMSPACE[] = {\n    ";
 
     // write datablock bytes as hex values to array
     for byte in memspace.iter().enumerate() {

@@ -11,7 +11,6 @@ impl std::fmt::Display for CipherError {
     }
 }
 
-
 pub mod caesar {
     use super::CipherError;
 
@@ -19,9 +18,15 @@ pub mod caesar {
     pub fn encrypt(data: &[u8], table: &[u8], n: u8) -> Result<Vec<u8>, CipherError> {
         let mut ciphertext: Vec<u8> = Vec::new();
         for i in 0..data.len() {
-            let index: usize = table.iter().position(|b| *b == data[i]).unwrap();
-            let shift: usize = n as usize;
-            ciphertext.push(table[(index + shift) % table.len()]);
+            match table.iter().position(|b| *b == data[i]) {
+                Some(index) => {
+                    let shift: usize = n as usize;
+                    ciphertext.push(table[(index + shift) % table.len()]);
+                },
+                None => {
+                    ciphertext.push(data[i]);
+                }
+            };
         }
 
         Ok(ciphertext)
@@ -42,6 +47,13 @@ pub mod caesar {
         Ok(plaintext)
     }
 
+    /// Returns true if all chars in `key` are found in `table`
+    fn is_valid_key(key: &[u8], table: &[u8]) -> bool {
+        for b in key.iter() {
+            if !table.contains(b) { return false; }
+        }
+        return true;
+    }
 }
 
 pub mod vigenere {
