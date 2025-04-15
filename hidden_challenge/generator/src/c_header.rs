@@ -58,9 +58,14 @@ fn generate_constants(hc: &HiddenChallenge, memspace: &Vec<u8>) -> String {
 
     content += format!("#define HC_C1_MEMSPACE_OFFSET {}\n", hc.calc_c1_memspace_offset()).as_str();
     content += format!("#define HC_C1_MEMSPACE_TAIL {}\n", hc.calc_c1_memspace_offset() + hc.get_c1().size()-1).as_str();
+    content += format!("#define HC_C1_CLEARANCE_ADDR {}\n", hc.get_c1().get_magic_creds().0).as_str();
+    content += format!("#define HC_C1_CLEARANCE_BYTE {}\n", hc.get_c1().get_magic_creds().1).as_str();
+    content += format!("#define HC_C1_SUBFLAG1 \"{}\"\n", challenge::ch1::C1_SF1).as_str();
+    content += format!("#define HC_C1_SUBFLAG2 \"{}\"\n", challenge::ch1::C1_SF2).as_str();
 
     content += format!("#define HC_C2_MEMSPACE_OFFSET {}\n", hc.calc_c2_memspace_offset()).as_str();
     content += format!("#define HC_C2_MEMSPACE_TAIL {}\n", hc.calc_c2_memspace_offset() + hc.get_c2().size()-1).as_str();
+    content += format!("#define HC_C2_LENGTH {}\n", hc.get_c2().size()).as_str();
 
     content += format!("#define HC_C3_MEMSPACE_OFFSET {}\n", hc.calc_c3_memspace_offset()).as_str();
     content += format!("#define HC_C3_MEMSPACE_TAIL {}\n", hc.calc_c3_memspace_offset() + hc.get_c3().size()-1).as_str();
@@ -102,3 +107,5 @@ fn generate_memspace_array(memspace: &Vec<u8>) -> String {
     // return content string
     content
 }
+
+

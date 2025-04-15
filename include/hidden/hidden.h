@@ -5,23 +5,16 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <drako/drako.h>
-
-#define HC_C1_SUBFLAG1 "THUBAN"
-#define HC_C1_SUBFLAG2 "DRACONIS"
-#define HC_C2_CLEARANCE_ADDR 0x01c2     // obtained by summing all chars of subflag1 and casting as uint16_t
-#define HC_C2_CLEARANCE 0x55            // obtained by summing all chars of subflag2 and casting as uint8_t
+#include <hidden_challenge.h>
 
 extern bool hc_c2_complete;
 extern bool hc_c2_animated;
-static const size_t HC_C2_LENGTH = 640;
-static const uint16_t HC_C2_START = 0x094f + 1000;
-static const uint16_t HC_C2_END   = HC_C2_START + HC_C2_LENGTH;
 
 static inline void hc_c2_update_clearance() {
     at28c64b_select(&drako.prom);
     uint8_t byte;
-    at28c64b_read8(&drako.prom, HC_C2_CLEARANCE_ADDR, &byte);
-    if (byte == HC_C2_CLEARANCE) {
+    at28c64b_read8(&drako.prom, HC_C1_CLEARANCE_ADDR, &byte);
+    if (byte == HC_C1_CLEARANCE_BYTE) {
         hc_c2_complete = true;
         drako.currentLevel = 255;
 

@@ -8,6 +8,7 @@
 #include <drako/commands.h>
 
 #define DRAKO_BUFSIZE 255
+#define DRAKO_EEPROM_SIZE 0x2000
 
 // typedef sn74hc595n and at28c64b for easier library use
 typedef sn74hc595n shiftreg;

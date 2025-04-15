@@ -55,3 +55,20 @@ pub fn generate(fields: &Vec<Field>) -> String  {
     header.push('\x02');
     return header;
 }
+
+pub fn calc_len(header: &Vec<Field>) -> usize {
+    // create len variable, starting at 1 to account for STX byte at start of header
+    let mut l: usize = 1;
+
+    // iterate over each field, adding it's length to the len counter
+    // as well as including the ascii record separator
+    for field in header.iter() {
+        l += field.to_string().len() + 1;
+    }
+
+    // count the EOT byte at the end
+    l += 1;
+
+    // return the length
+    l
+}

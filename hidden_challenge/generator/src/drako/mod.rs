@@ -17,6 +17,7 @@ pub const MIN_HINT_SEP: u16 = 150; // setting this too high will cause infinite 
 /// Holds all critical data for the entire hidden challenge
 pub struct HiddenChallenge {
     header: Vec<Field>,
+    hlen: usize,
     c1: ch1::ChInfo,
     c2: ch2::ChInfo,
     c3: ch3::ChInfo,
@@ -48,14 +49,17 @@ impl HiddenChallenge {
         ];
         println!("DONE");
 
+        // calc header size: STX byte + # of fields + field dividers + EOT byte
+        let hlen = header::calc_len(&header);
+
         // calculate datablock size and head/tail offset
-        let datablock_size: u16 = header.len() as u16 + c1.size() + c2.size() + c3.size() + c4.size();
+        let datablock_size: u16 = hlen as u16 + c1.size() + c2.size() + c3.size() + c4.size();
         let datablock_head: u16 = DATABLOCK_OFFSET;
         let datablock_tail: u16 = DATABLOCK_OFFSET + datablock_size;
 
         // construct and return struct
         HiddenChallenge {
-            header, c1, c2, c3, c4,
+            header, hlen, c1, c2, c3, c4,
             datablock_size,
             datablock_head,
             datablock_tail,
@@ -178,7 +182,7 @@ impl HiddenChallenge {
     pub fn get_c4(&self) -> &ch4::ChInfo { &self.c4 }
     pub fn get_datablock_size(&self) -> u16 { self.datablock_size }
 
-    pub fn calc_c1_memspace_offset(&self) -> u16 { DATABLOCK_OFFSET + self.header.len() as u16 }
+    pub fn calc_c1_memspace_offset(&self) -> u16 { DATABLOCK_OFFSET + self.hlen as u16 }
     pub fn calc_c2_memspace_offset(&self) -> u16 { self.calc_c1_memspace_offset() + self.c1.size() }
     pub fn calc_c3_memspace_offset(&self) -> u16 { self.calc_c2_memspace_offset() + self.c2.size() }
     pub fn calc_c4_memspace_offset(&self) -> u16 { self.calc_c3_memspace_offset() + self.c3.size() }
@@ -189,6 +193,7 @@ impl HiddenChallenge {
         println!("##### HIDDEN CHALLENGE INFORMATION #####");
         println!("########################################\n");
         // display header info
+        println!("Header Length: {}", self.hlen);
         println!("Challenge Header Fields {{");
         for field in self.header.iter().enumerate() {
             print!("    \"{}\"", field.1.to_string().as_str());

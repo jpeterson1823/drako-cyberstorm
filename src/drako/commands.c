@@ -21,7 +21,7 @@ const char* DRAKO_CMDS[] = {
     "show",
     "hide",
     "exit",
-    "steg",
+    "rsteg",
     "hexdump",
     "enter"
 };
@@ -51,10 +51,6 @@ bool exec_drako_cmd_str(const char* cmdstr) {
     char *token, *saveptr;
     uint8_t id;
 
-    DrakoStegConfig cfg;
-    uint8_t bytebuf[DRAKO_BUFSIZE];
-    uint16_t nbytes;
-
     // copy cmdstr
     strcpy(cmd, cmdstr);
     cmd[DRAKO_BUFSIZE-1] = 0;   // insure null terminator
@@ -81,9 +77,8 @@ bool exec_drako_cmd_str(const char* cmdstr) {
             return drako_cmd_hide();
         case DRAKO_CMD_EXIT:
             return drako_cmd_exit();
-        case DRAKO_CMD_STEG:
-            nbytes = _drako_parse_steg_cmd(cmdstr, &cfg, bytebuf, DRAKO_BUFSIZE);
-            return drako_cmd_steg(cfg, bytebuf, nbytes);
+        case DRAKO_CMD_RSTEG:
+            return drako_cmd_rsteg(token, &saveptr);
         case DRAKO_CMD_HEXDUMP:
             return drako_cmd_hexdump();
         case DRAKO_CMD_ENTER:
@@ -322,273 +317,97 @@ bool drako_cmd_exit() {
     return true;
 }
 
+/// Drako Retrieval Steg
+/// Stegged data is stored bitwise, MSB first.
+bool drako_cmd_rsteg(char* token, char** saveptr) {
+    // parse steg params from command
+    uint16_t offset, nbytes;
+    uint8_t interval;
+    bool valid = _drako_parse_rsteg_cmd(token, saveptr, &offset, &interval, &nbytes);
 
-/**
- * @brief Parses string command into DrakoStegConfig struct
- * @param cmd String command to be parsed
- * @param config Pointer to DrakoStegConfig struct in which to save config options
- * @param bytes Byte buffer to either pass in bytes to be steg'd or pass out retrieved bytes
- * @param nbytes Either the length of bytes being passed in or the number of bytes to be retrieved.
- */
-uint16_t _drako_parse_steg_cmd(const char* cmd, DrakoStegConfig* config, uint8_t* bytebuf, uint16_t nbytes) {
-    // set default config
-    config->operation = DRAKO_STEG_NO_OPERATION;
-    config->mode = DRAKO_STEG_MODE_BYTE;
-    config->offset = 0x0000;
-    config->interval = 1;
-    config->nbytes = 1;
+    printf("RSTEG\n    offset  : %#06x\n    interval: %#04x\n    nbytes  : %#04x\n", offset, interval, nbytes);
 
-    // copy cmd for tokenization
-    char cpy[DRAKO_BUFSIZE];
-    strncpy(cpy, cmd, DRAKO_BUFSIZE);
-    cpy[DRAKO_BUFSIZE-1] = 0;
-    
-    // verify command is steg
-    char *token, *saveptr;
-    token = strtok_r(cpy, " ", &saveptr);
-    if (token != NULL && strcmp(token, "steg") != 0)
+    // if provided command is invalid, display message to console and return false
+    if (!valid) {
+        printf("Please see the `help` command for usage instructions.\n");
         return false;
+    }
 
-    // get flag token
-    token = strtok_r(NULL, " ", &saveptr);
-    // if no flag token, cannot continue
+    // display start of steg output
+    printf("Retrieved Bytes (hex): \n");
+
+    // extract stegged data
+    uint8_t eeprom_byte, byte;
+    for (uint16_t addr = offset; addr < DRAKO_EEPROM_SIZE && addr < offset + (interval*nbytes*8);) {
+        byte = 0;
+        // construct byte from bitwise stegged data
+        for (uint8_t bit = 0; bit < 8; bit++) {
+            //printf("addr=%#06x\n", addr);
+            // read byte from eeprom
+            at28c64b_read8(&drako.prom, addr, &eeprom_byte);
+            // extract byte and shift to proper position
+            byte |= (eeprom_byte&0x01)<<(7-bit);
+            // increment byte index by interval
+            addr += interval;
+        }
+        // print byte to console as hex
+        printf("%#04x ", byte);
+    }
+    // add trailing newline
+    printf("\n");
+    // steg completed successfully
+    return true;
+}
+
+bool _drako_parse_rsteg_cmd(char *token, char **saveptr, uint16_t *offset, uint8_t *interval, uint16_t *nbytes) {
+    // get next token (which is the first arg)
+    token = strtok_r(NULL, " ", saveptr);
+    // first arg is offset
     if (token == NULL) {
-        printf("[ERROR] Required flags were not set! See \"help steg\" for more info.\n");
+        printf("Missing offset argument. See help for more info.\n");
+        return false;
+    } else if (!_drako_str_to_uint16_t(token, offset)) {
+        printf("Invalid offset parameter `%s` provided.\n", token);
         return false;
     }
 
-    // create flag stack to keep track of flags that need an argument
-    char flags[DRAKO_BUFSIZE];
-    uint8_t nflags = 0;
-
-    // parse flag string
-    uint8_t i;
-    if (token[0] == '-') {
-        for (i = 1; i < 0xff && i < strlen(token); i++) {
-            // set config
-            switch (token[i]) {
-                case DRAKO_STEG_MODE_BIT: // no arg required
-                    config->mode = DRAKO_STEG_MODE_BIT;
-                    break;
-                case DRAKO_STEG_MODE_BYTE:// no arg required
-                    config->mode = DRAKO_STEG_MODE_BYTE;
-                    break;
-                case DRAKO_STEG_RETRV:    // arg required!
-                    config->operation = DRAKO_STEG_RETRV;
-                    flags[nflags++] = token[i];
-                    break;
-                case DRAKO_STEG_STORE:    // no arg required
-                    config->operation = DRAKO_STEG_STORE;
-                    break;
-                case DRAKO_STEG_OFFSET:   // arg required!
-                    flags[nflags++] = token[i];
-                    break;
-                case DRAKO_STEG_INTERVAL: // arg required!
-                    flags[nflags++] = token[i];
-                    break;
-                default:
-                    printf("[ERROR] Unknown steg flag '%c'\n", token[i]);
-                    return false;
-            }
-        }
-    }
-    // otherwise, param is an arg without any provided flag
-    else {
-        printf("[ERROR] Provided orphan argument '%s'. Which parameter(s) are you trying to set?\n", token);
+    // second arg is interval
+    token = strtok_r(NULL, " ", saveptr);
+    if (token == NULL) {
+        printf("Missing interval offset. See help for more info.\n");
         return false;
-    }
-    
-    // parse arguments required by specified flags
-    for (i = 0; i < nflags; i++) {
-        // get next token
-        token = strtok_r(NULL, " ", &saveptr);
-        // if no further token, then missing args
-        if (token == NULL) {
-            printf("[ERROR] Missing argument for flag '-%c'\n", flags[i]);
-            return false;
-        }
-
-        // store args in config
-        switch (flags[i]) {
-            case DRAKO_STEG_RETRV:
-                if (_is_hex_str(token))
-                    config->nbytes = strtoul(token, NULL, 16);
-                else {
-                    printf("[ERROR] All number arguments must be valid hexidecimal!\n");
-                    return false;
-                }
-            case DRAKO_STEG_OFFSET:
-                config->offset = strtoul(token, NULL, 16);
-                break;
-            case DRAKO_STEG_INTERVAL:
-                config->interval = strtoull(token, NULL, 16);
-                // make sure interval is not zero. if it is, cannot continue
-                if (config->interval <= 0) {
-                    printf("[ERROR] Interval must be greater than zero!\n");
-                    return false;
-                }
-                break;
-            default:    // this should never trigger due to previous flag parsing
-                printf("[CRITICAL ERROR] Unknown flag passed through flag parsing!!\nOffending Flag = '-%c'", flags[i]);
-                return false;
-        }
-    }
-
-    // if in store mode, all remaining args are bytes to be stored
-    token = strtok_r(NULL, " ", &saveptr);
-    uint16_t j = 0;
-    while (token != NULL) {
-        if (j < nbytes)
-            bytebuf[j++] = strtoul(token, NULL, 16);
-        else break;
-        token = strtok_r(NULL, " ", &saveptr);
-    }
-
-    // make sure operation is set before returning true
-    if (config->operation == DRAKO_STEG_NO_OPERATION) {
-        printf("[ERROR] No operation provided!\n");
+    } else if (!_drako_str_to_uint8_t(token, interval)) {
+        printf("Invalid interval parameter `%s` provided.\n", token);
         return false;
     }
 
-    // otherwise, config has been parsed successfully
-    // if in store mode, return number of bytes to be stored
-    if (config->operation == DRAKO_STEG_STORE)
-        return j;
-    // otherwise, return nbytes
-    else
-        return nbytes;
+    // third arg is nbytes
+    token = strtok_r(NULL, " ", saveptr);
+    if (token == NULL) {
+        printf("Missing nbytes argument. See help for more info.\n");
+        return false;
+    } else if (!_drako_str_to_uint16_t(token, nbytes)) {
+        printf("Invalid nbytes parameter `%s` provided.\n", token);
+        return false;
+    }
+
+    // args successfully parsed: return true
+    return true;
 }
 
-///**
-// * @brief Drako steganography command
-// * @param config Preconfigured DrakoStegConfig struct
-// * @param bytes Byte buffer to either pass in bytes to be steg'd or pass out retrieved bytes
-// * @param nbytes Either the length of bytes being passed in or the number of bytes to be retrieved.
-// */
-//bool drako_cmd_steg(const DrakoStegConfig config, uint8_t* bytes, uint16_t nbytes) {
-//    // set offset address and select eeprom
-//    uint16_t addr = config.offset;
-//    at28c64b_select(&drako.prom);
-//
-//    // store mode
-//    if (config.operation == DRAKO_STEG_STORE) {
-//        // steg each bit or byte
-//        if (config.mode == DRAKO_STEG_MODE_BIT) {
-//            uint8_t byte;   // used in storage mask
-//            for (uint16_t i = 0; i < nbytes; i++) {
-//                at28c64b_read8(&drako.prom, addr, &byte);
-//                at28c64b_write8(&drako.prom, addr, bytes[i]&0x01 ? byte | 0x01 : byte & 0xfe);
-//                addr += config.interval;    // inc address by interval
-//            }
-//        } else {
-//            for (uint16_t i = 0; i < nbytes; i++) {
-//                at28c64b_write8(&drako.prom, addr, bytes[i]);
-//                addr += config.interval;    // inc address by interval
-//            }
-//        }
-//        return true;
-//    }
-//
-//    // retrieve mode
-//    else if (config.operation == DRAKO_STEG_RETRV) {
-//        uint8_t byte;
-//        uint16_t i;
-//        if (config.mode == DRAKO_STEG_MODE_BIT) {
-//            for (i = 0; i < config.nbytes; i++) {
-//                at28c64b_read8(&drako.prom, addr, &byte);
-//                bytes[i] = 0x01 & byte;
-//                addr += config.interval;
-//            }
-//        } else {
-//            for (i = 0; i < nbytes; i++) {
-//                at28c64b_read8(&drako.prom, addr, &byte);
-//                bytes[i] = byte;
-//                addr += config.interval;
-//            }
-//        }
-//        // display retrieved bytes to terminal
-//        for(i = 0; i < config.nbytes; i++)
-//            printf("%02x ", bytes[i]);
-//        printf("\n");
-//        return true;
-//    }
-//
-//    // no operation set: error out
-//    else if (config.operation == DRAKO_STEG_NO_OPERATION) {
-//        printf("[ERROR] Steg operation mode was not specified!\n");
-//        return false;
-//    }
-//    
-//    // pray this does not occur; for if it does, the code gods have certainly forsaken thee.
-//    else {
-//        printf("[CRITICAL ERROR] Unknown steg operation provided in config!\n");
-//        return false;
-//    }
-//}
-
-
-/**
- * @brief Drako steganography command
- * @param config Preconfigured DrakoStegConfig struct
- * @param bytes Byte buffer to either pass in bytes to be steg'd or pass out retrieved bytes
- * @param nbytes Either the length of bytes being passed in or the number of bytes to be retrieved.
- */
-bool drako_cmd_steg(const DrakoStegConfig config, uint8_t* bytes, uint16_t nbytes) {
-    // set offset address and select eeprom
-    uint16_t addr = config.offset;
-    at28c64b_select(&drako.prom);
-
-    // store mode
-    if (config.operation == DRAKO_STEG_STORE) {
-        printf("%s STEG store mode has been disabled!\n", DRKO_TERM);
-        return false;
-    }
-
-    // retrieve mode. stegged bits are stored MSB first
-    else if (config.operation == DRAKO_STEG_RETRV) {
-        uint8_t byte, temp;
-        uint16_t i;
-        if (config.mode == DRAKO_STEG_MODE_BIT) {
-            for (i = 0; i < config.nbytes; i++) {
-                temp = 0;
-                for (uint8_t bit = 0; bit < 8; bit++) {
-                    // read byte
-                    at28c64b_read8(&drako.prom, addr, &byte);
-                    // get stegged bit (MSB first) from byte and put it in temp
-                    temp |= (byte & 0x01)<<(7-bit);
-                    // inc address by interval
-                    addr += config.interval;
-                }
-                // store byte in bytes array
-                bytes[i] = temp;
-            }
-        } else {
-            for (i = 0; i < nbytes; i++) {
-                at28c64b_read8(&drako.prom, addr, &byte);
-                bytes[i] = byte;
-                addr += config.interval;
-            }
-        }
-        // display retrieved bytes to terminal
-        for(i = 0; i < config.nbytes; i++)
-            printf("%02x ", bytes[i]);
-        printf("\n");
-        return true;
-    }
-
-    // no operation set: error out
-    else if (config.operation == DRAKO_STEG_NO_OPERATION) {
-        printf("[ERROR] Steg operation mode was not specified!\n");
-        return false;
-    }
-    
-    // pray this does not occur; for if it does, the code gods have certainly forsaken thee.
-    else {
-        printf("[CRITICAL ERROR] Unknown steg operation provided in config!\n");
-        return false;
-    }
+bool _drako_str_to_uint8_t(char* str, uint8_t* buff) {
+    char* end;
+    // intentionally allow overflow (part of challenge help)
+    *buff = (uint8_t)strtol(str, &end, 16);
+    return true;
 }
 
+bool _drako_str_to_uint16_t(char* str, uint16_t* buff) {
+    char* end;
+    // intentionally allow overflow (part of challenge help)
+    *buff = (uint16_t)strtol(str, &end, 16);
+    return true;
+}
 
 /**
  * @brief Drako hexdump command. Displays a hexdump of Drako's EEPROM.

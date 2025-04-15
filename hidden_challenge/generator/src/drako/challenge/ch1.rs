@@ -3,8 +3,8 @@ use super::meta::*;
 
 // Constants
 pub const C1_WRAPPER: &str = "DRAKO";
-const C1_SF1: &str = "THUBAN";
-const C1_SF2: &str = "DRACONIS";
+pub const C1_SF1: &str = "THUBAN";
+pub const C1_SF2: &str = "DRACONIS";
 const C1_SF_MIN_SEP: u16 = 250;
 const C1_SF_MIN_OFFSET: u16 = 100;
 const C1_SIZE: u16 = 1000u16;
@@ -95,22 +95,21 @@ impl ChInfo {
         let wrapped1: String = format!(
             "{}{}{}",
             C1_WRAPPER,
-            self.subflags[0],
+            self.subflags[0].value(),
             C1_WRAPPER
         );
         let wrapped2: String = format!(
             "{}{}{}",
             C1_WRAPPER,
-            self.subflags[1],
+            self.subflags[1].value(),
             C1_WRAPPER
         );
 
         // place wrapped subflags at their offset
-        for t in wrapped1.chars().enumerate() {
-            bin[t.0] = t.1 as u8;
-        }
-        for t in wrapped2.chars().enumerate() {
-            bin[t.0] = t.1 as u8;
+        for subflag in self.subflags.iter() {
+            for t in subflag.value().chars().enumerate() {
+                bin[t.0 + subflag.offset().local() as usize] = t.1 as u8;
+            }
         }
 
         return bin;
@@ -118,8 +117,7 @@ impl ChInfo {
 
     pub fn display_info(&self, memspace_offset: u16) {
         // calculate magic credential offset and password byte
-        let mc_addr: u16 = self.subflags[0].value().chars().map(|c| c as u32).sum::<u32>() as u16;
-        let mc_pass: u8  = self.subflags[1].value().chars().map(|c| c as u32).sum::<u32>() as u8;
+        let mcreds: (u16, u8) = self.get_magic_creds();
 
         // do the displaying
         println!("Challenge 1 {{");
@@ -131,8 +129,16 @@ impl ChInfo {
         println!("        {} : local_offset = {:#06x}", C1_SF2, self.subflags[1].offset().local());
         println!("    }}");
         println!("    magic credentials {{");
-        println!("        {} ---> {:#06x}", C1_SF1, mc_addr);
-        println!("        {} ---> {:#06x}", C1_SF2, mc_pass);
+        println!("        {} ---> {:#06x}", C1_SF1, mcreds.0);
+        println!("        {} ---> {:#06x}", C1_SF2, mcreds.1);
         println!("    }}");
+    }
+
+    pub fn get_magic_creds(&self) -> (u16, u8) {
+        // calculate magic credential offset and password byte
+        let mc_addr: u16 = self.subflags[0].value().chars().map(|c| c as u32).sum::<u32>() as u16;
+        let mc_pass: u8  = self.subflags[1].value().chars().map(|c| c as u32).sum::<u32>() as u8;
+
+        (mc_addr, mc_pass)
     }
 }

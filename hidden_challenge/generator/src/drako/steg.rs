@@ -14,12 +14,11 @@ pub fn store(wrap: &[u8], data: &[u8], interval: u8, offset: u8) -> Vec<u8> {
     s
 }
 
-pub fn retrieve(wrap: &[u8], interval: u8, offset: u8, n: u8) -> Vec<u8> {
+pub fn retrieve(wrap: &[u8], interval: u8, offset: u16, n: u8) -> Vec<u8> {
     let mut s: Vec<u8> = Vec::new();
     let mut i: usize = offset as usize;
 
     for _ in 0..n {
-        println!("{}", i);
         let mut byte: u8 = 0u8;
         for bit in (0u8..8u8).rev() {
             byte |= (wrap[i]&0x01)<<bit;
