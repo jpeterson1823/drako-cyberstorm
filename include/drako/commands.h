@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <drako/drako.h>
 
 #define DRAKO_STEG_HELP_STR "Usage: steg <offset> <interval> <nbytes>\n"
 

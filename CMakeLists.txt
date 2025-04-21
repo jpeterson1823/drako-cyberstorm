@@ -16,9 +16,6 @@ pico_sdk_init()
 
 add_executable(drako
     src/main.c
-
-    src/hidden/hidden.c
-
     src/drako/hardware/sn74hc595n.c
     src/drako/hardware/at28c64b.c
     src/drako/hardware/at28c64b_hidden.c

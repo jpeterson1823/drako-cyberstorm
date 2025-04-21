@@ -58,19 +58,12 @@ typedef struct __display_struct {
 
 
 void display_init(display* disp);
+void display_select(display* disp);
 void display_show(display* disp);
 void display_hide(display* disp);
 void display_clear(display* disp);
 void display_write(display* disp, uint16_t data);
 void display_hex(display* disp, uint8_t byte);
 uint16_t byte2disp(uint8_t data);
-
-static inline void display_select(display* disp) {
-    sn74hc595n_select(&disp->sreg);
-    if (disp->show_state)
-        display_show(disp);
-    else
-        display_hide(disp);
-}
 
 #endif

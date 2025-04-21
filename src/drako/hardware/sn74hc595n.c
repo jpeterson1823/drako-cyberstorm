@@ -39,6 +39,10 @@ void sn74hc595n_select(sn74hc595n* sreg) {
     gpio_set_dir(sreg->rclk,  GPIO_OUT);
     gpio_set_dir(sreg->srclk, GPIO_OUT);
     gpio_set_dir(sreg->oe,    GPIO_OUT);
+
+    // pull down active low
+    //gpio_pull_down(sreg->oe);
+
     // set default pin states
     gpio_put(sreg->ser,   0);
     gpio_put(sreg->rclk,  0);

@@ -1,7 +1,7 @@
 use crate::drako::crypto::*;
 
 // caesar this message with c-flags words being rot-n ciphered
-const C3_PLAINTEXT  : &[u8] = b"Before understanding comes discovery.\nDiscovery unveils the puzzle. Understanding places the pieces.\nDiscovery is to -XOR- as Understanding is to *Vigenere*.\nThat which is *scrambled* then -obfuscated- must be -deciphered- then *restored*...\nHere lies the penultimate challenge--no more than a covert messegner.\nHeed its words, cryptseeker. The final challenge awiats.";
+const C3_PLAINTEXT  : &[u8] = b"The two requirements for expanding one's knowledge: discovery and understanding.\nUpon my plastic vessel lies a false label, one which was left by my creator.\nFind this incorrect label, then its true value. Decipher these notes, and your search shall be complete!\n\n\"The key lies in plain sight, hidden by the Grand Mage Stegg!\nA hint to those who seek: Incorrect is to Offset, as Correct is to Interval.\"\n\nHere lies the penultimate challenge--no more than a covert messenger.\nHeed its words, cryptseeker. The final challenge awiats.";
 pub const C3_CAESAR_LUT : &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789,.~'?!*";
 
 pub struct ChInfo {

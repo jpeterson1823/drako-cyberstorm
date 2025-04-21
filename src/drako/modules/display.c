@@ -12,6 +12,13 @@ void display_init(display* disp) {
     display_show(disp);
 }
 
+void display_select(display* disp) {
+    sn74hc595n_select(&disp->sreg);
+    if (disp->show_state)
+        display_show(disp);
+    else
+        display_hide(disp);
+}
 
 /**
  * @brief Enables output on shift registers that control the display.

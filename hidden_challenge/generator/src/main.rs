@@ -22,7 +22,9 @@ fn save_bin(path: &str, data: &[u8]) {
     };
 }
 
-fn generator() {
+fn main() {
+    println!("Generating Hidden Challenge");
+
     // create hidden challenge object
     let mut hc: HiddenChallenge = HiddenChallenge::new();
     println!("hidden challenge object created.");
@@ -66,34 +68,4 @@ fn generator() {
     //}
 }
 
-fn info() {
-    // info vars
-    let mut cb_offset: usize;
 
-    // load generated memspace
-    let memspace: Vec<u8> = include_bytes!("../generated/bin/memspace.bin").to_vec();
-
-    // find header within memspace and get its offset
-    let header: &[u8] = "\x01name=".as_bytes();
-    let mut window: &[u8];
-    let mut header_found: bool = false;
-    for i in 0..(memspace.len() - header.len()) {
-        if header_found { break }
-        window = &memspace[i..i+header.len()];
-        for j in 0..header.len() {
-            if window == header {
-                cb_offset = i;
-                header_found = true;
-                break;
-            }
-        }
-    }
-}
-
-fn main() {
-    // get cli args
-    //let args: Vec<String> = env::args().collect();
-    
-    generator();
-    //info();
-}

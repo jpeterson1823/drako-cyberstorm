@@ -1,9 +1,38 @@
 #include <drako/drako.h>
 #include <hidden_challenge.h>
-#include <hidden/hidden.h>
 
-// define global drako for externs
+
+// create global drako object for externs
 Drako drako;
+
+/**
+ * @brief Initializes Drako and its hardware. Must be called before any other Drako function.
+ */
+void drako_init() {
+    // initialize drako's eeprom struct
+    at28c64b_init(&drako.prom,
+        0x000000FF,     // data bus on GPIO[0:7]
+        0x001FFF00,     // addr bus on GPIO[8:20]
+        26, 22, 21
+    );
+
+    // initialize drako's display struct
+    display_init(&drako.disp);
+
+    // For some reason, most boards have issues with writing to the display if the eeprom is not
+    // selected before the first display write. I'm not sure why. Actually, I have no idea why.
+    // I tried resoldering but that did not solve the problem. So, for now and maybe forever,
+    // we just do what makes things work:
+    at28c64b_select(&drako.prom);
+
+    // set exit flag to false
+    drako.exit_flag = false;
+
+    // check magic credentials and update var accordingly
+    uint8_t byte;
+    at28c64b_read8(&drako.prom, HC_C1_CLEARANCE_ADDR, &byte);
+    drako.hasMagicCreds = (byte == HC_C1_CLEARANCE_BYTE);
+}
 
 void drako_reset_eeprom() {
     printf("DRAKO RESETTING. THIS WILL TAKE ABOUT A MINUTE.\n");

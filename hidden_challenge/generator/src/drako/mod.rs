@@ -108,6 +108,14 @@ impl HiddenChallenge {
         // update hints in c2
         self.c2.update_hint_offsets(offsets);
 
+        // place look-up table at beginning
+        let mut lut_string: String = String::from("caesar_alph=");
+        lut_string += String::from_utf8(challenge::ch3::C3_CAESAR_LUT.to_vec()).unwrap().as_str();
+        lut_string += "\x00";
+        for c in lut_string.chars().enumerate() {
+            memspace[c.0] = c.1 as u8;
+        }
+
         // return EEPROM memspace
         memspace
     }
@@ -118,7 +126,7 @@ impl HiddenChallenge {
         let mut rng = rand::rng();
 
         // attempt to generate random offset that wont overwrite occupied memory
-        let mut offset: u16 = rng.random_range(0..EEPROM_MAX_ADDR);
+        let mut offset: u16 = rng.random_range(100..EEPROM_MAX_ADDR);
         while !self.is_valid_hint_offset(hint_len, offset) {
             offset = rng.random_range(0..EEPROM_MAX_ADDR);
         }
@@ -145,6 +153,12 @@ impl HiddenChallenge {
             return false;
         }
 
+        // invalid if placing hint will have tail overwrite part datablock
+        let mut tail: u16 = offset+hint_len;
+        if tail >= self.datablock_head && offset <= self.datablock_tail {
+            return false;
+        }
+
         // check offset against every placed hint
         for hint in self.c2.get_hints().iter() {
             // invalid if offset lies inside another hint
@@ -154,7 +168,7 @@ impl HiddenChallenge {
             }
 
             // invalid if hint's tail ends up in occupied space (indicating an overwrite)
-            let tail: u16 = offset+hint_len;
+            tail = offset+hint_len;
             if tail >= hint.1 && tail <= self.hint_tail(&hint) {
                 //println!("INVALID: offset causes overwrite.");
                 return false;

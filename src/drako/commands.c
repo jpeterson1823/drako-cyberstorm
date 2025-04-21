@@ -1,17 +1,13 @@
 #include <drako/drako.h>
 #include <drako/commands.h>
 #include <drako/hardware/at28c64b.h>
-#include <level0/level.h>
-#include <hidden/hidden.h>
 #include <hidden_challenge.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 
-
-
-const size_t DRAKO_N_CMDS = 11;
+const size_t DRAKO_N_CMDS = 10;
 const char* DRAKO_CMDS[] = {
     "help",
     "commands",
@@ -23,7 +19,6 @@ const char* DRAKO_CMDS[] = {
     "exit",
     "rsteg",
     "hexdump",
-    "enter"
 };
 const char* DRAKO_CMD_HELP_STRS[] = {
     "Usage: help <command>\nDescription: Displays useful info about a specified command.\n",
@@ -36,7 +31,6 @@ const char* DRAKO_CMD_HELP_STRS[] = {
     "Usage: exit\nDescription: Exits the terminal session. Using this will require you to power cycle Drako to reconnect.\n",
     DRAKO_STEG_HELP_STR,
     "Usage: hexdump\nDescription:",
-    "Usage: enter\nDescription: Begin your adventure.\n"
 };
 
 
@@ -74,6 +68,7 @@ bool exec_drako_cmd_str(const char* cmdstr) {
         case DRAKO_CMD_SHOW:
             return drako_cmd_show(token, &saveptr);
         case DRAKO_CMD_HIDE:
+            printf("\nHIDE CALLED!\n");
             return drako_cmd_hide();
         case DRAKO_CMD_EXIT:
             return drako_cmd_exit();
@@ -81,9 +76,6 @@ bool exec_drako_cmd_str(const char* cmdstr) {
             return drako_cmd_rsteg(token, &saveptr);
         case DRAKO_CMD_HEXDUMP:
             return drako_cmd_hexdump();
-        case DRAKO_CMD_ENTER:
-            level0();
-            return true;
         default:
             // unrecognized command
             return false;
@@ -146,7 +138,7 @@ bool drako_cmd_help(char* token, char** saveptr) {
     }
 
     // if token is "whatis" and hc_c3 is active, display it's help message
-    else if (hc_c2_complete && strcmp(token, "whatis") == 0) {
+    else if (drako.hasMagicCreds && strcmp(token, "whatis") == 0) {
         printf(
             "Usage: whatis <guess>\n"
             "Description: Use this to guess the answer to Drako's riddle.\n"
@@ -173,7 +165,7 @@ bool drako_cmd_cmds() {
     for (uint8_t i = 0; i < DRAKO_N_CMDS; i++)
         printf("    %s\n", DRAKO_CMDS[i]);
     // display "whatis" command when hc_c3 is active
-    if (hc_c2_complete)
+    if (drako.hasMagicCreds)
         printf("    whatis (unlocked via hidden challenge)\n");
     printf("Please use the \"help\" command for more information about a specific command.\n");
     return true;
@@ -213,7 +205,7 @@ bool drako_cmd_peek(char* token, char** saveptr) {
     at28c64b_read8(&drako.prom, addr, &byte);
 
     // display read byte
-    if (addr >= HC_C2_MEMSPACE_OFFSET && addr <= HC_C2_MEMSPACE_TAIL  && !hc_c2_complete)
+    if (addr >= HC_C2_MEMSPACE_OFFSET && addr <= HC_C2_MEMSPACE_TAIL  && !drako.hasMagicCreds)
         printf("PEEK <--- Overridden: REDACTED --->\n");
     else
         printf("PEEK @ 0x%04x : 0x%02x\n", addr, byte);
@@ -420,8 +412,8 @@ bool drako_cmd_hexdump() {
             printf("\n%04x  |  ", addr);
         at28c64b_read8(&drako.prom, addr, &byte);
 
-        if (addr >= HC_C2_MEMSPACE_OFFSET && addr <= HC_C2_MEMSPACE_TAIL && !hc_c2_complete)
-            printf("-- ");
+        if (addr >= HC_C2_MEMSPACE_OFFSET && addr <= HC_C2_MEMSPACE_TAIL && !drako.hasMagicCreds)
+            printf("== ");
         else
             printf("%02x ", byte);
     }
