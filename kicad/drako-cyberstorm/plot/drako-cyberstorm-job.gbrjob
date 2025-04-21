@@ -5,13 +5,13 @@
       "Application": "Pcbnew",
       "Version": "8.0.0"
     },
-    "CreationDate": "2025-01-03T13:29:39-06:00"
+    "CreationDate": "2025-04-21T08:56:31-05:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
-      "Name": "TheGoldfish",
-      "GUID": "54686547-6f6c-4646-9669-73682e6b6963",
-      "Revision": "1"
+      "Name": "drako-cyberstorm",
+      "GUID": "6472616b-6f2d-4637-9962-657273746f72",
+      "Revision": "2"
     },
     "Size": {
       "X": 75.05,
@@ -32,47 +32,47 @@
   ],
   "FilesAttributes": [
     {
-      "Path": "TheGoldfish-F_Cu.gbr",
+      "Path": "drako-cyberstorm-F_Cu.gbr",
       "FileFunction": "Copper,L1,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "TheGoldfish-B_Cu.gbr",
+      "Path": "drako-cyberstorm-B_Cu.gbr",
       "FileFunction": "Copper,L2,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "TheGoldfish-F_Paste.gbr",
+      "Path": "drako-cyberstorm-F_Paste.gbr",
       "FileFunction": "SolderPaste,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "TheGoldfish-B_Paste.gbr",
+      "Path": "drako-cyberstorm-B_Paste.gbr",
       "FileFunction": "SolderPaste,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "TheGoldfish-F_Silkscreen.gbr",
+      "Path": "drako-cyberstorm-F_Silkscreen.gbr",
       "FileFunction": "Legend,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "TheGoldfish-B_Silkscreen.gbr",
+      "Path": "drako-cyberstorm-B_Silkscreen.gbr",
       "FileFunction": "Legend,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "TheGoldfish-F_Mask.gbr",
+      "Path": "drako-cyberstorm-F_Mask.gbr",
       "FileFunction": "SolderMask,Top",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "TheGoldfish-B_Mask.gbr",
+      "Path": "drako-cyberstorm-B_Mask.gbr",
       "FileFunction": "SolderMask,Bot",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "TheGoldfish-Edge_Cuts.gbr",
+      "Path": "drako-cyberstorm-Edge_Cuts.gbr",
       "FileFunction": "Profile",
       "FilePolarity": "Positive"
     }

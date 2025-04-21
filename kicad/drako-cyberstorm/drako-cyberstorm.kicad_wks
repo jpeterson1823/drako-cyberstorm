@@ -145,7 +145,7 @@
 		(start 110 18.5)
 		(end 2 18.5)
 	)
-	(tbtext "Class : CYEN403-001 WINTER 2025"
+	(tbtext "Email: jtpeterson1130@proton.me"
 		(name "")
 		(pos 109 14.46)
 	)
@@ -193,12 +193,16 @@
 			(size 1.905 1.905)
 		)
 	)
-	(tbtext "THE_GOLDFISH"
+	(tbtext "DRAKO"
 		(name "")
-		(pos 77.249 27.9222)
+		(pos 41.689 27.9222)
 		(font
 			(face "HACKED")
 			(size 10.16 8.89)
 		)
+	)
+	(tbtext "https://github.com/jpeterson1823/drako-cyberstorm\n"
+		(name "")
+		(pos 64.549 15.2222)
 	)
 )
