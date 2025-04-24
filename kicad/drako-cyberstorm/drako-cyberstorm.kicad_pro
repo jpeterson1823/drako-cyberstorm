@@ -430,7 +430,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "TheGoldfish.kicad_pro",
+    "filename": "drako-cyberstorm.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -472,7 +472,7 @@
       "svg": "",
       "vrml": ""
     },
-    "page_layout_descr_file": "TheGoldfish.kicad_wks"
+    "page_layout_descr_file": "drako-cyberstorm.kicad_wks"
   },
   "schematic": {
     "annotate_start_num": 0,
@@ -561,7 +561,7 @@
       "version": 1
     },
     "net_format_name": "",
-    "page_layout_descr_file": "TheGoldfish.kicad_wks",
+    "page_layout_descr_file": "drako-cyberstorm.kicad_wks",
     "plot_directory": "C:/Users/peter/Desktop/",
     "spice_current_sheet_as_root": false,
     "spice_external_command": "spice \"%I\"",
