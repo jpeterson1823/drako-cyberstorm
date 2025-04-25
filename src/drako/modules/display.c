@@ -1,6 +1,5 @@
 #include <drako/modules/display.h>
 
-
 /**
  * @brief Initializes display object.
  * @param disp Pointer to display object.

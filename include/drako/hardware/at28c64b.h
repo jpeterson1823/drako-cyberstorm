@@ -26,6 +26,7 @@ void _at28c64b_execute_write(at28c64b* prom);
 
 void at28c64b_init(at28c64b* prom, uint32_t data_bus, uint32_t addr_bus, uint8_t we, uint8_t oe, uint8_t ce);
 void at28c64b_select(at28c64b* prom);
+void at28c64b_unselect(at28c64b* prom);
 
 void at28c64b_read8(at28c64b* prom, uint32_t addr, uint8_t* buff);
 void at28c64b_write8(at28c64b* prom, uint32_t addr, uint8_t data);

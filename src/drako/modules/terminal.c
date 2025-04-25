@@ -138,3 +138,107 @@ bool terminal_get_line_timed(char* buf, size_t n, uint32_t timeout_ms) {
     tud_cdc_read_flush();
     return true;
 }
+
+
+/**
+ * @brief Displays greeting.
+ */
+void _terminal_greet() {
+    printf(
+        "|==========================================================================|\n"
+        "||------------------------------------------------------------------------||\n"
+        "||                                                                        ||\n"
+        "||   ██████████   ███████████     █████████   █████   ████    ███████     ||\n"
+        "||  ░░███░░░░███ ░░███░░░░░███   ███░░░░░███ ░░███   ███░   ███░░░░░███   ||\n"
+        "||   ░███   ░░███ ░███    ░███  ░███    ░███  ░███  ███    ███     ░░███  ||\n"
+        "||   ░███    ░███ ░██████████   ░███████████  ░███████    ░███      ░███  ||\n"
+        "||   ░███    ░███ ░███░░░░░███  ░███░░░░░███  ░███░░███   ░███      ░███  ||\n"
+        "||   ░███    ███  ░███    ░███  ░███    ░███  ░███ ░░███  ░░███     ███   ||\n"
+        "||   ██████████   █████   █████ █████   █████ █████ ░░████ ░░░███████░    ||\n"
+        "||  ░░░░░░░░░░   ░░░░░   ░░░░░ ░░░░░   ░░░░░ ░░░░░   ░░░░    ░░░░░░░      ||\n"
+        "||                                                                        ||\n"
+        "||------------------------------------------------------------------------||\n"
+        "|==========================================================================|\n"
+    );
+    printf("%s CONNECTION: ESTABLISHED\n", DRKO_TERM);
+    printf("%s Welcome to DRAKO OS. -DISCOVER- secrets; -UNDERSTAND- their meaning...\n", DRKO_TERM);
+    printf("%s Type 'commands' to view list of valid commands.\n", DRKO_TERM);
+}
+
+
+/**
+ * @brief Prints shell-like prompt to terminal
+ */
+void terminal_prompt() {
+    printf("%s", DRKO_PROMPT);
+}
+
+
+/**
+ * @brief Open a terminal connection via STDIN (Serial). Operation is blocking.
+ */
+void terminal_open_connection() {
+    // await connection
+    while (!tud_cdc_connected()) {
+        gpio_put(25, 1);
+        sleep_ms(250);
+        gpio_put(25, 0);
+        sleep_ms(250);
+    }
+
+    // connection established. update state
+    _term_connected = true;
+
+    // clear serial terminal
+    sleep_ms(500);
+    printf("\x1b");
+    printf("[2J");
+    sleep_ms(500);
+
+    // turn on on-board LED
+    gpio_put(25, 1);
+
+    // display greeting
+    _terminal_greet();
+}
+
+
+/**
+ * @brief Runs required connection maintenance. Needs to be called periodically.
+ */
+void terminal_sync() {
+    // check for connection drop
+    if (!tud_cdc_connected()) {
+        _term_connected = false;
+    }
+}
+
+
+/**
+ * @brief Checks if terminal is currently connected to a serial session.
+ */
+bool terminal_is_connected() {
+    return _term_connected;
+}
+
+
+/**
+ * @brief Name says it all. It also adds a terminal prefix.
+ * @param str String to print to terminal.
+ */
+void terminal_print(const char* str) {
+    printf("%s %s", DRKO_TERM, str);
+}
+
+
+/**
+ * @brief Really? You got this one. It also adds a terminal prefix.
+ * @param str String to print to terminal (with new line attached).
+ */
+void terminal_println(const char* str) {
+    printf("%s %s\n", DRKO_TERM, str);
+}
+
+bool _is_char_backspace(char c) {
+    return c == 0x08 || c == 0x7f;
+}

@@ -8,6 +8,7 @@
 void _at28c64b_data_in(at28c64b* prom) {
     gpio_set_dir_in_masked(prom->data_bus);
     prom->data_dir = GPIO_IN;
+    sleep_us(AT28C64B_CONDITION_DELAY_US);
 }
 
 

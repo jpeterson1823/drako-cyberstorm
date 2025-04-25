@@ -63,3 +63,51 @@ void drako_reset_eeprom() {
 
     printf("DRAKO RESET COMPLETED.\n");
 }
+
+void hc_c2_update_clearance() {
+    at28c64b_select(&drako.prom);
+
+    uint8_t byte;
+    at28c64b_read8(&drako.prom, HC_C1_CLEARANCE_ADDR, &byte);
+
+    if (byte == HC_C1_CLEARANCE_BYTE) {
+        // if magic creds already obtained, skip animation
+        if (drako.hasMagicCreds)
+            return;
+
+        // set magic creds var
+        drako.hasMagicCreds = true;
+
+        // dramatic phrasing with dramatic timing
+        printf("QUANTUM ENCHANTMENT INITIATED");
+        sleep_ms(1000);
+        printf(".");
+        sleep_ms(1000);
+        printf(".");
+        sleep_ms(1000);
+        printf(".");
+        sleep_ms(1000);
+        printf(" INITIALIZED\n");
+        sleep_ms(1000);
+
+        printf("COSMIC SIGNAL {[                    ]}\rCOSMIC SIGNAL {[");
+        sleep_ms(250);
+        for(uint8_t i = 0; i < 20; i++) {
+            printf("=");
+            sleep_ms(250);
+        }
+        sleep_ms(1000);
+        printf("]}>>> STRONG\n");
+        sleep_ms(250);
+        printf("CLEARANCE: ARCHMAGE IV\n");
+        sleep_ms(250);
+        printf("<--- ACCESS GRANTED --->\n");
+        printf("\n     KEY: discovery\n\n");
+    }
+
+    // either does not yet have creds or overwrote creds byte
+    else drako.hasMagicCreds = false;
+
+    display_select(&drako.disp);
+    display_write(&drako.disp, drako.disp.data);
+}

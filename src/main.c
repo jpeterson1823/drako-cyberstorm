@@ -11,6 +11,7 @@
 int main() {
     // initialize pico stdio and built-in led
     stdio_init_all();
+
     gpio_init(25);
     gpio_set_dir(25, GPIO_OUT);
     gpio_put(25,1);
@@ -19,7 +20,8 @@ int main() {
     drako_init();
 
     display_select(&drako.disp);
-    display_write(&drako.disp, 0xFFFF);
+    //display_write(&drako.disp, 0xFFFF);
+    display_hex(&drako.disp, 0xa0);
     display_show(&drako.disp);
 
     // begin logic loop

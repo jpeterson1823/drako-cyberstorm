@@ -68,7 +68,6 @@ bool exec_drako_cmd_str(const char* cmdstr) {
         case DRAKO_CMD_SHOW:
             return drako_cmd_show(token, &saveptr);
         case DRAKO_CMD_HIDE:
-            printf("\nHIDE CALLED!\n");
             return drako_cmd_hide();
         case DRAKO_CMD_EXIT:
             return drako_cmd_exit();
@@ -194,10 +193,15 @@ bool drako_cmd_peek(char* token, char** saveptr) {
     // get address argument and make sure it's valid hex
     uint16_t addr;
     token = strtok_r(NULL, " ", saveptr);
-    if (!_is_hex_str(token)) {
+    if (!_is_valid_num(token)) {
         printf("Invalid address argument \"%s\".\nSee \"help peek\" for more info.\n", token);
         return false;
-    } else addr = (uint16_t)strtoul(token, NULL, 16);
+    } else {
+        if (_is_hex(token, strlen(token)))
+            addr = (uint16_t)strtoul(token, NULL, 16);
+        else
+            addr = (uint16_t)strtoul(token, NULL, 10);
+    }
 
     // read byte
     uint8_t byte;
@@ -227,7 +231,7 @@ bool drako_cmd_put(char* token, char** saveptr) {
     // get address argument and make sure it's valid hex
     uint16_t addr;
     token = strtok_r(NULL, " ", saveptr);
-    if (!_is_hex_str(token)) {
+    if (!_is_valid_num(token)) {
         printf("Invalid address argument \"%s\".\nSee \"help put\" for more info.\n", token);
         return false;
     } else addr = (uint16_t)strtoul(token, NULL, 16);
@@ -235,7 +239,7 @@ bool drako_cmd_put(char* token, char** saveptr) {
     // get byte argument and make sure it's valid hex
     uint8_t byte;
     token = strtok_r(NULL, " ", saveptr);
-    if (!_is_hex_str(token)) {
+    if (!_is_valid_num(token)) {
         printf("Invalid byte argument \"%s\".\nSee \"help put\" for more info.\n", token);
         return false;
     } else byte = (uint8_t)strtoul(token, NULL, 16);
@@ -272,7 +276,7 @@ bool drako_cmd_show(char* token, char** saveptr) {
 
     // if argument is hex, get byte
     uint8_t byte;
-    if (!_is_hex_str(token)) {
+    if (!_is_valid_num(token)) {
         printf("Invalid byte argument \"%s\".\nSee \"help show\" for more info.\n", token);
         return false;
     } else byte = (uint8_t)strtoul(token, NULL, 16);
@@ -424,34 +428,40 @@ bool drako_cmd_hexdump() {
 
 // helper functions
 
+bool _is_hex(char* str, size_t len) {
+    // Possible hex string if the following are true:
+    //   (a) slen > 2
+    //   (b) Starts with 0x
+    //   (c) if (a) and (b), then [slen > 2] must be true
+    if ((len > 2 && str[0] == '0' && str[1] == 'x') && len > 2) {
+        for (size_t i = 2; i < len; i++) {
+            // if non-hex digit found after "0x", then is not valid number.
+            if (!isxdigit(str[i]))
+                return false;
+        }
+        // all digits following prefix are confirmed to be hex
+        return true;
+    }
+    // if no prefix, then is not hex
+    return false;
+}
+
+bool _is_dec(char* str, size_t len) {
+    for (size_t i = 0; i < len; i++)
+        if (!isdigit(str[i]))
+            return false;
+    return true;
+}
+
 /**
  * @brief Determines if argument is a valid hex representation, with or without leading "0x".
  * @param arg Argument to check.
 */
-bool _is_hex_str(const char *arg) {
-    // calc length
-    size_t len = strlen(arg);
-
-    // if more than two chars and "0x" is located
-    // somewhere other than the beginning, then invalid
-    bool prefix = false;
-    if (len > 2 && strstr(arg, "0x") != arg)
+bool _is_valid_num(char* str) {
+    size_t len = strlen(str);
+    // if slen < 1, cannot be a number
+    if (len < 1)
         return false;
-    else
-        prefix = true;
-
-    // if there's a prefix, skip first two chars
-    size_t i;
-    if (prefix)
-        i = 2;
-    else 
-        i = 0;
-
-    // determine if remaining chars are valid hex digits
-    for (; i < len; i++) {
-        // if invalid digit, return false
-        if ((arg[i] < '0' || arg[i] > '9') && (tolower(arg[i]) < 'a' || tolower(arg[i]) > 'f'))
-            return false;
-    }
-    return true;
+    // valid if number is hex or decimal string
+    return _is_hex(str, len) || _is_dec(str, len);
 }

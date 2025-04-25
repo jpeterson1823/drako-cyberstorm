@@ -48,7 +48,9 @@ bool drako_cmd_decrypt(uint8_t* data, size_t nbytes);
 bool drako_cmd_hexdump();
 
 // helper functions
-bool _is_hex_str(const char* arg);
+bool _is_hex(char* str, size_t len);
+bool _is_dec(char* str, size_t len);
+bool _is_valid_num(char* arg);
 bool _drako_parse_rsteg_cmd(char* token, char** saveptr, uint16_t* offset, uint8_t* interval, uint16_t* nbytes);
 bool _drako_str_to_uint8_t(char* str, uint8_t* buff);
 bool _drako_str_to_uint16_t(char* str, uint16_t* buff);
