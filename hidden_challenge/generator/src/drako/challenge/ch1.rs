@@ -136,8 +136,8 @@ impl ChInfo {
 
     pub fn get_magic_creds(&self) -> (u16, u8) {
         // calculate magic credential offset and password byte
-        let mc_addr: u16 = self.subflags[0].value().chars().map(|c| c as u32).sum::<u32>() as u16;
-        let mc_pass: u8  = self.subflags[1].value().chars().map(|c| c as u32).sum::<u32>() as u8;
+        let mc_addr: u16 = C1_SF1.chars().map(|c| c as u32).sum::<u32>() as u16;
+        let mc_pass: u8  = C1_SF2.chars().map(|c| c as u32).sum::<u32>() as u8;
 
         (mc_addr, mc_pass)
     }

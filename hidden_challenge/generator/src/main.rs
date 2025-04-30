@@ -1,7 +1,7 @@
 mod c_header;
 mod drako;
 
-use drako::{steg, HiddenChallenge};
+use drako::{steg, HiddenChallenge, DATABLOCK_OFFSET};
 
 use std::fs::{File, create_dir};
 use std::io::Write;
@@ -59,6 +59,7 @@ fn main() {
 
     // display important data
     hc.display_info();
+    println!("Datablock offset: {:#06x}", DATABLOCK_OFFSET);
 
     //let o = 2312 + 72 + hc.get_c1().size() + hc.get_c2().size() + hc.get_c3().size();
     //let extracted = steg::retrieve(&memspace, 47, o + 250, 7);

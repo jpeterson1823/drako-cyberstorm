@@ -72,8 +72,11 @@ void hc_c2_update_clearance() {
 
     if (byte == HC_C1_CLEARANCE_BYTE) {
         // if magic creds already obtained, skip animation
-        if (drako.hasMagicCreds)
+        if (drako.hasMagicCreds) {
+            display_select(&drako.disp);
+            display_write(&drako.disp, drako.disp.data);
             return;
+        }
 
         // set magic creds var
         drako.hasMagicCreds = true;
